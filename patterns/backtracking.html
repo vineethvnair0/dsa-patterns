@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backtracking Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .pattern-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #4a5568;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin: 30px 0;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-block {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .complexity {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .complexity-item {
+            margin: 8px 0;
+            color: #2d3748;
+        }
+
+        .complexity-item strong {
+            color: #667eea;
+        }
+
+        .diagram {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .tree-level {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+
+        .tree-node {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #cbd5e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: white;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .tree-node.exploring {
+            background: #fef08a;
+            border-color: #facc15;
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.5);
+        }
+
+        .tree-node.valid {
+            background: #86efac;
+            border-color: #22c55e;
+        }
+
+        .tree-node.backtrack {
+            background: #fca5a5;
+            border-color: #ef4444;
+        }
+
+        .tree-node.pruned {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+            opacity: 0.5;
+        }
+
+        .current-path {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e0e7ff;
+            border-radius: 8px;
+            font-weight: bold;
+            min-height: 50px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            min-height: 25px;
+        }
+
+        .problems-section {
+            margin-top: 40px;
+        }
+
+        .difficulty-group {
+            margin: 25px 0;
+        }
+
+        .difficulty-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .difficulty-title.easy { color: #22c55e; }
+        .difficulty-title.medium { color: #f59e0b; }
+        .difficulty-title.hard { color: #ef4444; }
+
+        .problem-item {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .problem-item.easy { border-left-color: #22c55e; }
+        .problem-item.medium { border-left-color: #f59e0b; }
+        .problem-item.hard { border-left-color: #ef4444; }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .problem-number {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e0;
+        }
+
+        .problem-details.active {
+            display: block;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .choice-box {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .choice-box.selected {
+            background: #667eea;
+            color: white;
+        }
+
+        .choice-box.invalid {
+            background: #fca5a5;
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Patterns</a>
+
+        <h1>Backtracking</h1>
+        <span class="pattern-number">Pattern #13</span>
+
+        <p class="description">
+            Backtracking is an algorithmic technique for solving problems recursively by trying to build a solution incrementally,
+            abandoning solutions ("backtracking") as soon as it determines that the solution cannot be completed. It's essentially
+            a refined brute force approach where you systematically explore all possibilities and prune invalid paths early.
+        </p>
+
+        <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Generate All Subsets</h3>
+            <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                Given a set of distinct integers, return all possible subsets (the power set). The solution set must not contain duplicate subsets.
+            </p>
+
+            <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <strong>Example:</strong><br>
+                <strong style="color: #667eea;">Input:</strong> nums = [1, 2, 3]<br>
+                <strong style="color: #10b981;">Output:</strong> [[], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]]
+            </div>
+
+            <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+            <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                <li>Start with an <strong>empty subset</strong></li>
+                <li>For each element, make a <strong>decision</strong>: include it or exclude it</li>
+                <li>This creates a <strong>decision tree</strong> where each level represents a choice for one element</li>
+                <li>Explore all paths in the tree by recursively making choices</li>
+                <li>When you reach the end of the array, <strong>add the current subset</strong> to the result</li>
+                <li><strong>Backtrack</strong> by removing the last added element and trying the next option</li>
+                <li>Time complexity: O(2^n), Space complexity: O(n) for recursion depth</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Visual Representation</h2>
+            <div class="diagram">
+                <div class="diagram-title">Generating Subsets of [1, 2, 3]</div>
+                <p style="margin: 10px 0;">Decision tree: Include or exclude each element</p>
+
+                <div class="tree-container">
+                    <div class="tree-level">
+                        <div class="tree-node" id="node-0">[]</div>
+                    </div>
+                    <div class="tree-level">
+                        <div class="tree-node" id="node-1">[1]</div>
+                        <div class="tree-node" id="node-2">[]</div>
+                    </div>
+                    <div class="tree-level">
+                        <div class="tree-node" id="node-3">[1,2]</div>
+                        <div class="tree-node" id="node-4">[1]</div>
+                        <div class="tree-node" id="node-5">[2]</div>
+                        <div class="tree-node" id="node-6">[]</div>
+                    </div>
+                </div>
+
+                <div class="current-path" id="currentPath">
+                    Current path: []
+                </div>
+
+                <div class="controls">
+                    <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                    <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                </div>
+
+                <div class="status" id="status">Click Play to explore the decision tree</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>When to Use This Pattern</h2>
+            <ul style="color: #4a5568; line-height: 2; margin-left: 20px;">
+                <li>Finding all possible solutions (permutations, combinations, subsets)</li>
+                <li>Solving constraint satisfaction problems (N-Queens, Sudoku)</li>
+                <li>Path finding in mazes or grids with constraints</li>
+                <li>Generating valid parentheses combinations</li>
+                <li>Word search in a grid with backtracking</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Java Implementation</h2>
+            <div class="code-block">
+                <pre>
+// Example 1: Generate All Subsets
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(result, new ArrayList<>(), nums, 0);
+        return result;
+    }
+
+    private void backtrack(List<List<Integer>> result, List<Integer> current,
+                          int[] nums, int start) {
+        // Add current subset to result
+        result.add(new ArrayList<>(current));
+
+        // Explore further choices
+        for (int i = start; i < nums.length; i++) {
+            // Choose
+            current.add(nums[i]);
+
+            // Explore
+            backtrack(result, current, nums, i + 1);
+
+            // Unchoose (backtrack)
+            current.remove(current.size() - 1);
+        }
+    }
+}
+
+// Example 2: Permutations
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(result, new ArrayList<>(), nums);
+        return result;
+    }
+
+    private void backtrack(List<List<Integer>> result, List<Integer> current,
+                          int[] nums) {
+        // Base case: complete permutation
+        if (current.size() == nums.length) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // Try each number
+        for (int num : nums) {
+            if (current.contains(num)) continue; // Skip if already used
+
+            // Choose
+            current.add(num);
+
+            // Explore
+            backtrack(result, current, nums);
+
+            // Unchoose
+            current.remove(current.size() - 1);
+        }
+    }
+}
+
+// Example 3: N-Queens
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> result = new ArrayList<>();
+        char[][] board = new char[n][n];
+
+        // Initialize board
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(board[i], '.');
+        }
+
+        backtrack(result, board, 0);
+        return result;
+    }
+
+    private void backtrack(List<List<String>> result, char[][] board, int row) {
+        if (row == board.length) {
+            result.add(construct(board));
+            return;
+        }
+
+        for (int col = 0; col < board.length; col++) {
+            if (isValid(board, row, col)) {
+                // Choose
+                board[row][col] = 'Q';
+
+                // Explore
+                backtrack(result, board, row + 1);
+
+                // Unchoose
+                board[row][col] = '.';
+            }
+        }
+    }
+
+    private boolean isValid(char[][] board, int row, int col) {
+        // Check column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 'Q') return false;
+        }
+
+        // Check diagonal (top-left)
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') return false;
+        }
+
+        // Check diagonal (top-right)
+        for (int i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) {
+            if (board[i][j] == 'Q') return false;
+        }
+
+        return true;
+    }
+
+    private List<String> construct(char[][] board) {
+        List<String> result = new ArrayList<>();
+        for (char[] row : board) {
+            result.add(new String(row));
+        }
+        return result;
+    }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity">
+                <div class="complexity-item">
+                    <strong>Time Complexity:</strong> O(2^n) for subsets, O(n!) for permutations, varies by problem
+                </div>
+                <div class="complexity-item">
+                    <strong>Space Complexity:</strong> O(n) for recursion stack depth
+                </div>
+                <div class="complexity-item">
+                    <strong>Best For:</strong> Finding all solutions, constraint satisfaction, combinatorial problems
+                </div>
+            </div>
+        </div>
+
+        <div class="problems-section">
+            <h2>Practice Problems</h2>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title easy">Easy Problems (5)</div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Subsets</span>
+                        <span class="problem-number">#78</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an integer array nums of unique elements, return all possible subsets (the power set).
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 10
+• -10 ≤ nums[i] ≤ 10
+• All numbers are unique
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Subsets II</span>
+                        <span class="problem-number">#90</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an integer array nums that may contain duplicates, return all possible subsets. The solution must not contain duplicate subsets.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 10
+• -10 ≤ nums[i] ≤ 10
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Letter Case Permutation</span>
+                        <span class="problem-number">#784</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a string s, transform every letter individually to be lowercase or uppercase to create another string.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "a1b2"
+Output: ["a1b2","a1B2","A1b2","A1B2"]
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 12
+• s consists of lowercase/uppercase English letters and digits
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Binary Watch</span>
+                        <span class="problem-number">#401</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an integer turnedOn representing the number of LEDs that are currently on, return all possible times the watch could represent.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: turnedOn = 1
+Output: ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+
+<strong>Constraints:</strong>
+• 0 ≤ turnedOn ≤ 10
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Combinations</span>
+                        <span class="problem-number">#77</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 4, k = 2
+Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 20
+• 1 ≤ k ≤ n
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title medium">Medium Problems (5)</div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Permutations</span>
+                        <span class="problem-number">#46</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array nums of distinct integers, return all possible permutations.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 6
+• -10 ≤ nums[i] ≤ 10
+• All integers are unique
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Combination Sum</span>
+                        <span class="problem-number">#39</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of distinct integers candidates and a target, return all unique combinations where candidates sum to target. Same number may be chosen unlimited times.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: candidates = [2,3,6,7], target = 7
+Output: [[2,2,3],[7]]
+
+<strong>Constraints:</strong>
+• 1 ≤ candidates.length ≤ 30
+• 2 ≤ candidates[i] ≤ 40
+• 1 ≤ target ≤ 40
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Generate Parentheses</span>
+                        <span class="problem-number">#22</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 8
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Word Search</span>
+                        <span class="problem-number">#79</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+
+<strong>Constraints:</strong>
+• m == board.length
+• n = board[i].length
+• 1 ≤ m, n ≤ 6
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Palindrome Partitioning</span>
+                        <span class="problem-number">#131</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "aab"
+Output: [["a","a","b"],["aa","b"]]
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 16
+• s contains only lowercase English letters
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title hard">Hard Problems (5)</div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">N-Queens</span>
+                        <span class="problem-number">#51</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Place n queens on an n×n chessboard such that no two queens attack each other. Return all distinct solutions.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 4
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 9
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Sudoku Solver</span>
+                        <span class="problem-number">#37</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Write a program to solve a Sudoku puzzle by filling the empty cells. A sudoku solution must satisfy all rules.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: board (9x9 with some filled cells)
+Output: Complete valid Sudoku board
+
+<strong>Constraints:</strong>
+• board.length == 9
+• board[i].length == 9
+• Valid Sudoku board
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Word Search II</span>
+                        <span class="problem-number">#212</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an m x n board of characters and a list of strings words, return all words on the board.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]],
+       words = ["oath","pea","eat","rain"]
+Output: ["eat","oath"]
+
+<strong>Constraints:</strong>
+• m == board.length
+• n == board[i].length
+• 1 ≤ m, n ≤ 12
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Regular Expression Matching</span>
+                        <span class="problem-number">#10</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Implement regular expression matching with '.' and '*' support.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "aa", p = "a*"
+Output: true
+Explanation: '*' means zero or more of preceding element
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 20
+• 1 ≤ p.length ≤ 20
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Remove Invalid Parentheses</span>
+                        <span class="problem-number">#301</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Remove the minimum number of invalid parentheses to make the input string valid. Return all possible results.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "()())()"
+Output: ["(())()","()()()"]
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 25
+• s consists of lowercase English letters and '(', ')'
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let step = 0;
+        let isComplete = false;
+        const nodes = ['node-0', 'node-1', 'node-2', 'node-3', 'node-4', 'node-5', 'node-6'];
+        const paths = [
+            '[]',
+            'Exploring [1]',
+            'Exploring [1,2]',
+            'Found subset: [1,2]',
+            'Backtrack to [1]',
+            'Exploring []',
+            'Found all subsets!'
+        ];
+
+        function playStep() {
+            document.getElementById('resetBtn').disabled = false;
+
+            if (isComplete) return;
+
+            const status = document.getElementById('status');
+            const currentPath = document.getElementById('currentPath');
+
+            // Clear previous highlights
+            nodes.forEach(id => {
+                const node = document.getElementById(id);
+                node.classList.remove('exploring', 'valid', 'backtrack');
+            });
+
+            switch(step) {
+                case 0:
+                    document.getElementById('node-0').classList.add('exploring');
+                    currentPath.textContent = 'Current path: []';
+                    status.textContent = 'Step 1: Start with empty set';
+                    break;
+                case 1:
+                    document.getElementById('node-1').classList.add('exploring');
+                    currentPath.textContent = 'Current path: [1]';
+                    status.textContent = 'Step 2: Choose to include 1';
+                    break;
+                case 2:
+                    document.getElementById('node-3').classList.add('exploring');
+                    currentPath.textContent = 'Current path: [1, 2]';
+                    status.textContent = 'Step 3: Choose to include 2';
+                    break;
+                case 3:
+                    document.getElementById('node-3').classList.add('valid');
+                    status.textContent = 'Step 4: Valid subset [1,2] found!';
+                    break;
+                case 4:
+                    document.getElementById('node-4').classList.add('exploring');
+                    currentPath.textContent = 'Current path: [1]';
+                    status.textContent = 'Step 5: Backtrack, try excluding 2';
+                    break;
+                case 5:
+                    document.getElementById('node-2').classList.add('exploring');
+                    currentPath.textContent = 'Current path: []';
+                    status.textContent = 'Step 6: Backtrack to root, try excluding 1';
+                    break;
+                case 6:
+                    document.getElementById('node-5').classList.add('valid');
+                    document.getElementById('node-6').classList.add('valid');
+                    status.textContent = '✓ Complete! All subsets generated';
+                    document.getElementById('playBtn').disabled = true;
+                    isComplete = true;
+                    break;
+            }
+
+            step++;
+        }
+
+        function resetAnimation() {
+            step = 0;
+            isComplete = false;
+
+            nodes.forEach(id => {
+                const node = document.getElementById(id);
+                node.classList.remove('exploring', 'valid', 'backtrack');
+            });
+
+            document.getElementById('currentPath').textContent = 'Current path: []';
+            document.getElementById('status').textContent = 'Click Play to explore the decision tree';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        function toggleProblem(element) {
+            const details = element.querySelector('.problem-details');
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

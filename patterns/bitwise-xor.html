@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitwise XOR Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Animated XOR Visualization */
+        .animated-window {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .array-container {
+            display: flex;
+            gap: 5px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .array-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .window-highlight {
+            position: absolute;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.3);
+            border: 3px solid #667eea;
+            border-radius: 4px;
+            transition: all 1.5s ease;
+            pointer-events: none;
+        }
+
+        .array-cell.in-window {
+            background: #c5cae9;
+            transform: scale(1.05);
+        }
+
+        .animation-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .animation-controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0;
+            margin: 0 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animation-controls button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .animation-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .window-info {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
+        }
+
+        /* Practice Problems Styles */
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .problem-item {
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .array-cell {
+                width: 45px;
+                height: 45px;
+                font-size: 1em;
+            }
+
+            .window-highlight {
+                height: 45px;
+            }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 22: Bitwise XOR</h1>
+            <span class="category-badge">Bit Manipulation</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>The XOR (exclusive OR) bitwise operation is a powerful tool for solving specific algorithmic problems with exceptional efficiency. This pattern leverages unique mathematical properties of XOR to achieve solutions with O(1) space complexity.</p>
+                <p>The XOR pattern is particularly effective for problems involving finding unique elements, detecting duplicates, and manipulating binary representations. Understanding these properties is crucial for technical interviews at major tech companies.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Single Number</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a non-empty array of integers where every element appears twice except for one element which appears only once, find that single element.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> nums = [2, 2, 1]<br>
+                    <strong style="color: #10b981;">Output:</strong> 1
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How XOR works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Identity Property:</strong> a ⊕ a = 0 (any number XOR'd with itself equals 0)</li>
+                    <li><strong>Zero Property:</strong> a ⊕ 0 = a (any number XOR'd with 0 equals itself)</li>
+                    <li><strong>Commutative Property:</strong> a ⊕ b = b ⊕ a (order doesn't matter)</li>
+                    <li><strong>Associative Property:</strong> (a ⊕ b) ⊕ c = a ⊕ (b ⊕ c)</li>
+                    <li>When we XOR all numbers together, duplicate pairs cancel out to 0</li>
+                    <li>The single number remains: 2 ⊕ 2 ⊕ 1 = 0 ⊕ 1 = 1</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Animated Visual Diagram</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Interactive XOR Operation Animation</div>
+                    <p style="color: #666; margin-bottom: 15px;">Watch how XOR cancels out pairs step-by-step with array [2, 2, 1]</p>
+
+                    <div class="animated-window">
+                        <div class="array-container" id="arrayContainer">
+                            <div class="array-cell" data-index="0">2</div>
+                            <div class="array-cell" data-index="1">2</div>
+                            <div class="array-cell" data-index="2">1</div>
+                        </div>
+                        <div class="window-info" id="windowInfo">Start: result = 0</div>
+                        <div class="animation-controls">
+                            <button id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                            <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        Notice: The XOR operation processes each element sequentially. When duplicate numbers are XOR'd together, they cancel out to 0, leaving only the unique element.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Single Number</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        Given a non-empty array of integers where every element appears twice except for one element which appears only once, find that <strong>single element</strong>.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [2, 2, 1]<br>
+                            <strong>Output:</strong> 1
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 2:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [4, 1, 2, 1, 2]<br>
+                            <strong>Output:</strong> 4
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 3:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [1]<br>
+                            <strong>Output:</strong> 1
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Single Number using XOR</span>
+<span class="keyword">public static int</span> <span class="function">singleNumber</span>(<span class="keyword">int</span>[] nums) {
+    <span class="keyword">int</span> result = 0;
+
+    <span class="comment">// XOR all numbers together</span>
+    <span class="comment">// Pairs will cancel out (a ⊕ a = 0)</span>
+    <span class="comment">// Only the single number remains</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> num : nums) {
+        result ^= num;
+    }
+
+    <span class="keyword">return</span> result;
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The XOR approach solves this problem efficiently using the following properties:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize result to 0:</strong> Start with result = 0. This is our identity element for XOR.</li>
+                        <li><strong>XOR all elements:</strong> Iterate through the array and XOR each element with the result:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>XOR has the property: a ⊕ a = 0 (any number XORed with itself equals 0)</li>
+                                <li>XOR has the property: a ⊕ 0 = a (any number XORed with 0 equals itself)</li>
+                                <li>XOR is commutative and associative (order doesn't matter)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Return result:</strong> After XORing all elements, pairs cancel out to 0, leaving only the single number.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> For array [2, 2, 1], the calculation is: 0 ⊕ 2 ⊕ 2 ⊕ 1 = 0 ⊕ 0 ⊕ 1 = 1.
+                        The two 2's cancel each other out (2 ⊕ 2 = 0), leaving just 1.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n) | <strong>Space Complexity:</strong> O(1)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Single pass through the array</li>
+                        <li>Each element is processed exactly once</li>
+                        <li>XOR operation takes constant time O(1)</li>
+                        <li>Total: O(n) where n is the number of elements</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(1)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Only uses a single variable (result) to store the XOR value</li>
+                        <li>No additional data structures needed</li>
+                        <li>Space used is constant regardless of input size</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Finding single number in array of duplicates</li>
+                    <li>Finding two missing numbers</li>
+                    <li>Detecting duplicate in array</li>
+                    <li>Finding different character in strings</li>
+                    <li>Swapping variables without temporary variable</li>
+                    <li>Checking if two integers have opposite signs</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li><strong>Self-Cancellation:</strong> XOR'ing a number with itself always results in 0</li>
+                    <li><strong>Identity Element:</strong> XOR'ing with 0 leaves the number unchanged</li>
+                    <li><strong>Order Independence:</strong> XOR operations can be performed in any order</li>
+                    <li><strong>Space Efficiency:</strong> Typically requires O(1) extra space</li>
+                    <li><strong>Bit-Level Operations:</strong> Works directly with binary representations</li>
+                    <li><strong>Applications:</strong> Finding unique elements, swapping values, detecting differences</li>
+                </ul>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Bitwise XOR pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
+
+                <div class="difficulty-section">
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">136. Single Number</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> Given a non-empty array of integers nums, every element appears twice except for one. Find that single one. You must implement a solution with linear runtime complexity and use only constant extra space.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [2,2,1]
+Output: 1</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [4,1,2,1,2]
+Output: 4</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [1]
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 3 * 10^4</li>
+                                <li>-3 * 10^4 <= nums[i] <= 3 * 10^4</li>
+                                <li>Each element in the array appears twice except for one element which appears only once</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/single-number/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">389. Find the Difference</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> You are given two strings s and t. String t is generated by random shuffling string s and then add one more letter at a random position. Return the letter that was added to t.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "abcd", t = "abcde"
+Output: "e"
+Explanation: 'e' is the letter that was added.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "", t = "y"
+Output: "y"</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>0 <= s.length <= 1000</li>
+                                <li>t.length == s.length + 1</li>
+                                <li>s and t consist of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-the-difference/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">268. Missing Number</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums.length</li>
+                                <li>1 <= n <= 10^4</li>
+                                <li>0 <= nums[i] <= n</li>
+                                <li>All the numbers of nums are unique</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/missing-number/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">191. Number of 1 Bits</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> Write a function that takes the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 00000000000000000000000000001011
+Output: 3
+Explanation: The input binary string has a total of three '1' bits.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: n = 00000000000000000000000010000000
+Output: 1
+Explanation: The input binary string has a total of one '1' bit.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: n = 11111111111111111111111111111101
+Output: 31
+Explanation: The input binary string has a total of thirty-one '1' bits.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>The input must be a binary string of length 32</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-1-bits/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">461. Hamming Distance</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> The Hamming distance between two integers is the number of positions at which the corresponding bits are different. Given two integers x and y, return the Hamming distance between them.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: x = 1, y = 4
+Output: 2
+Explanation:
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+The above arrows point to positions where the corresponding bits are different.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: x = 3, y = 1
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>0 <= x, y <= 2^31 - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/hamming-distance/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">137. Single Number II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it. You must implement a solution with a linear runtime complexity and use only constant extra space.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [2,2,3,2]
+Output: 3</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [0,1,0,1,0,1,99]
+Output: 99</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 3 * 10^4</li>
+                                <li>-2^31 <= nums[i] <= 2^31 - 1</li>
+                                <li>Each element in nums appears exactly three times except for one element which appears once</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/single-number-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">260. Single Number III</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,1,3,2,5]
+Output: [3,5]
+Explanation: [5, 3] is also a valid answer.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [-1,0]
+Output: [-1,0]</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [0,1]
+Output: [1,0]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= nums.length <= 3 * 10^4</li>
+                                <li>-2^31 <= nums[i] <= 2^31 - 1</li>
+                                <li>Each integer in nums will appear twice, only two integers will appear once</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/single-number-iii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1318. Minimum Flips to Make a OR b Equal to c</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> Given 3 positives numbers a, b and c. Return the minimum flips required in some bits of a and b to make (a OR b == c). (bitwise OR operation). Flip operation consists of change any single bit 1 to 0 or change the bit 0 to 1 in their binary representation.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: a = 2, b = 6, c = 5
+Output: 3
+Explanation: After flips a = 1, b = 4, c = 5 such that (a OR b == c)</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: a = 4, b = 2, c = 7
+Output: 1</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: a = 1, b = 2, c = 3
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= a <= 10^9</li>
+                                <li>1 <= b <= 10^9</li>
+                                <li>1 <= c <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">2433. Find The Original Array of Prefix Xor</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array pref of size n. Find and return the array arr of size n that satisfies: pref[i] = arr[0] ^ arr[1] ^ ... ^ arr[i]. Note that ^ denotes the bitwise-xor operation. It can be proven that the answer is unique.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: pref = [5,2,0,3,1]
+Output: [5,7,2,3,2]
+Explanation: From the array [5,7,2,3,2] we have the following:
+- pref[0] = 5
+- pref[1] = 5 ^ 7 = 2
+- pref[2] = 5 ^ 7 ^ 2 = 0
+- pref[3] = 5 ^ 7 ^ 2 ^ 3 = 3
+- pref[4] = 5 ^ 7 ^ 2 ^ 3 ^ 2 = 1</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: pref = [13]
+Output: [13]
+Explanation: We have pref[0] = arr[0] = 13.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= pref.length <= 10^5</li>
+                                <li>0 <= pref[i] <= 10^6</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-the-original-array-of-prefix-xor/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1829. Maximum XOR for Each Query</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> You are given a sorted array nums of n non-negative integers and an integer maximumBit. You want to perform the following query n times: Find a non-negative integer k < 2^maximumBit such that nums[0] XOR nums[1] XOR ... XOR nums[nums.length-1] XOR k is maximized. k is the answer to the ith query, and then remove the last element from the current array nums.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [0,1,1,3], maximumBit = 2
+Output: [0,3,2,3]
+Explanation: The queries are answered as follows:
+1st query: nums = [0,1,1,3], k = 0 since 0 XOR 1 XOR 1 XOR 3 XOR 0 = 3.
+2nd query: nums = [0,1,1], k = 3 since 0 XOR 1 XOR 1 XOR 3 = 3.
+3rd query: nums = [0,1], k = 2 since 0 XOR 1 XOR 2 = 3.
+4th query: nums = [0], k = 3 since 0 XOR 3 = 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [2,3,4,7], maximumBit = 3
+Output: [5,2,6,5]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>nums.length == n</li>
+                                <li>1 <= n <= 10^5</li>
+                                <li>1 <= maximumBit <= 20</li>
+                                <li>0 <= nums[i] < 2^maximumBit</li>
+                                <li>nums is sorted in ascending order</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-xor-for-each-query/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">421. Maximum XOR of Two Numbers in an Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [3,10,5,25,2,8]
+Output: 28
+Explanation: The maximum result is 5 XOR 25 = 28.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [14,70,53,83,49,91,36,80,92,51,66,70]
+Output: 127</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 2 * 10^5</li>
+                                <li>0 <= nums[i] <= 2^31 - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1707. Maximum XOR With an Element From Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array nums consisting of non-negative integers. You are also given a queries array, where queries[i] = [xi, mi]. The answer to the ith query is the maximum bitwise XOR value of xi and any element of nums that does not exceed mi. In other words, the answer is max(nums[j] XOR xi) for all j such that nums[j] <= mi. If all elements in nums are larger than mi, then the answer is -1.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [0,1,2,3,4], queries = [[3,1],[1,3],[5,6]]
+Output: [3,3,7]
+Explanation:
+1) 0 and 1 are the only two integers not greater than 1. 0 XOR 3 = 3 and 1 XOR 3 = 2. The larger is 3.
+2) 1 XOR 2 = 3.
+3) 5 XOR 2 = 7.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [5,2,4,6,6,3], queries = [[12,4],[8,1],[6,3]]
+Output: [15,-1,5]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length, queries.length <= 10^5</li>
+                                <li>queries[i].length == 2</li>
+                                <li>0 <= nums[j], xi, mi <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-xor-with-an-element-from-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1938. Maximum Genetic Difference Query</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> There is a rooted tree consisting of n nodes numbered 0 to n - 1. Each node's number denotes its unique genetic value (i.e., the genetic value of node x is x). The genetic difference between two genetic values is defined as the bitwise-XOR of their values. You are given the integer array parents, where parents[i] is the parent for node i. If node x is the root of the tree, then parents[x] == -1. You are also given the array queries where queries[i] = [nodei, vali]. For each query i, find the maximum genetic difference between vali and pi, where pi is the genetic value of any node that is on the path between nodei and the root (including nodei and the root). More formally, you want to maximize vali XOR pi.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: parents = [-1,0,1,1], queries = [[0,2],[3,2],[2,5]]
+Output: [2,3,7]
+Explanation: The queries are processed as follows:
+- [0,2]: The node with the maximum genetic difference is 0, with a difference of 2 XOR 0 = 2.
+- [3,2]: The node with the maximum genetic difference is 1, with a difference of 2 XOR 1 = 3.
+- [2,5]: The node with the maximum genetic difference is 2, with a difference of 5 XOR 2 = 7.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: parents = [3,7,-1,2,0,7,0,2], queries = [[4,6],[1,15],[0,5]]
+Output: [6,14,7]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= parents.length <= 10^5</li>
+                                <li>0 <= parents[i] <= parents.length - 1 for every node i that is not the root</li>
+                                <li>parents[root] == -1</li>
+                                <li>1 <= queries.length <= 3 * 10^4</li>
+                                <li>0 <= nodei <= parents.length - 1</li>
+                                <li>0 <= vali <= 2 * 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-genetic-difference-query/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2935. Maximum Strong Pair XOR II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> You are given a 0-indexed integer array nums. A pair of integers x and y is called a strong pair if it satisfies the condition: |x - y| <= min(x, y). You need to select two integers from nums such that they form a strong pair and their bitwise XOR is the maximum among all strong pairs in the array. Return the maximum XOR value out of all possible strong pairs in the array nums.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,3,4,5]
+Output: 7
+Explanation: There are 11 strong pairs in the array nums: (1, 1), (1, 2), (2, 2), (2, 3), (2, 4), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5) and (5, 5).
+The maximum XOR possible from these pairs is 3 XOR 4 = 7.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [10,100]
+Output: 0
+Explanation: There are 2 strong pairs in the array nums: (10, 10) and (100, 100).
+The maximum XOR possible from these pairs is 10 XOR 10 = 0 since the pair (100, 100) also gives 100 XOR 100 = 0.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [500,520,2500,3000]
+Output: 1020
+Explanation: There are 6 strong pairs in the array nums: (500, 500), (500, 520), (520, 520), (2500, 2500), (2500, 3000) and (3000, 3000).
+The maximum XOR possible from these pairs is 500 XOR 520 = 1020 since the only other non-zero XOR value is 2500 XOR 3000 = 636.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 5 * 10^4</li>
+                                <li>1 <= nums[i] <= 2^20 - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-strong-pair-xor-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1803. Count Pairs With XOR in a Range</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given a (0-indexed) integer array nums and two integers low and high, return the number of nice pairs. A nice pair is a pair (i, j) where 0 <= i < j < nums.length and low <= (nums[i] XOR nums[j]) <= high.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,4,2,7], low = 2, high = 6
+Output: 6
+Explanation: All nice pairs (i, j) are as follows:
+    - (0, 1): nums[0] XOR nums[1] = 5
+    - (0, 2): nums[0] XOR nums[2] = 3
+    - (0, 3): nums[0] XOR nums[3] = 6
+    - (1, 2): nums[1] XOR nums[2] = 6
+    - (1, 3): nums[1] XOR nums[3] = 3
+    - (2, 3): nums[2] XOR nums[3] = 5</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [9,8,4,2,1], low = 5, high = 14
+Output: 8
+Explanation: All nice pairs (i, j) are as follows:
+    - (0, 2): nums[0] XOR nums[2] = 13
+    - (0, 3): nums[0] XOR nums[3] = 11
+    - (0, 4): nums[0] XOR nums[4] = 8
+    - (1, 2): nums[1] XOR nums[2] = 12
+    - (1, 3): nums[1] XOR nums[3] = 10
+    - (1, 4): nums[1] XOR nums[4] = 9
+    - (2, 3): nums[2] XOR nums[3] = 6
+    - (2, 4): nums[2] XOR nums[4] = 5</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 2 * 10^4</li>
+                                <li>1 <= nums[i] <= 2 * 10^4</li>
+                                <li>1 <= low <= high <= 2 * 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/count-pairs-with-xor-in-a-range/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle problem details
+        function toggleProblem(id) {
+            const problem = document.getElementById(id);
+            const parentItem = problem.closest('.problem-item');
+            const allProblems = document.querySelectorAll('.problem-details');
+            const allItems = document.querySelectorAll('.problem-item');
+
+            allProblems.forEach(p => {
+                if (p !== problem) p.style.display = 'none';
+            });
+            allItems.forEach(item => {
+                if (item !== parentItem) item.classList.remove('expanded');
+            });
+
+            if (problem.style.display === 'block') {
+                problem.style.display = 'none';
+                parentItem.classList.remove('expanded');
+            } else {
+                problem.style.display = 'block';
+                parentItem.classList.add('expanded');
+            }
+        }
+
+        // XOR Animation
+        const arr = [2, 2, 1];
+        let currentStep = 0;
+        const xorSteps = [
+            { desc: "Start: result = 0", highlight: -1 },
+            { desc: "2 ⊕ 0 = 2", highlight: 0 },
+            { desc: "2 ⊕ 2 = 0", highlight: 1 },
+            { desc: "1 ⊕ 0 = 1", highlight: 2 }
+        ];
+
+        function updateXORAnimation(step) {
+            const cells = document.querySelectorAll('.array-cell');
+            const info = document.getElementById('windowInfo');
+
+            // Remove previous highlights
+            cells.forEach(cell => cell.classList.remove('in-window'));
+
+            // Update based on current step
+            if (step > 0 && step <= cells.length) {
+                cells[step - 1].classList.add('in-window');
+            }
+
+            // Update info text
+            info.textContent = xorSteps[step].desc;
+
+            // Disable play button if at end
+            if (step >= xorSteps.length - 1) {
+                document.getElementById('playBtn').disabled = true;
+                info.textContent += ' ✓ (Complete!)';
+            }
+        }
+
+        function playStep() {
+            // Enable reset button after first play
+            document.getElementById('resetBtn').disabled = false;
+
+            if (currentStep < xorSteps.length - 1) {
+                currentStep++;
+                updateXORAnimation(currentStep);
+            }
+        }
+
+        function resetAnimation() {
+            currentStep = 0;
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+            updateXORAnimation(currentStep);
+        }
+
+        // Initialize animation on page load
+        window.addEventListener('load', () => {
+            updateXORAnimation(0);
+        });
+    </script>
+</body>
+</html>

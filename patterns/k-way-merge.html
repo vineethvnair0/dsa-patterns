@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-way Merge Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-item a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .problem-item a:hover {
+            color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .problem-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .problem-title .leetcode-number {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details.show {
+            display: block;
+        }
+
+        .problem-description {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .problem-example {
+            background: #f0f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid #667eea;
+        }
+
+        .problem-example strong {
+            color: #2c3e50;
+        }
+
+        .problem-constraints {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid #ff9800;
+        }
+
+        .problem-constraints h4 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+
+        .problem-constraints ul {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .problem-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 10: K-way Merge</h1>
+            <span class="category-badge">Heaps</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Merge K Sorted Lists</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given an array of K sorted linked lists, merge them into one sorted linked list and return it.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> lists = [[1,4,5], [1,3,4], [2,6]]<br>
+                    <strong style="color: #10b981;">Output:</strong> [1,1,2,3,4,4,5,6]
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Use a <strong>Min Heap</strong> to track the smallest element from each list</li>
+                    <li>Initially, add the <strong>first element from each list</strong> to the heap</li>
+                    <li>Extract the minimum element from heap and add it to result</li>
+                    <li>Add the <strong>next element</strong> from the same list to the heap</li>
+                    <li>Repeat until all elements are processed</li>
+                    <li>Time complexity: O(N log K) where N = total elements, K = number of lists</li>
+                    <li>Space complexity: O(K) for the heap</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the K-way Merge pattern with these 15 curated LeetCode problems organized by difficulty level. Click on each problem to see detailed descriptions, examples, and constraints.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">21.</span> Merge Two Sorted Lists
+                            </div>
+                            <span class="expand-icon" id="icon1">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem1">
+                            <div class="problem-description">
+                                You are given the heads of two sorted linked lists <code>list1</code> and <code>list2</code>. Merge the two lists into one sorted list by splicing together the nodes of the first two lists. Return the head of the merged linked list.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> list1 = [1,2,4], list2 = [1,3,4]<br>
+                                <strong style="color: #10b981;">Output:</strong> [1,1,2,3,4,4]
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>The number of nodes in both lists is in the range [0, 50]</li>
+                                    <li>-100 ≤ Node.val ≤ 100</li>
+                                    <li>Both list1 and list2 are sorted in non-decreasing order</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">88.</span> Merge Sorted Array
+                            </div>
+                            <span class="expand-icon" id="icon2">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem2">
+                            <div class="problem-description">
+                                You are given two integer arrays <code>nums1</code> and <code>nums2</code>, sorted in non-decreasing order, and two integers <code>m</code> and <code>n</code>, representing the number of elements in nums1 and nums2 respectively. Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3<br>
+                                <strong style="color: #10b981;">Output:</strong> [1,2,2,3,5,6]
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>nums1.length == m + n</li>
+                                    <li>nums2.length == n</li>
+                                    <li>0 ≤ m, n ≤ 200</li>
+                                    <li>-10<sup>9</sup> ≤ nums1[i], nums2[j] ≤ 10<sup>9</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">2248.</span> Intersection of Multiple Arrays
+                            </div>
+                            <span class="expand-icon" id="icon3">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem3">
+                            <div class="problem-description">
+                                Given a 2D integer array <code>nums</code> where nums[i] is a non-empty array of distinct positive integers, return the list of integers that are present in each array of nums sorted in ascending order.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums = [[3,1,2,4,5],[1,2,3,4],[3,4,5,6]]<br>
+                                <strong style="color: #10b981;">Output:</strong> [3,4]<br>
+                                <strong>Explanation:</strong> Only 3 and 4 are present in all arrays.
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>1 ≤ nums.length ≤ 1000</li>
+                                    <li>1 ≤ sum(nums[i].length) ≤ 1000</li>
+                                    <li>1 ≤ nums[i][j] ≤ 1000</li>
+                                    <li>All values in nums[i] are distinct</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/intersection-of-multiple-arrays/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">349.</span> Intersection of Two Arrays
+                            </div>
+                            <span class="expand-icon" id="icon4">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem4">
+                            <div class="problem-description">
+                                Given two integer arrays <code>nums1</code> and <code>nums2</code>, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums1 = [1,2,2,1], nums2 = [2,2]<br>
+                                <strong style="color: #10b981;">Output:</strong> [2]
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>1 ≤ nums1.length, nums2.length ≤ 1000</li>
+                                    <li>0 ≤ nums1[i], nums2[i] ≤ 1000</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/intersection-of-two-arrays/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">350.</span> Intersection of Two Arrays II
+                            </div>
+                            <span class="expand-icon" id="icon5">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem5">
+                            <div class="problem-description">
+                                Given two integer arrays <code>nums1</code> and <code>nums2</code>, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums1 = [1,2,2,1], nums2 = [2,2]<br>
+                                <strong style="color: #10b981;">Output:</strong> [2,2]
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>1 ≤ nums1.length, nums2.length ≤ 1000</li>
+                                    <li>0 ≤ nums1[i], nums2[i] ≤ 1000</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/intersection-of-two-arrays-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">23.</span> Merge k Sorted Lists
+                            </div>
+                            <span class="expand-icon" id="icon6">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem6">
+                            <div class="problem-description">
+                                You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> lists = [[1,4,5],[1,3,4],[2,6]]<br>
+                                <strong style="color: #10b981;">Output:</strong> [1,1,2,3,4,4,5,6]<br>
+                                <strong>Explanation:</strong> Merging all linked-lists into one sorted linked-list: 1→1→2→3→4→4→5→6
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>k == lists.length</li>
+                                    <li>0 ≤ k ≤ 10<sup>4</sup></li>
+                                    <li>0 ≤ lists[i].length ≤ 500</li>
+                                    <li>-10<sup>4</sup> ≤ lists[i][j] ≤ 10<sup>4</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">378.</span> Kth Smallest Element in a Sorted Matrix
+                            </div>
+                            <span class="expand-icon" id="icon7">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem7">
+                            <div class="problem-description">
+                                Given an <code>n x n</code> matrix where each of the rows and columns is sorted in ascending order, return the k<sup>th</sup> smallest element in the matrix. Note that it is the k<sup>th</sup> smallest element in the sorted order, not the k<sup>th</sup> distinct element.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8<br>
+                                <strong style="color: #10b981;">Output:</strong> 13<br>
+                                <strong>Explanation:</strong> Elements in sorted order: [1,5,9,10,11,12,13,13,15], 8th element is 13
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>n == matrix.length == matrix[i].length</li>
+                                    <li>1 ≤ n ≤ 300</li>
+                                    <li>-10<sup>9</sup> ≤ matrix[i][j] ≤ 10<sup>9</sup></li>
+                                    <li>1 ≤ k ≤ n<sup>2</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">373.</span> Find K Pairs with Smallest Sums
+                            </div>
+                            <span class="expand-icon" id="icon8">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem8">
+                            <div class="problem-description">
+                                You are given two integer arrays <code>nums1</code> and <code>nums2</code> sorted in non-decreasing order and an integer <code>k</code>. Define a pair (u, v) which consists of one element from the first array and one element from the second array. Return the k pairs (u<sub>1</sub>, v<sub>1</sub>), (u<sub>2</sub>, v<sub>2</sub>), ..., (u<sub>k</sub>, v<sub>k</sub>) with the smallest sums.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums1 = [1,7,11], nums2 = [2,4,6], k = 3<br>
+                                <strong style="color: #10b981;">Output:</strong> [[1,2],[1,4],[1,6]]<br>
+                                <strong>Explanation:</strong> First 3 pairs with smallest sums: [1,2], [1,4], [1,6]
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>1 ≤ nums1.length, nums2.length ≤ 10<sup>5</sup></li>
+                                    <li>-10<sup>9</sup> ≤ nums1[i], nums2[i] ≤ 10<sup>9</sup></li>
+                                    <li>1 ≤ k ≤ 10<sup>4</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/find-k-pairs-with-smallest-sums/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">1508.</span> Range Sum of Sorted Subarray Sums
+                            </div>
+                            <span class="expand-icon" id="icon9">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem9">
+                            <div class="problem-description">
+                                You are given the array <code>nums</code> consisting of n positive integers. You computed the sum of all non-empty continuous subarrays from the array and then sorted them in non-decreasing order, creating a new array of n * (n + 1) / 2 numbers. Return the sum of the numbers from index <code>left</code> to index <code>right</code> (indexed from 1), inclusive, in the new array.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums = [1,2,3,4], n = 4, left = 1, right = 5<br>
+                                <strong style="color: #10b981;">Output:</strong> 13<br>
+                                <strong>Explanation:</strong> Subarray sums: [1,3,6,10,2,5,9,3,7,4]. After sorting: [1,2,3,3,4,5,6,7,9,10]. Sum from index 1 to 5 = 1+2+3+3+4 = 13
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>1 ≤ nums.length ≤ 1000</li>
+                                    <li>1 ≤ nums[i] ≤ 100</li>
+                                    <li>1 ≤ left ≤ right ≤ n * (n + 1) / 2</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/range-sum-of-sorted-subarray-sums/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">786.</span> K-th Smallest Prime Fraction
+                            </div>
+                            <span class="expand-icon" id="icon10">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem10">
+                            <div class="problem-description">
+                                You are given a sorted integer array <code>arr</code> containing 1 and prime numbers, where all the integers of arr are unique. You are also given an integer <code>k</code>. For every i and j where 0 ≤ i < j < arr.length, consider the fraction arr[i] / arr[j]. Return the k<sup>th</sup> smallest fraction considered.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> arr = [1,2,3,5], k = 3<br>
+                                <strong style="color: #10b981;">Output:</strong> [2,5]<br>
+                                <strong>Explanation:</strong> Fractions: [1/5, 1/3, 2/5, 1/2, 3/5, 2/3]. 3rd smallest is 2/5
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>2 ≤ arr.length ≤ 1000</li>
+                                    <li>1 ≤ arr[i] ≤ 3 × 10<sup>4</sup></li>
+                                    <li>arr[0] == 1</li>
+                                    <li>1 ≤ k ≤ arr.length * (arr.length - 1) / 2</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/k-th-smallest-prime-fraction/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">632.</span> Smallest Range Covering Elements from K Lists
+                            </div>
+                            <span class="expand-icon" id="icon11">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem11">
+                            <div class="problem-description">
+                                You have <code>k</code> lists of sorted integers in non-decreasing order. Find the smallest range that includes at least one number from each of the k lists. We define the range [a, b] is smaller than range [c, d] if b - a < d - c or a < c if b - a == d - c.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums = [[4,10,15,24,26],[0,9,12,20],[5,18,22,30]]<br>
+                                <strong style="color: #10b981;">Output:</strong> [20,24]<br>
+                                <strong>Explanation:</strong> Range [20,24] includes 24 from list 1, 20 from list 2, and 22 from list 3
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>nums.length == k</li>
+                                    <li>1 ≤ k ≤ 3500</li>
+                                    <li>1 ≤ nums[i].length ≤ 50</li>
+                                    <li>-10<sup>5</sup> ≤ nums[i][j] ≤ 10<sup>5</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">719.</span> Find K-th Smallest Pair Distance
+                            </div>
+                            <span class="expand-icon" id="icon12">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem12">
+                            <div class="problem-description">
+                                The distance of a pair of integers a and b is defined as the absolute difference between a and b. Given an integer array <code>nums</code> and an integer <code>k</code>, return the k<sup>th</sup> smallest distance among all the pairs nums[i] and nums[j] where 0 ≤ i < j < nums.length.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums = [1,3,1], k = 1<br>
+                                <strong style="color: #10b981;">Output:</strong> 0<br>
+                                <strong>Explanation:</strong> Pairs: (1,3) → 2, (1,1) → 0, (3,1) → 2. The 1st smallest distance is 0
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>n == nums.length</li>
+                                    <li>2 ≤ n ≤ 10<sup>4</sup></li>
+                                    <li>0 ≤ nums[i] ≤ 10<sup>6</sup></li>
+                                    <li>1 ≤ k ≤ n * (n - 1) / 2</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/find-k-th-smallest-pair-distance/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">1439.</span> Find the Kth Smallest Sum of a Matrix With Sorted Rows
+                            </div>
+                            <span class="expand-icon" id="icon13">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem13">
+                            <div class="problem-description">
+                                You are given an <code>m x n</code> matrix <code>mat</code> that has its rows sorted in non-decreasing order and an integer <code>k</code>. You are allowed to choose exactly one element from each row to form an array. Return the k<sup>th</sup> smallest array sum among all possible arrays.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> mat = [[1,3,11],[2,4,6]], k = 5<br>
+                                <strong style="color: #10b981;">Output:</strong> 7<br>
+                                <strong>Explanation:</strong> All possible sums: [3,5,7,7,9,9,11,11,13,13,15]. 5th smallest is 7
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>m == mat.length</li>
+                                    <li>n == mat.length[i]</li>
+                                    <li>1 ≤ m, n ≤ 40</li>
+                                    <li>1 ≤ mat[i][j] ≤ 5000</li>
+                                    <li>1 ≤ k ≤ min(200, n<sup>m</sup>)</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/find-the-kth-smallest-sum-of-a-matrix-with-sorted-rows/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">4.</span> Median of Two Sorted Arrays
+                            </div>
+                            <span class="expand-icon" id="icon14">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem14">
+                            <div class="problem-description">
+                                Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size m and n respectively, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums1 = [1,3], nums2 = [2]<br>
+                                <strong style="color: #10b981;">Output:</strong> 2.00000<br>
+                                <strong>Explanation:</strong> Merged array = [1,2,3], median = 2
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>nums1.length == m</li>
+                                    <li>nums2.length == n</li>
+                                    <li>0 ≤ m ≤ 1000</li>
+                                    <li>0 ≤ n ≤ 1000</li>
+                                    <li>-10<sup>6</sup> ≤ nums1[i], nums2[i] ≤ 10<sup>6</sup></li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <div class="problem-title">
+                                <span class="leetcode-number">2386.</span> Find the K-Sum of an Array
+                            </div>
+                            <span class="expand-icon" id="icon15">▼</span>
+                        </div>
+                        <div class="problem-details" id="problem15">
+                            <div class="problem-description">
+                                You are given an integer array <code>nums</code> and a positive integer <code>k</code>. You can choose any subsequence of the array and sum all of its elements together. The k-sum of the array is the k<sup>th</sup> largest subsequence sum that can be obtained (not necessarily distinct). Return the k-sum of the array.
+                            </div>
+                            <div class="problem-example">
+                                <strong>Example:</strong><br>
+                                <strong style="color: #667eea;">Input:</strong> nums = [2,4,-2], k = 5<br>
+                                <strong style="color: #10b981;">Output:</strong> 2<br>
+                                <strong>Explanation:</strong> All subsequence sums: 0, 2, 4, -2, 6, 2, 4. The 5th largest is 2
+                            </div>
+                            <div class="problem-constraints">
+                                <h4>Constraints:</h4>
+                                <ul>
+                                    <li>n == nums.length</li>
+                                    <li>1 ≤ n ≤ 10<sup>5</sup></li>
+                                    <li>-10<sup>9</sup> ≤ nums[i] ≤ 10<sup>9</sup></li>
+                                    <li>1 ≤ k ≤ min(2000, 2<sup>n</sup>)</li>
+                                </ul>
+                            </div>
+                            <a href="https://leetcode.com/problems/find-the-k-sum-of-an-array/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleProblem(problemId) {
+            const details = document.getElementById(problemId);
+            const iconId = 'icon' + problemId.replace('problem', '');
+            const icon = document.getElementById(iconId);
+
+            if (details.classList.contains('show')) {
+                details.classList.remove('show');
+                icon.classList.remove('expanded');
+            } else {
+                details.classList.add('show');
+                icon.classList.add('expanded');
+            }
+        }
+    </script>
+</body>
+</html>

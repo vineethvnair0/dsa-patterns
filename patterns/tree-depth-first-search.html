@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Depth-First Search Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .problem-title {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .problem-name {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .problem-details.show {
+            display: block;
+        }
+
+        .problem-description {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .problem-constraints {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .problem-constraints ul {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .problem-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .problem-link:hover {
+            background: #5568d3;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 17: Tree Depth-First Search</h1>
+            <span class="category-badge">Trees</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Binary Tree Maximum Path Sum</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a binary tree, find the maximum path sum. A path can start and end at any node in the tree.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> root = [1,2,3]<br>
+                    <strong style="color: #10b981;">Output:</strong> 6 (path: 2 → 1 → 3)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How DFS works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Depth-First Search</strong> explores as deep as possible before backtracking</li>
+                    <li>Three traversal orders: <strong>Preorder</strong> (root, left, right), <strong>Inorder</strong> (left, root, right), <strong>Postorder</strong> (left, right, root)</li>
+                    <li>Recursively visit left subtree, then right subtree</li>
+                    <li>For each node, calculate: max path <strong>passing through this node</strong></li>
+                    <li>Track global maximum throughout traversal</li>
+                    <li>Time complexity: O(n), Space complexity: O(h) where h = height</li>
+                    <li>Use recursion or explicit stack for iterative approach</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Tree Depth-First Search pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">104.</span>
+                                    <span class="problem-name">Maximum Depth of Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree, return its maximum depth. A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [3,9,20,null,null,15,7]<br>
+                                    Output: 3<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [1,null,2]<br>
+                                    Output: 2
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 10^4]</li>
+                                        <li>-100 <= Node.val <= 100</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">226.</span>
+                                    <span class="problem-name">Invert Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree, invert the tree, and return its root. Inverting means swapping the left and right children of all nodes in the tree.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [4,2,7,1,3,6,9]<br>
+                                    Output: [4,7,2,9,6,3,1]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [2,1,3]<br>
+                                    Output: [2,3,1]
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 100]</li>
+                                        <li>-100 <= Node.val <= 100</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">100.</span>
+                                    <span class="problem-name">Same Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the roots of two binary trees p and q, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: p = [1,2,3], q = [1,2,3]<br>
+                                    Output: true<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: p = [1,2], q = [1,null,2]<br>
+                                    Output: false
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in both trees is in the range [0, 100]</li>
+                                        <li>-10^4 <= Node.val <= 10^4</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/same-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">572.</span>
+                                    <span class="problem-name">Subtree of Another Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [3,4,5,1,2], subRoot = [4,1,2]<br>
+                                    Output: true<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]<br>
+                                    Output: false
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the root tree is in the range [1, 2000]</li>
+                                        <li>The number of nodes in the subRoot tree is in the range [1, 1000]</li>
+                                        <li>-10^4 <= root.val <= 10^4</li>
+                                        <li>-10^4 <= subRoot.val <= 10^4</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">112.</span>
+                                    <span class="problem-name">Path Sum</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22<br>
+                                    Output: true<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [1,2,3], targetSum = 5<br>
+                                    Output: false
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 5000]</li>
+                                        <li>-1000 <= Node.val <= 1000</li>
+                                        <li>-1000 <= targetSum <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/path-sum/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">105.</span>
+                                    <span class="problem-name">Construct Binary Tree from Preorder and Inorder Traversal</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]<br>
+                                    Output: [3,9,20,null,null,15,7]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: preorder = [-1], inorder = [-1]<br>
+                                    Output: [-1]
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= preorder.length <= 3000</li>
+                                        <li>inorder.length == preorder.length</li>
+                                        <li>-3000 <= preorder[i], inorder[i] <= 3000</li>
+                                        <li>preorder and inorder consist of unique values</li>
+                                        <li>Each value of inorder also appears in preorder</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">113.</span>
+                                    <span class="problem-name">Path Sum II</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22<br>
+                                    Output: [[5,4,11,2],[5,8,4,5]]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [1,2,3], targetSum = 5<br>
+                                    Output: []
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 5000]</li>
+                                        <li>-1000 <= Node.val <= 1000</li>
+                                        <li>-1000 <= targetSum <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/path-sum-ii/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">236.</span>
+                                    <span class="problem-name">Lowest Common Ancestor of a Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree. The LCA is defined as the lowest node in the tree that has both nodes as descendants (where we allow a node to be a descendant of itself).
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1<br>
+                                    Output: 3<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4<br>
+                                    Output: 5
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [2, 10^5]</li>
+                                        <li>-10^9 <= Node.val <= 10^9</li>
+                                        <li>All Node.val are unique</li>
+                                        <li>p != q</li>
+                                        <li>p and q will exist in the tree</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">437.</span>
+                                    <span class="problem-name">Path Sum III</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum. The path does not need to start or end at the root or a leaf, but it must go downwards.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8<br>
+                                    Output: 3<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22<br>
+                                    Output: 3
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 1000]</li>
+                                        <li>-10^9 <= Node.val <= 10^9</li>
+                                        <li>-1000 <= targetSum <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/path-sum-iii/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">1448.</span>
+                                    <span class="problem-name">Count Good Nodes in Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X. Return the number of good nodes in the binary tree.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [3,1,4,3,null,1,5]<br>
+                                    Output: 4<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [3,3,null,4,2]<br>
+                                    Output: 3
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the binary tree is in the range [1, 10^5]</li>
+                                        <li>Each node's value is between [-10^4, 10^4]</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/count-good-nodes-in-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">124.</span>
+                                    <span class="problem-name">Binary Tree Maximum Path Sum</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. The path sum is the sum of the node's values in the path. Given the root of a binary tree, return the maximum path sum of any non-empty path.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [1,2,3]<br>
+                                    Output: 6 (path: 2 -> 1 -> 3)<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [-10,9,20,null,null,15,7]<br>
+                                    Output: 42 (path: 15 -> 20 -> 7)
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [1, 3 * 10^4]</li>
+                                        <li>-1000 <= Node.val <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">297.</span>
+                                    <span class="problem-name">Serialize and Deserialize Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Design an algorithm to serialize and deserialize a binary tree. Serialization is the process of converting a data structure into a sequence of bytes to be stored or transmitted. Deserialization is the reverse process of reconstructing the data structure from the sequence.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [1,2,3,null,null,4,5]<br>
+                                    Output: [1,2,3,null,null,4,5]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = []<br>
+                                    Output: []
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [0, 10^4]</li>
+                                        <li>-1000 <= Node.val <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">987.</span>
+                                    <span class="problem-name">Vertical Order Traversal of a Binary Tree</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    Given the root of a binary tree, calculate the vertical order traversal of the binary tree. For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. Return the vertical order traversal as a list of lists.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [3,9,20,null,null,15,7]<br>
+                                    Output: [[9],[3,15],[20],[7]]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [1,2,3,4,5,6,7]<br>
+                                    Output: [[4],[2],[1,5,6],[3],[7]]
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [1, 1000]</li>
+                                        <li>0 <= Node.val <= 1000</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">968.</span>
+                                    <span class="problem-name">Binary Tree Cameras</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    You are given the root of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children. Return the minimum number of cameras needed to monitor all nodes of the tree.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: root = [0,0,null,0,0]<br>
+                                    Output: 1<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: root = [0,0,null,0,null,0,null,null,0]<br>
+                                    Output: 2
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>The number of nodes in the tree is in the range [1, 1000]</li>
+                                        <li>Node.val == 0</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/binary-tree-cameras/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                        <li class="problem-item">
+                            <div class="problem-header" onclick="toggleProblem(this)">
+                                <div class="problem-title">
+                                    <span class="problem-number">1932.</span>
+                                    <span class="problem-name">Merge BSTs to Create Single BST</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-description">
+                                    You are given n BST (binary search tree) root nodes for n separate BSTs stored in an array trees. Each BST in trees has at most 3 nodes, and no two roots have the same value. Return the root of the resulting BST if it is possible to form a valid BST after merging, otherwise return null.
+                                </div>
+                                <div class="problem-example">
+                                    <strong>Example 1:</strong><br>
+                                    Input: trees = [[2,1],[3,2,5],[5,4]]<br>
+                                    Output: [3,2,5,1,null,4]<br><br>
+                                    <strong>Example 2:</strong><br>
+                                    Input: trees = [[5,3,8],[3,2,6]]<br>
+                                    Output: null
+                                </div>
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>n == trees.length</li>
+                                        <li>1 <= n <= 5 * 10^4</li>
+                                        <li>Each tree has at most 3 nodes</li>
+                                        <li>No two roots have the same value</li>
+                                        <li>All values in each BST are in the range [1, 10^5]</li>
+                                    </ul>
+                                </div>
+                                <a href="https://leetcode.com/problems/merge-bsts-to-create-single-bst/" target="_blank" class="problem-link">Solve on LeetCode</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleProblem(header) {
+            const details = header.nextElementSibling;
+            const icon = header.querySelector('.expand-icon');
+
+            details.classList.toggle('show');
+            icon.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>

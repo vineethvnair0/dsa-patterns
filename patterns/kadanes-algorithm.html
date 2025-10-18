@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadane's Algorithm Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Animated Kadane's Algorithm Visualization */
+        .animated-window {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .array-container {
+            display: flex;
+            gap: 5px;
+            margin: 15px 0;
+            position: relative;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .array-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .array-cell.current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .array-cell.max-subarray {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .animation-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .animation-controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0;
+            margin: 0 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animation-controls button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .animation-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .window-info {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f7ff;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
+        }
+
+        /* Practice Problems Styles */
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .problem-item {
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .array-cell {
+                width: 45px;
+                height: 45px;
+                font-size: 1em;
+            }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 15: Kadane's Algorithm</h1>
+            <span class="category-badge">Arrays</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>Kadane's Algorithm is a dynamic programming technique used to find the maximum sum of a contiguous subarray within a one-dimensional array of numbers. This algorithm is highly efficient with a linear time complexity, making it ideal for solving maximum subarray problems.</p>
+                <p>The key insight is to maintain two variables: the maximum sum ending at the current position and the overall maximum sum seen so far. At each step, we decide whether to extend the current subarray or start a new one.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Maximum Subarray Sum</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given an integer array, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]<br>
+                    <strong style="color: #10b981;">Output:</strong> 6 (subarray [4, -1, 2, 1])
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How Kadane's Algorithm works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Keep track of <strong>current sum</strong> (maxEndingHere) and <strong>maximum sum</strong> (maxSoFar)</li>
+                    <li>For each element, decide: <strong>extend current subarray</strong> or <strong>start new subarray</strong></li>
+                    <li>maxEndingHere = max(nums[i], maxEndingHere + nums[i])</li>
+                    <li>If adding current element to existing sum is worse than starting fresh, start new subarray</li>
+                    <li>Update maxSoFar = max(maxSoFar, maxEndingHere) at each step</li>
+                    <li>Time complexity: O(n), Space complexity: O(1)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Animated Visual Diagram</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Interactive Kadane's Algorithm Animation</div>
+                    <p style="color: #666; margin-bottom: 15px;">Watch the algorithm process the array: [-2, 1, -3, 4, -1, 2, 1, -5, 4]</p>
+
+                    <div class="animated-window">
+                        <div class="array-container" id="arrayContainer">
+                            <div class="array-cell" data-index="0">-2</div>
+                            <div class="array-cell" data-index="1">1</div>
+                            <div class="array-cell" data-index="2">-3</div>
+                            <div class="array-cell" data-index="3">4</div>
+                            <div class="array-cell" data-index="4">-1</div>
+                            <div class="array-cell" data-index="5">2</div>
+                            <div class="array-cell" data-index="6">1</div>
+                            <div class="array-cell" data-index="7">-5</div>
+                            <div class="array-cell" data-index="8">4</div>
+                        </div>
+                        <div class="window-info" id="windowInfo">Click Play to start the visualization</div>
+                        <div class="animation-controls">
+                            <button id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                            <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Current element</strong> is highlighted in <span style="color: #667eea; font-weight: bold;">blue</span>.
+                        The <strong>maximum subarray found so far</strong> is highlighted in <span style="color: #10b981; font-weight: bold;">green</span>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Maximum Subarray</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        Given an integer array nums, find the <strong>contiguous subarray</strong> (containing at least one number) which has the largest sum and return its sum.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]<br>
+                            <strong>Output:</strong> 6<br>
+                            <strong>Explanation:</strong> The subarray [4, -1, 2, 1] has the largest sum = 6
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 2:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [1]<br>
+                            <strong>Output:</strong> 1<br>
+                            <strong>Explanation:</strong> The subarray [1] has the largest sum = 1
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 3:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> nums = [5, 4, -1, 7, 8]<br>
+                            <strong>Output:</strong> 23<br>
+                            <strong>Explanation:</strong> The subarray [5, 4, -1, 7, 8] has the largest sum = 23
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Kadane's Algorithm - Maximum Subarray Sum</span>
+<span class="keyword">public static int</span> <span class="function">maxSubArray</span>(<span class="keyword">int</span>[] nums) {
+    <span class="keyword">int</span> maxEndingHere = nums[0];
+    <span class="keyword">int</span> maxSoFar = nums[0];
+
+    <span class="comment">// Process each element starting from index 1</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 1; i &lt; nums.length; i++) {
+        <span class="comment">// Decide: extend current subarray or start new</span>
+        maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);
+
+        <span class="comment">// Update overall maximum</span>
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+    }
+
+    <span class="keyword">return</span> maxSoFar;
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        Kadane's Algorithm efficiently finds the maximum sum by making a local decision at each position:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize:</strong> Set both maxEndingHere and maxSoFar to the first element of the array.</li>
+                        <li><strong>Process each element:</strong> For each subsequent element:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Calculate maxEndingHere = max(current element, maxEndingHere + current element)</li>
+                                <li>This decides whether to extend the existing subarray or start fresh from current element</li>
+                                <li>Update maxSoFar if maxEndingHere is greater</li>
+                            </ul>
+                        </li>
+                        <li><strong>Return result:</strong> After processing all elements, maxSoFar contains the maximum subarray sum.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> At each position, we face a choice: should we extend the current subarray by including this element,
+                        or should we start a new subarray from this element? The decision is simple: if adding the current element to the existing sum
+                        gives us a smaller value than just the current element alone, it's better to start fresh. This greedy approach works because
+                        we're always keeping track of the best solution seen so far.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n) | <strong>Space Complexity:</strong> O(1)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>We iterate through the array exactly once</li>
+                        <li>Each iteration performs constant time operations (comparison and assignment)</li>
+                        <li>Total time: O(n) where n is the length of the array</li>
+                        <li>This is optimal since we must examine each element at least once</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(1)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Only uses a constant amount of extra space</li>
+                        <li>Variables used: maxEndingHere, maxSoFar (fixed memory regardless of input size)</li>
+                        <li>No additional data structures or recursion stack required</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Maximum sum subarray problems</li>
+                    <li>Stock buy and sell problems (finding maximum profit)</li>
+                    <li>Longest turbulent subarray</li>
+                    <li>Maximum product subarray (variant)</li>
+                    <li>Circular array maximum sum</li>
+                    <li>Maximum sum with at most one deletion allowed</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>Kadane's Algorithm demonstrates fundamental dynamic programming principles and greedy optimization strategies that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Kadane's Algorithm pattern with these 15 curated LeetCode problems organized by difficulty level. Click on any problem to view details, examples, and constraints.</p>
+
+                <div class="difficulty-section">
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">53. Maximum Subarray</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums, find the subarray with the largest sum, and return its sum.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [1]
+Output: 1
+Explanation: The subarray [1] has the largest sum 1.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [5,4,-1,7,8]
+Output: 23
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>-10^4 <= nums[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">121. Best Time to Buy and Sell Stock</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= prices.length <= 10^5</li>
+                                <li>0 <= prices[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">643. Maximum Average Subarray I</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array nums consisting of n elements, and an integer k. Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [5], k = 1
+Output: 5.00000</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums.length</li>
+                                <li>1 <= k <= n <= 10^5</li>
+                                <li>-10^4 <= nums[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-average-subarray-i/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1446. Consecutive Characters</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> The power of the string is the maximum length of a non-empty substring that contains only one unique character. Given a string s, return the power of s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "leetcode"
+Output: 2
+Explanation: The substring "ee" is of length 2 with the character 'e' only.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "abbcccddddeeeeedcba"
+Output: 5
+Explanation: The substring "eeeee" is of length 5 with the character 'e' only.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 500</li>
+                                <li>s consists of only lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/consecutive-characters/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">485. Max Consecutive Ones</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> Given a binary array nums, return the maximum number of consecutive 1's in the array.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [1,0,1,1,0,1]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>nums[i] is either 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-consecutive-ones/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">918. Maximum Sum Circular Subarray</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums. A circular array means the end of the array connects to the beginning of the array.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,-2,3,-2]
+Output: 3
+Explanation: Subarray [3] has maximum sum 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [5,-3,5]
+Output: 10
+Explanation: Subarray [5,5] has maximum sum 5 + 5 = 10.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: nums = [-3,-2,-3]
+Output: -2
+Explanation: Subarray [-2] has maximum sum -2.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums.length</li>
+                                <li>1 <= n <= 3 * 10^4</li>
+                                <li>-3 * 10^4 <= nums[i] <= 3 * 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-sum-circular-subarray/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">152. Maximum Product Subarray</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums, find a subarray that has the largest product, and return the product. The test cases are generated so that the answer will fit in a 32-bit integer.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 2 * 10^4</li>
+                                <li>-10 <= nums[i] <= 10</li>
+                                <li>The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">978. Longest Turbulent Subarray</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array arr, return the length of a maximum size turbulent subarray of arr. A subarray is turbulent if the comparison sign flips between each adjacent pair of elements in the subarray.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: arr = [9,4,2,10,7,8,8,1,9]
+Output: 5
+Explanation: arr[1] > arr[2] < arr[3] > arr[4] < arr[5]</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: arr = [4,8,12,16]
+Output: 2</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: arr = [100]
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= arr.length <= 4 * 10^4</li>
+                                <li>0 <= arr[i] <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-turbulent-subarray/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1191. K-Concatenation Maximum Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array arr and an integer k, modify the array by repeating it k times. Return the maximum sub-array sum in the modified array. Note that the length of the sub-array can be 0 and its sum in that case is 0. As the answer can be very large, return the answer modulo 10^9 + 7.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: arr = [1,2], k = 3
+Output: 9
+Explanation: arr becomes [1,2,1,2,1,2] and the maximum sum is 1+2+1+2+1+2 = 9.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: arr = [1,-2,1], k = 5
+Output: 2</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: arr = [-1,-2], k = 7
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= arr.length <= 10^5</li>
+                                <li>1 <= k <= 10^5</li>
+                                <li>-10^4 <= arr[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/k-concatenation-maximum-sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">2321. Maximum Score Of Spliced Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> You are given two 0-indexed integer arrays nums1 and nums2, both of length n. You can choose two integers left and right where 0 <= left <= right < n and swap the subarray nums1[left...right] with the subarray nums2[left...right]. Return the maximum possible sum of nums1 after exactly one such swap.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums1 = [60,60,60], nums2 = [10,90,10]
+Output: 210
+Explanation: We choose left = 1 and right = 1 to get nums1 = [60,90,60]. The sum is 210.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums1 = [20,40,20,70,30], nums2 = [50,20,50,40,20]
+Output: 220
+Explanation: We choose left = 3, right = 4, and swap the subarray with [40,20].</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums1.length == nums2.length</li>
+                                <li>1 <= n <= 10^5</li>
+                                <li>1 <= nums1[i], nums2[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-score-of-spliced-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1186. Maximum Subarray Sum with One Deletion</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of integers, return the maximum sum for a non-empty subarray (contiguous elements) with at most one element deletion. In other words, you want to choose a subarray and optionally delete one element from it so that there is still at least one element left and the sum of the remaining elements is maximum possible.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: arr = [1,-2,0,3]
+Output: 4
+Explanation: Because we can choose [1, -2, 0, 3] and drop -2, thus the subarray [1, 0, 3] becomes the maximum value.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: arr = [1,-2,-2,3]
+Output: 3
+Explanation: We just choose [3] and it's the maximum sum.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: arr = [-1,-1,-1,-1]
+Output: -1
+Explanation: The final subarray needs to be non-empty. You can't choose [-1] and delete -1 from it, then get an empty subarray.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= arr.length <= 10^5</li>
+                                <li>-10^4 <= arr[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2272. Substring With Largest Variance</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> The variance of a string is defined as the largest difference between the number of occurrences of any 2 characters present in the string. Note the two characters may or may not be the same. Given a string s consisting of lowercase English letters only, return the largest variance possible among all substrings of s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "aababbb"
+Output: 3
+Explanation: All possible variances along with their respective substrings are listed below:
+- Variance 0 for substrings "a", "aa", "ab", "abab", "aababb", "ba", "b", "bb", and "bbb".
+- Variance 1 for substrings "aab", "aba", "abb", "aabab", "ababb", "aababbb", and "bab".
+- Variance 2 for substrings "aaba", "ababbb", "abbb", and "babb".
+- Variance 3 for substring "babbb".</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "abcde"
+Output: 0
+Explanation: No letter occurs more than once, so the variance of every substring is 0.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^4</li>
+                                <li>s consists of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/substring-with-largest-variance/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">363. Max Sum of Rectangle No Larger Than K</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> Given an m x n matrix matrix and an integer k, return the max sum of a rectangle in the matrix such that its sum is no larger than k. It is guaranteed that there will be a rectangle with a sum no larger than k.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: matrix = [[1,0,1],[0,-2,3]], k = 2
+Output: 2
+Explanation: Because the sum of the blue rectangle [[0, 1], [-2, 3]] is 2, and 2 is the max number no larger than k (k = 2).</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: matrix = [[2,2,-1]], k = 3
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == matrix.length</li>
+                                <li>n == matrix[i].length</li>
+                                <li>1 <= m, n <= 100</li>
+                                <li>-100 <= matrix[i][j] <= 100</li>
+                                <li>-10^5 <= k <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1074. Number of Submatrices That Sum to Target</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> Given a matrix and a target, return the number of non-empty submatrices that sum to target. A submatrix x1, y1, x2, y2 is the set of all cells matrix[x][y] with x1 <= x <= x2 and y1 <= y <= y2.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: matrix = [[0,1,0],[1,1,1],[0,1,0]], target = 0
+Output: 4
+Explanation: The four 1x1 submatrices that only contain 0.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: matrix = [[1,-1],[-1,1]], target = 0
+Output: 5
+Explanation: The two 1x2 submatrices, plus the two 2x1 submatrices, plus the 2x2 submatrix.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: matrix = [[904]], target = 0
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= matrix.length <= 100</li>
+                                <li>1 <= matrix[0].length <= 100</li>
+                                <li>-1000 <= matrix[i][j] <= 1000</li>
+                                <li>-10^8 <= target <= 10^8</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2551. Put Marbles in Bags</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> You have k bags. You are given a 0-indexed integer array weights where weights[i] is the weight of the ith marble. You are also given the integer k. Divide the marbles into the k bags according to the following rules: No bag is empty, and if the ith marble and jth marble are in a bag, then all marbles with an index between the ith and jth indices should also be in that same bag. The score of a partitioning is the sum of the scores of each bag. The score of a bag is the weight of the first marble in the bag plus the weight of the last marble in the bag. Return the difference between the maximum and minimum scores among all possible partitions.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: weights = [1,3,5,1], k = 2
+Output: 4
+Explanation: The partitioning [1],[3,5,1] has the maximum score of (1+1) + (3+1) = 6.
+The partitioning [1,3],[5,1] has the minimum score of (1+3) + (5+1) = 10.
+The difference is 10 - 6 = 4.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: weights = [1,3], k = 2
+Output: 0
+Explanation: The only valid partitioning is [1],[3].
+The minimum and maximum score are both (1+1) + (3+3) = 8.
+The difference is 0.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= k <= weights.length <= 10^5</li>
+                                <li>1 <= weights[i] <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/put-marbles-in-bags/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle problem details
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+
+        // Kadane's Algorithm Animation
+        const arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        let currentStep = 0;
+        let steps = [];
+
+        // Generate animation steps
+        function generateSteps() {
+            steps = [];
+            let maxEndingHere = arr[0];
+            let maxSoFar = arr[0];
+            let maxStart = 0;
+            let maxEnd = 0;
+            let currentStart = 0;
+
+            steps.push({
+                index: 0,
+                maxEndingHere: maxEndingHere,
+                maxSoFar: maxSoFar,
+                maxStart: maxStart,
+                maxEnd: maxEnd,
+                message: `Initialize: maxEndingHere = ${maxEndingHere}, maxSoFar = ${maxSoFar}`
+            });
+
+            for (let i = 1; i < arr.length; i++) {
+                const prevMaxEndingHere = maxEndingHere;
+                const num = arr[i];
+
+                // Decision: extend or start new
+                if (maxEndingHere + num > num) {
+                    // Extend current subarray
+                    maxEndingHere = maxEndingHere + num;
+                    steps.push({
+                        index: i,
+                        maxEndingHere: maxEndingHere,
+                        maxSoFar: maxSoFar,
+                        maxStart: maxStart,
+                        maxEnd: maxEnd,
+                        currentStart: currentStart,
+                        message: `At index ${i} (value: ${num}): Extend subarray. ${prevMaxEndingHere} + ${num} = ${maxEndingHere}`
+                    });
+                } else {
+                    // Start new subarray
+                    maxEndingHere = num;
+                    currentStart = i;
+                    steps.push({
+                        index: i,
+                        maxEndingHere: maxEndingHere,
+                        maxSoFar: maxSoFar,
+                        maxStart: maxStart,
+                        maxEnd: maxEnd,
+                        currentStart: currentStart,
+                        message: `At index ${i} (value: ${num}): Start new subarray. ${prevMaxEndingHere} + ${num} <= ${num}, so restart with ${num}`
+                    });
+                }
+
+                // Update maxSoFar
+                if (maxEndingHere > maxSoFar) {
+                    maxSoFar = maxEndingHere;
+                    maxStart = currentStart;
+                    maxEnd = i;
+                    steps.push({
+                        index: i,
+                        maxEndingHere: maxEndingHere,
+                        maxSoFar: maxSoFar,
+                        maxStart: maxStart,
+                        maxEnd: maxEnd,
+                        currentStart: currentStart,
+                        message: `New maximum found! maxSoFar = ${maxSoFar} (subarray from index ${maxStart} to ${maxEnd})`
+                    });
+                }
+            }
+
+            // Final step
+            const subarrayValues = arr.slice(maxStart, maxEnd + 1);
+            steps.push({
+                index: arr.length - 1,
+                maxEndingHere: maxEndingHere,
+                maxSoFar: maxSoFar,
+                maxStart: maxStart,
+                maxEnd: maxEnd,
+                final: true,
+                message: `Complete! Maximum sum = ${maxSoFar}, subarray = [${subarrayValues.join(', ')}]`
+            });
+        }
+
+        function updateVisualization() {
+            const step = steps[currentStep];
+            const cells = document.querySelectorAll('.array-cell');
+            const info = document.getElementById('windowInfo');
+
+            // Clear all highlights
+            cells.forEach(cell => {
+                cell.classList.remove('current', 'max-subarray');
+            });
+
+            // Highlight current element
+            if (step.index >= 0 && step.index < cells.length) {
+                cells[step.index].classList.add('current');
+            }
+
+            // Highlight max subarray
+            if (step.maxStart >= 0 && step.maxEnd >= 0) {
+                for (let i = step.maxStart; i <= step.maxEnd; i++) {
+                    if (i !== step.index && i < cells.length) {
+                        cells[i].classList.add('max-subarray');
+                    }
+                }
+            }
+
+            // Update info message
+            info.innerHTML = step.message + `<br><small>maxEndingHere: ${step.maxEndingHere} | maxSoFar: ${step.maxSoFar}</small>`;
+
+            // Enable/disable buttons
+            if (currentStep >= steps.length - 1) {
+                document.getElementById('playBtn').disabled = true;
+            }
+        }
+
+        function playStep() {
+            // Enable reset button after first play
+            document.getElementById('resetBtn').disabled = false;
+
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateVisualization();
+            }
+        }
+
+        function resetAnimation() {
+            currentStep = 0;
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+            updateVisualization();
+        }
+
+        // Initialize animation on page load
+        window.addEventListener('load', () => {
+            generateSteps();
+            updateVisualization();
+        });
+    </script>
+</body>
+</html>

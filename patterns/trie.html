@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trie Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .problem-title:hover {
+            color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .problem-details.show {
+            display: block;
+        }
+
+        .problem-description {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #667eea;
+        }
+
+        .problem-example strong {
+            color: #667eea;
+        }
+
+        .problem-constraints {
+            background: #fff9e6;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .problem-constraints ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .leetcode-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .leetcode-link:hover {
+            background: #764ba2;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 20: Trie</h1>
+            <span class="category-badge">Trees & Strings</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Implement Trie (Prefix Tree)</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Implement a trie with insert, search, and startsWith methods. A trie is a tree-like data structure used to store and retrieve strings efficiently.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Operations:</strong> insert("apple"), search("apple"), startsWith("app")<br>
+                    <strong style="color: #10b981;">Output:</strong> true, true (found "apple", prefix "app" exists)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How Trie works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Trie</strong> (Prefix Tree) stores strings character by character in a tree structure</li>
+                    <li>Each node contains: <strong>array of children</strong> (26 for lowercase) and <strong>isEndOfWord</strong> flag</li>
+                    <li><strong>Insert:</strong> Traverse/create nodes for each character, mark last as end</li>
+                    <li><strong>Search:</strong> Traverse nodes for each character, check if last node is marked as end</li>
+                    <li><strong>StartsWith:</strong> Traverse nodes for prefix, return true if all characters found</li>
+                    <li>Time complexity: O(m) for all operations where m = word length</li>
+                    <li>Space complexity: O(ALPHABET_SIZE * m * n) where n = number of words</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Trie pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div>
+                                    <span class="problem-number">208.</span>
+                                    <span class="problem-title">Implement Trie (Prefix Tree)</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <p class="problem-description">A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. Implement the Trie class with insert, search, and startsWith methods.</p>
+
+                                <div class="problem-example">
+                                    <strong>Example:</strong><br>
+                                    Input: ["Trie", "insert", "search", "search", "startsWith", "insert", "search"]<br>
+                                    [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]<br>
+                                    Output: [null, null, true, false, true, null, true]
+                                </div>
+
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= word.length, prefix.length <= 2000</li>
+                                        <li>word and prefix consist only of lowercase English letters</li>
+                                        <li>At most 3 * 10^4 calls in total will be made to insert, search, and startsWith</li>
+                                    </ul>
+                                </div>
+
+                                <a href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank" class="leetcode-link">Solve on LeetCode →</a>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div>
+                                    <span class="problem-number">720.</span>
+                                    <span class="problem-title">Longest Word in Dictionary</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <p class="problem-description">Given an array of strings words representing an English Dictionary, return the longest word in words that can be built one character at a time by other words in words. If there is more than one possible answer, return the longest word with the smallest lexicographical order.</p>
+
+                                <div class="problem-example">
+                                    <strong>Example:</strong><br>
+                                    Input: words = ["w","wo","wor","worl","world"]<br>
+                                    Output: "world"<br>
+                                    Explanation: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
+                                </div>
+
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= words.length <= 1000</li>
+                                        <li>1 <= words[i].length <= 30</li>
+                                        <li>words[i] consists of lowercase English letters</li>
+                                    </ul>
+                                </div>
+
+                                <a href="https://leetcode.com/problems/longest-word-in-dictionary/" target="_blank" class="leetcode-link">Solve on LeetCode →</a>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div>
+                                    <span class="problem-number">1455.</span>
+                                    <span class="problem-title">Check If a Word Occurs As a Prefix of Any Word in a Sentence</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <p class="problem-description">Given a sentence that consists of some words separated by a single space, and a searchWord, check if searchWord is a prefix of any word in sentence. Return the index of the word in sentence (1-indexed) where searchWord is a prefix of this word. If searchWord is a prefix of more than one word, return the index of the first word. If there is no such word return -1.</p>
+
+                                <div class="problem-example">
+                                    <strong>Example:</strong><br>
+                                    Input: sentence = "i love eating burger", searchWord = "burg"<br>
+                                    Output: 4<br>
+                                    Explanation: "burg" is prefix of "burger" which is the 4th word in the sentence.
+                                </div>
+
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= sentence.length <= 100</li>
+                                        <li>1 <= searchWord.length <= 10</li>
+                                        <li>sentence consists of lowercase English letters and spaces</li>
+                                    </ul>
+                                </div>
+
+                                <a href="https://leetcode.com/problems/check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence/" target="_blank" class="leetcode-link">Solve on LeetCode →</a>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div>
+                                    <span class="problem-number">2185.</span>
+                                    <span class="problem-title">Counting Words With a Given Prefix</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <p class="problem-description">You are given an array of strings words and a string pref. Return the number of strings in words that contain pref as a prefix. A prefix of a string s is any leading contiguous substring of s.</p>
+
+                                <div class="problem-example">
+                                    <strong>Example:</strong><br>
+                                    Input: words = ["pay","attention","practice","attend"], pref = "at"<br>
+                                    Output: 2<br>
+                                    Explanation: The 2 strings that contain "at" as a prefix are: "attention" and "attend".
+                                </div>
+
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= words.length <= 100</li>
+                                        <li>1 <= words[i].length, pref.length <= 100</li>
+                                        <li>words[i] and pref consist of lowercase English letters</li>
+                                    </ul>
+                                </div>
+
+                                <a href="https://leetcode.com/problems/counting-words-with-a-given-prefix/" target="_blank" class="leetcode-link">Solve on LeetCode →</a>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div>
+                                    <span class="problem-number">14.</span>
+                                    <span class="problem-title">Longest Common Prefix</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <p class="problem-description">Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "".</p>
+
+                                <div class="problem-example">
+                                    <strong>Example:</strong><br>
+                                    Input: strs = ["flower","flow","flight"]<br>
+                                    Output: "fl"
+                                </div>
+
+                                <div class="problem-constraints">
+                                    <strong>Constraints:</strong>
+                                    <ul>
+                                        <li>1 <= strs.length <= 200</li>
+                                        <li>0 <= strs[i].length <= 200</li>
+                                        <li>strs[i] consists of only lowercase English letters</li>
+                                    </ul>
+                                </div>
+
+                                <a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" class="leetcode-link">Solve on LeetCode →</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#6</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#7</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#8</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#9</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#10</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#11</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#12</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#13</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#14</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#15</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+</body>
+</html>

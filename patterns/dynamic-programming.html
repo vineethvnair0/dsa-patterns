@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .pattern-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #4a5568;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin: 30px 0;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-block {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .complexity {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .complexity-item {
+            margin: 8px 0;
+            color: #2d3748;
+        }
+
+        .complexity-item strong {
+            color: #667eea;
+        }
+
+        .diagram {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .dp-table {
+            display: inline-grid;
+            gap: 5px;
+            margin: 20px auto;
+            grid-template-columns: repeat(6, 60px);
+        }
+
+        .dp-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #cbd5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .dp-cell .index {
+            position: absolute;
+            top: -20px;
+            font-size: 0.8em;
+            color: #718096;
+        }
+
+        .dp-cell.current {
+            background: #fef08a;
+            border-color: #facc15;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.4);
+        }
+
+        .dp-cell.computed {
+            background: #86efac;
+            border-color: #22c55e;
+        }
+
+        .dp-cell.used {
+            background: #bfdbfe;
+            border-color: #3b82f6;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            min-height: 25px;
+        }
+
+        .problems-section {
+            margin-top: 40px;
+        }
+
+        .difficulty-group {
+            margin: 25px 0;
+        }
+
+        .difficulty-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .difficulty-title.easy { color: #22c55e; }
+        .difficulty-title.medium { color: #f59e0b; }
+        .difficulty-title.hard { color: #ef4444; }
+
+        .problem-item {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .problem-item.easy { border-left-color: #22c55e; }
+        .problem-item.medium { border-left-color: #f59e0b; }
+        .problem-item.hard { border-left-color: #ef4444; }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .problem-number {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e0;
+        }
+
+        .problem-details.active {
+            display: block;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Patterns</a>
+
+        <h1>Dynamic Programming</h1>
+        <span class="pattern-number">Pattern #14</span>
+
+        <p class="description">
+            Dynamic Programming (DP) is an algorithmic technique for solving optimization problems by breaking them down into simpler subproblems.
+            It stores the results of subproblems to avoid redundant calculations, using either top-down (memoization) or bottom-up (tabulation) approaches.
+            DP is applicable when a problem has overlapping subproblems and optimal substructure properties.
+        </p>
+
+        <div class="section">
+            <h2>Visual Representation</h2>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Climbing Stairs</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps.
+                    In how many distinct ways can you climb to the top?
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> n = 5<br>
+                    <strong style="color: #10b981;">Output:</strong> 8<br>
+                    <strong>Explanation:</strong> Ways to climb: [1+1+1+1+1], [1+1+1+2], [1+1+2+1], [1+2+1+1], [2+1+1+1], [1+2+2], [2+1+2], [2+2+1]
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Base cases:</strong> dp[0] = 1 (one way to stay at ground), dp[1] = 1 (one way to reach first stair)</li>
+                    <li><strong>Recurrence relation:</strong> dp[i] = dp[i-1] + dp[i-2]</li>
+                    <li>To reach step i, you can come from step (i-1) with 1 step, or from step (i-2) with 2 steps</li>
+                    <li>Total ways to reach step i = ways to reach (i-1) + ways to reach (i-2)</li>
+                    <li>Build the solution bottom-up from dp[0] to dp[n]</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <div class="diagram-title">Step-by-Step Visualization</div>
+                <p style="margin: 10px 0; color: #718096; font-size: 0.9em;">Formula: dp[i] = dp[i-1] + dp[i-2]</p>
+
+                <div class="dp-table" id="dpTable">
+                    <div class="dp-cell" id="cell-0"><span class="index">n=0</span><span id="val-0">1</span></div>
+                    <div class="dp-cell" id="cell-1"><span class="index">n=1</span><span id="val-1">1</span></div>
+                    <div class="dp-cell" id="cell-2"><span class="index">n=2</span><span id="val-2">?</span></div>
+                    <div class="dp-cell" id="cell-3"><span class="index">n=3</span><span id="val-3">?</span></div>
+                    <div class="dp-cell" id="cell-4"><span class="index">n=4</span><span id="val-4">?</span></div>
+                    <div class="dp-cell" id="cell-5"><span class="index">n=5</span><span id="val-5">?</span></div>
+                </div>
+
+                <div class="controls">
+                    <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                    <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                </div>
+
+                <div class="status" id="status">Click Play to start computing DP values</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>When to Use This Pattern</h2>
+            <ul style="color: #4a5568; line-height: 2; margin-left: 20px;">
+                <li>Problem has overlapping subproblems (same subproblems solved multiple times)</li>
+                <li>Problem exhibits optimal substructure (optimal solution contains optimal solutions to subproblems)</li>
+                <li>Need to find maximum/minimum values, count ways, or determine possibility</li>
+                <li>Problem involves making choices at each step affecting future choices</li>
+                <li>Can define recursive relation between problem and smaller subproblems</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Java Implementation</h2>
+            <div class="code-block">
+                <pre>
+// Example: Climbing Stairs (Bottom-Up DP)
+class Solution {
+    public int climbStairs(int n) {
+        // Base cases
+        if (n <= 2) return n;
+
+        // DP array to store results
+        int[] dp = new int[n + 1];
+        dp[0] = 1; // 1 way to stay at ground
+        dp[1] = 1; // 1 way to reach first stair
+
+        // Build solution bottom-up
+        for (int i = 2; i <= n; i++) {
+            // Can reach step i from (i-1) or (i-2)
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        return dp[n];
+    }
+}
+
+// Space-optimized version (O(1) space)
+class Solution {
+    public int climbStairs(int n) {
+        if (n <= 2) return n;
+
+        int prev2 = 1; // dp[i-2]
+        int prev1 = 1; // dp[i-1]
+
+        for (int i = 2; i <= n; i++) {
+            int current = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = current;
+        }
+
+        return prev1;
+    }
+}
+
+// Example: House Robber (1D DP)
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+        if (n == 1) return nums[0];
+
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+
+        for (int i = 2; i < n; i++) {
+            // Either rob current house + dp[i-2] or skip it
+            dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+        }
+
+        return dp[n - 1];
+    }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity">
+                <div class="complexity-item">
+                    <strong>Time Complexity:</strong> O(n) for 1D DP, O(n²) or O(n·m) for 2D DP
+                </div>
+                <div class="complexity-item">
+                    <strong>Space Complexity:</strong> O(n) for tabulation, O(n) for memoization (recursion stack), can often optimize to O(1)
+                </div>
+                <div class="complexity-item">
+                    <strong>Best For:</strong> Optimization problems with overlapping subproblems
+                </div>
+            </div>
+        </div>
+
+        <div class="problems-section">
+            <h2>Practice Problems</h2>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title easy">Easy Problems (5)</div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Climbing Stairs</span>
+                        <span class="problem-number">#70</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+                        </p>
+                        <div class="problem-example">
+<strong>Example 1:</strong>
+Input: n = 2
+Output: 2
+Explanation: Two ways: 1+1, 2
+
+<strong>Example 2:</strong>
+Input: n = 3
+Output: 3
+Explanation: Three ways: 1+1+1, 1+2, 2+1
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 45
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Min Cost Climbing Stairs</span>
+                        <span class="problem-number">#746</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. Find the minimum cost to reach the top of the floor.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: cost = [10,15,20]
+Output: 15
+Explanation: Start at index 1, pay 15, climb two steps to reach the top.
+
+<strong>Constraints:</strong>
+• 2 ≤ cost.length ≤ 1000
+• 0 ≤ cost[i] ≤ 999
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Fibonacci Number</span>
+                        <span class="problem-number">#509</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            The Fibonacci numbers form a sequence where each number is the sum of the two preceding ones. Given n, calculate F(n).
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 4
+Output: 3
+Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3
+
+<strong>Constraints:</strong>
+• 0 ≤ n ≤ 30
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">N-th Tribonacci Number</span>
+                        <span class="problem-number">#1137</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            The Tribonacci sequence is defined as T(n) = T(n-1) + T(n-2) + T(n-3) with T(0)=0, T(1)=1, T(2)=1. Return the value of T(n).
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 4
+Output: 4
+Explanation: T(4) = 0+1+1 = 2, T(3)=2, T(4)=4
+
+<strong>Constraints:</strong>
+• 0 ≤ n ≤ 37
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Divisor Game</span>
+                        <span class="problem-number">#1025</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Alice and Bob play a game with number N. On each turn, a player subtracts any divisor (except N itself) from N. The player who cannot make a move loses. Return true if Alice wins assuming both play optimally.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 2
+Output: true
+Explanation: Alice chooses 1, Bob receives 1 and loses.
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 1000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title medium">Medium Problems (5)</div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">House Robber</span>
+                        <span class="problem-number">#198</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            You are a robber planning to rob houses along a street. Adjacent houses have security systems connected. Determine the maximum amount you can rob without alerting the police.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (2), house 3 (9), and house 5 (1): 2+9+1=12
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 100
+• 0 ≤ nums[i] ≤ 400
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Coin Change</span>
+                        <span class="problem-number">#322</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            You are given coins of different denominations and a total amount. Compute the fewest number of coins needed to make up that amount. Return -1 if impossible.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+
+<strong>Constraints:</strong>
+• 1 ≤ coins.length ≤ 12
+• 1 ≤ coins[i] ≤ 2³¹-1
+• 0 ≤ amount ≤ 10⁴
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Longest Increasing Subsequence</span>
+                        <span class="problem-number">#300</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an integer array nums, return the length of the longest strictly increasing subsequence.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: [2,3,7,101] is the longest increasing subsequence
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 2500
+• -10⁴ ≤ nums[i] ≤ 10⁴
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Unique Paths</span>
+                        <span class="problem-number">#62</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            A robot is on an m x n grid. The robot can only move down or right. How many possible unique paths are there to reach the bottom-right corner?
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: m = 3, n = 7
+Output: 28
+
+<strong>Constraints:</strong>
+• 1 ≤ m, n ≤ 100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Partition Equal Subset Sum</span>
+                        <span class="problem-number">#416</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an integer array nums, return true if you can partition the array into two subsets such that the sum of elements in both subsets is equal.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [1,5,11,5]
+Output: true
+Explanation: [1,5,5] and [11]
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 200
+• 1 ≤ nums[i] ≤ 100
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title hard">Hard Problems (5)</div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Edit Distance</span>
+                        <span class="problem-number">#72</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given two strings word1 and word2, return the minimum number of operations (insert, delete, replace) required to convert word1 to word2.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: horse → rorse → rose → ros
+
+<strong>Constraints:</strong>
+• 0 ≤ word1.length, word2.length ≤ 500
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Longest Valid Parentheses</span>
+                        <span class="problem-number">#32</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a string containing just '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = ")()())"
+Output: 4
+Explanation: "()()" is the longest valid substring
+
+<strong>Constraints:</strong>
+• 0 ≤ s.length ≤ 3×10⁴
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Regular Expression Matching</span>
+                        <span class="problem-number">#10</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Implement regular expression matching with support for '.' and '*' where '.' matches any single character and '*' matches zero or more of the preceding element.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "aa", p = "a*"
+Output: true
+Explanation: '*' means zero or more 'a'
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 20
+• 1 ≤ p.length ≤ 30
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Burst Balloons</span>
+                        <span class="problem-number">#312</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            You are given n balloons indexed from 0 to n-1. Burst all balloons to maximize coins collected where bursting balloon i gets nums[i-1] * nums[i] * nums[i+1] coins.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [3,1,5,8]
+Output: 167
+Explanation: Optimal order gives maximum coins
+
+<strong>Constraints:</strong>
+• n == nums.length
+• 1 ≤ n ≤ 300
+• 0 ≤ nums[i] ≤ 100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Distinct Subsequences</span>
+                        <span class="problem-number">#115</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given strings s and t, return the number of distinct subsequences of s which equals t.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "rabbbit", t = "rabbit"
+Output: 3
+Explanation: Three ways to form "rabbit" from "rabbbit"
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length, t.length ≤ 1000
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dp = [1, 1, 0, 0, 0, 0];
+        let currentStep = 2;
+        let isComplete = false;
+        let showingComputation = false; // Track if we're showing computation or result
+
+        function playStep() {
+            document.getElementById('resetBtn').disabled = false;
+
+            if (isComplete) {
+                return;
+            }
+
+            const cells = document.querySelectorAll('.dp-cell');
+
+            if (!showingComputation) {
+                // Step 1: Show which cells we're using for computation
+                cells.forEach(cell => {
+                    cell.classList.remove('current', 'used');
+                });
+
+                const prev1 = currentStep - 1;
+                const prev2 = currentStep - 2;
+
+                document.getElementById('cell-' + prev1).classList.add('used');
+                document.getElementById('cell-' + prev2).classList.add('used');
+                document.getElementById('cell-' + currentStep).classList.add('current');
+
+                // Compute DP value
+                dp[currentStep] = dp[prev1] + dp[prev2];
+                document.getElementById('val-' + currentStep).textContent = dp[currentStep];
+
+                // Update status
+                const status = document.getElementById('status');
+                status.textContent = `Computing dp[${currentStep}] = dp[${prev1}] + dp[${prev2}] = ${dp[prev1]} + ${dp[prev2]} = ${dp[currentStep]}`;
+
+                showingComputation = true;
+            } else {
+                // Step 2: Mark as computed and move to next
+                document.getElementById('cell-' + currentStep).classList.remove('current');
+                document.getElementById('cell-' + currentStep).classList.add('computed');
+
+                const prev1 = currentStep - 1;
+                const prev2 = currentStep - 2;
+                document.getElementById('cell-' + prev1).classList.remove('used');
+                document.getElementById('cell-' + prev2).classList.remove('used');
+
+                currentStep++;
+                showingComputation = false;
+
+                if (currentStep > 5) {
+                    document.getElementById('status').textContent = `✓ Complete! There are ${dp[5]} ways to climb 5 stairs`;
+                    document.getElementById('playBtn').disabled = true;
+                    isComplete = true;
+                } else {
+                    document.getElementById('status').textContent = `Ready to compute dp[${currentStep}]. Click Play to continue.`;
+                }
+            }
+        }
+
+        function resetAnimation() {
+            currentStep = 2;
+            isComplete = false;
+            showingComputation = false;
+            dp[2] = 0;
+            dp[3] = 0;
+            dp[4] = 0;
+            dp[5] = 0;
+
+            for (let i = 2; i <= 5; i++) {
+                document.getElementById('val-' + i).textContent = '?';
+                document.getElementById('cell-' + i).classList.remove('current', 'computed', 'used');
+            }
+
+            document.getElementById('status').textContent = 'Click Play to start computing DP values';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        function toggleProblem(element) {
+            const details = element.querySelector('.problem-details');
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Intervals Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .pattern-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #4a5568;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin: 30px 0;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-block {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .complexity {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .complexity-item {
+            margin: 8px 0;
+            color: #2d3748;
+        }
+
+        .complexity-item strong {
+            color: #667eea;
+        }
+
+        .diagram {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .intervals-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .interval-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            height: 70px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            flex: 1;
+        }
+
+        .interval {
+            position: absolute;
+            height: 100%;
+            background: #667eea;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.4s ease;
+            border: 2px solid #5568d3;
+        }
+
+        .interval.current {
+            background: #fbbf24;
+            border-color: #f59e0b;
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.5);
+        }
+
+        .interval.merged {
+            background: #10b981;
+            border-color: #059669;
+        }
+
+        .interval.comparing {
+            background: #f87171;
+            border-color: #ef4444;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            min-height: 25px;
+        }
+
+        .problems-section {
+            margin-top: 40px;
+        }
+
+        .difficulty-group {
+            margin: 25px 0;
+        }
+
+        .difficulty-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .difficulty-title.easy { color: #22c55e; }
+        .difficulty-title.medium { color: #f59e0b; }
+        .difficulty-title.hard { color: #ef4444; }
+
+        .problem-item {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .problem-item.easy { border-left-color: #22c55e; }
+        .problem-item.medium { border-left-color: #f59e0b; }
+        .problem-item.hard { border-left-color: #ef4444; }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .problem-number {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e0;
+        }
+
+        .problem-details.active {
+            display: block;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Patterns</a>
+
+        <h1>Merge Intervals</h1>
+        <span class="pattern-number">Pattern #6</span>
+
+        <p class="description">
+            The Merge Intervals pattern is used to handle overlapping intervals efficiently. This pattern involves sorting intervals
+            and then iterating through them to merge overlapping ones. It's particularly useful for scheduling problems, meeting room allocation,
+            and any scenario where you need to combine or process overlapping ranges.
+        </p>
+
+        <div class="section">
+            <h2>Visual Representation</h2>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem:</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a collection of intervals, merge all overlapping intervals and return an array of non-overlapping intervals.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> intervals = [[1,3], [2,6], [8,10], [15,18]]<br>
+                    <strong style="color: #10b981;">Output:</strong> [[1,6], [8,10], [15,18]]
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">Explanation:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>[1,3]</strong> and <strong>[2,6]</strong> overlap (both cover times 2 and 3)</li>
+                    <li>They merge into <strong>[1,6]</strong> (from earliest start 1 to latest end 6)</li>
+                    <li><strong>[8,10]</strong> doesn't overlap with [1,6] → stays separate</li>
+                    <li><strong>[15,18]</strong> doesn't overlap with anything → stays separate</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <div class="diagram-title">Step-by-Step Visualization</div>
+                <p style="margin: 10px 0; color: #718096; font-size: 0.9em;">Timeline scale: 0 to 20</p>
+
+                <div class="intervals-container">
+                    <div class="interval-row">
+                        <span style="width: 80px; font-weight: bold;">Input:</span>
+                        <div class="timeline" id="timeline1" style="position: relative;">
+                            <!-- [1,3]: starts at 1, length 2, on scale 0-20 = 5% start, 10% width -->
+                            <div class="interval" id="int-0" style="left: 5%; width: 10%; z-index: 2;">[1,3]</div>
+                            <!-- [2,6]: starts at 2, length 4, on scale 0-20 = 10% start, 20% width, moved up to show both -->
+                            <div class="interval" id="int-1" style="left: 10%; width: 20%; top: -25px; z-index: 1;">[2,6]</div>
+                            <!-- [8,10]: starts at 8, length 2, on scale 0-20 = 40% start, 10% width -->
+                            <div class="interval" id="int-2" style="left: 40%; width: 10%;">[8,10]</div>
+                            <!-- [15,18]: starts at 15, length 3, on scale 0-20 = 75% start, 15% width -->
+                            <div class="interval" id="int-3" style="left: 75%; width: 15%;">[15,18]</div>
+                        </div>
+                    </div>
+                    <div class="interval-row">
+                        <span style="width: 80px; font-weight: bold;">Output:</span>
+                        <div class="timeline" id="timeline2">
+                            <!-- [1,6]: starts at 1, length 5, on scale 0-20 = 5% start, 25% width -->
+                            <div class="interval merged" id="merged-0" style="left: 5%; width: 25%; display: none;">[1,6]</div>
+                            <!-- [8,10]: starts at 8, length 2, on scale 0-20 = 40% start, 10% width -->
+                            <div class="interval merged" id="merged-1" style="left: 40%; width: 10%; display: none;">[8,10]</div>
+                            <!-- [15,18]: starts at 15, length 3, on scale 0-20 = 75% start, 15% width -->
+                            <div class="interval merged" id="merged-2" style="left: 75%; width: 15%; display: none;">[15,18]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                    <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                </div>
+
+                <div class="status" id="status">Click Play to start merging intervals</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>When to Use This Pattern</h2>
+            <ul style="color: #4a5568; line-height: 2; margin-left: 20px;">
+                <li>Merging overlapping intervals or ranges</li>
+                <li>Finding conflicts in schedules (meeting rooms, time slots)</li>
+                <li>Determining if a new interval overlaps with existing ones</li>
+                <li>Inserting intervals into a sorted list of non-overlapping intervals</li>
+                <li>Finding the minimum number of intervals to cover a range</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Java Implementation</h2>
+            <div class="code-block">
+                <pre>
+// Example 1: Merge Overlapping Intervals
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1) {
+            return intervals;
+        }
+
+        // Sort by start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> result = new ArrayList<>();
+        int[] current = intervals[0];
+        result.add(current);
+
+        for (int[] interval : intervals) {
+            int currentEnd = current[1];
+            int nextStart = interval[0];
+            int nextEnd = interval[1];
+
+            if (currentEnd >= nextStart) {
+                // Overlapping - merge
+                current[1] = Math.max(currentEnd, nextEnd);
+            } else {
+                // Non-overlapping - add new interval
+                current = interval;
+                result.add(current);
+            }
+        }
+
+        return result.toArray(new int[result.size()][]);
+    }
+}
+
+// Example 2: Insert Interval
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> result = new ArrayList<>();
+        int i = 0;
+        int n = intervals.length;
+
+        // Add all intervals before newInterval
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            result.add(intervals[i]);
+            i++;
+        }
+
+        // Merge overlapping intervals
+        while (i < n && intervals[i][0] <= newInterval[1]) {
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        result.add(newInterval);
+
+        // Add remaining intervals
+        while (i < n) {
+            result.add(intervals[i]);
+            i++;
+        }
+
+        return result.toArray(new int[result.size()][]);
+    }
+}
+
+// Example 3: Meeting Rooms II (Minimum Rooms)
+class Solution {
+    public int minMeetingRooms(int[][] intervals) {
+        if (intervals.length == 0) return 0;
+
+        // Sort by start time
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+
+        // Min heap to track end times
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        heap.add(intervals[0][1]);
+
+        for (int i = 1; i < intervals.length; i++) {
+            // If room is free, remove it
+            if (intervals[i][0] >= heap.peek()) {
+                heap.poll();
+            }
+            // Add current meeting's end time
+            heap.add(intervals[i][1]);
+        }
+
+        return heap.size();
+    }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity">
+                <div class="complexity-item">
+                    <strong>Time Complexity:</strong> O(n log n) due to sorting, then O(n) for merging
+                </div>
+                <div class="complexity-item">
+                    <strong>Space Complexity:</strong> O(n) for storing the result
+                </div>
+                <div class="complexity-item">
+                    <strong>Best For:</strong> Problems involving overlapping ranges, scheduling, and interval management
+                </div>
+            </div>
+        </div>
+
+        <div class="problems-section">
+            <h2>Practice Problems</h2>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title easy">Easy Problems (5)</div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Meeting Rooms</span>
+                        <span class="problem-number">#252</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.
+                        </p>
+                        <div class="problem-example">
+<strong>Example 1:</strong>
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: false
+Explanation: Meetings overlap
+
+<strong>Example 2:</strong>
+Input: intervals = [[7,10],[2,4]]
+Output: true
+
+<strong>Constraints:</strong>
+• 0 ≤ intervals.length ≤ 10⁴
+• intervals[i].length == 2
+• 0 ≤ starti < endi ≤ 10⁶
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Summary Ranges</span>
+                        <span class="problem-number">#228</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a sorted unique integer array, return the smallest sorted list of ranges that cover all numbers in the array exactly.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [0,1,2,4,5,7]
+Output: ["0->2","4->5","7"]
+
+<strong>Constraints:</strong>
+• 0 ≤ nums.length ≤ 20
+• -2³¹ ≤ nums[i] ≤ 2³¹ - 1
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Missing Ranges</span>
+                        <span class="problem-number">#163</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a sorted integer array nums, return the smallest sorted list of ranges that cover numbers missing from the array in [lower, upper] range.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [0,1,3,50,75], lower = 0, upper = 99
+Output: ["2","4->49","51->74","76->99"]
+
+<strong>Constraints:</strong>
+• -10⁹ ≤ lower ≤ upper ≤ 10⁹
+• 0 ≤ nums.length ≤ 100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Add Bold Tag in String</span>
+                        <span class="problem-number">#616</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a string s and a list of strings dict, add bold tags around words from dict. Overlapping bold sections should be merged.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "abcxyz123", dict = ["abc","123"]
+Output: "<b>abc</b>xyz<b>123</b>"
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 1000
+• 1 ≤ dict.length ≤ 100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Merge Similar Items</span>
+                        <span class="problem-number">#2363</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given two 2D integer arrays items1 and items2 representing [value, weight], merge them and return the sorted result.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: items1 = [[1,1],[4,5],[3,8]], items2 = [[3,1],[1,5]]
+Output: [[1,6],[3,9],[4,5]]
+
+<strong>Constraints:</strong>
+• 1 ≤ items1.length, items2.length ≤ 1000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title medium">Medium Problems (5)</div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Merge Intervals</span>
+                        <span class="problem-number">#56</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+
+<strong>Constraints:</strong>
+• 1 ≤ intervals.length ≤ 10⁴
+• intervals[i].length == 2
+• 0 ≤ starti ≤ endi ≤ 10⁴
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Insert Interval</span>
+                        <span class="problem-number">#57</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Insert newInterval into intervals (sorted and non-overlapping) such that intervals remain sorted and non-overlapping.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+Output: [[1,5],[6,9]]
+
+<strong>Constraints:</strong>
+• 0 ≤ intervals.length ≤ 10⁴
+• intervals[i].length == 2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Meeting Rooms II</span>
+                        <span class="problem-number">#253</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of meeting time intervals, find the minimum number of conference rooms required.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: 2
+
+<strong>Constraints:</strong>
+• 1 ≤ intervals.length ≤ 10⁴
+• 0 ≤ starti < endi ≤ 10⁶
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Non-overlapping Intervals</span>
+                        <span class="problem-number">#435</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of intervals, find the minimum number of intervals you need to remove to make the rest non-overlapping.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: intervals = [[1,2],[2,3],[3,4],[1,3]]
+Output: 1
+Explanation: Remove [1,3]
+
+<strong>Constraints:</strong>
+• 1 ≤ intervals.length ≤ 10⁵
+• intervals[i].length == 2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Interval List Intersections</span>
+                        <span class="problem-number">#986</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given two lists of closed intervals, each sorted, return the intersection of these two interval lists.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
+Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+
+<strong>Constraints:</strong>
+• 0 ≤ A.length, B.length ≤ 1000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title hard">Hard Problems (5)</div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Employee Free Time</span>
+                        <span class="problem-number">#759</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given employee schedules (list of intervals for each employee), return the finite list of intervals representing common free time for all employees.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: schedule = [[[1,3],[6,7]],[[2,4]],[[2,5],[9,12]]]
+Output: [[5,6],[7,9]]
+
+<strong>Constraints:</strong>
+• 1 ≤ schedule.length, schedule[i].length ≤ 50
+• 0 ≤ starti < endi ≤ 10⁸
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Minimum Number of Arrows</span>
+                        <span class="problem-number">#452</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given intervals representing balloon positions, find the minimum number of arrows needed to burst all balloons.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: points = [[10,16],[2,8],[1,6],[7,12]]
+Output: 2
+Explanation: Shoot at x=6 and x=11
+
+<strong>Constraints:</strong>
+• 1 ≤ points.length ≤ 10⁵
+• points[i].length == 2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Data Stream as Disjoint Intervals</span>
+                        <span class="problem-number">#352</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Design a data structure that accepts integers from a data stream and returns a summary of intervals.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+addNum(1): [[1,1]]
+addNum(3): [[1,1],[3,3]]
+addNum(2): [[1,3]]
+
+<strong>Constraints:</strong>
+• 0 ≤ value ≤ 10⁴
+• At most 3×10⁴ calls
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">My Calendar III</span>
+                        <span class="problem-number">#732</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Implement MyCalendarThree to store events and return the maximum k-booking (k events overlap at the same time).
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+book(10,20): 1
+book(50,60): 1
+book(10,40): 2
+book(5,15): 3
+
+<strong>Constraints:</strong>
+• 0 ≤ start < end ≤ 10⁹
+• At most 400 calls
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Range Module</span>
+                        <span class="problem-number">#715</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Design a data structure to track ranges: addRange, queryRange (checks if every integer in range is tracked), removeRange.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+addRange(10,20): null
+removeRange(14,16): null
+queryRange(10,14): true
+
+<strong>Constraints:</strong>
+• 1 ≤ left < right ≤ 10⁹
+• At most 10⁴ calls
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let step = 0;
+        let isComplete = false;
+
+        function playStep() {
+            document.getElementById('resetBtn').disabled = false;
+
+            if (isComplete) return;
+
+            const intervals = [
+                document.getElementById('int-0'),
+                document.getElementById('int-1'),
+                document.getElementById('int-2'),
+                document.getElementById('int-3')
+            ];
+
+            const merged = [
+                document.getElementById('merged-0'),
+                document.getElementById('merged-1'),
+                document.getElementById('merged-2')
+            ];
+
+            const status = document.getElementById('status');
+
+            // Clear previous highlights
+            intervals.forEach(int => {
+                int.classList.remove('current', 'comparing');
+            });
+
+            switch(step) {
+                case 0:
+                    intervals[0].classList.add('current');
+                    status.textContent = 'Step 1: Start with first interval [1,3]';
+                    break;
+                case 1:
+                    intervals[1].classList.add('comparing');
+                    status.textContent = 'Step 2: Check [2,6] - overlaps with [1,3] (2 <= 3)';
+                    break;
+                case 2:
+                    intervals[0].style.display = 'none';
+                    intervals[1].style.display = 'none';
+                    merged[0].style.display = 'flex';
+                    status.textContent = 'Step 3: Merge to [1,6] (max end = 6)';
+                    break;
+                case 3:
+                    intervals[2].classList.add('current');
+                    status.textContent = 'Step 4: Check [8,10] - no overlap (8 > 6)';
+                    break;
+                case 4:
+                    intervals[2].style.display = 'none';
+                    merged[1].style.display = 'flex';
+                    status.textContent = 'Step 5: Add [8,10] as separate interval';
+                    break;
+                case 5:
+                    intervals[3].classList.add('current');
+                    status.textContent = 'Step 6: Check [15,18] - no overlap (15 > 10)';
+                    break;
+                case 6:
+                    intervals[3].style.display = 'none';
+                    merged[2].style.display = 'flex';
+                    status.textContent = '✓ Complete! Result: [[1,6],[8,10],[15,18]]';
+                    document.getElementById('playBtn').disabled = true;
+                    isComplete = true;
+                    break;
+            }
+
+            step++;
+        }
+
+        function resetAnimation() {
+            step = 0;
+            isComplete = false;
+
+            const intervals = ['int-0', 'int-1', 'int-2', 'int-3'];
+            const merged = ['merged-0', 'merged-1', 'merged-2'];
+
+            intervals.forEach(id => {
+                const el = document.getElementById(id);
+                el.style.display = 'flex';
+                el.classList.remove('current', 'comparing');
+            });
+
+            merged.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+
+            document.getElementById('status').textContent = 'Click Play to start merging intervals';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        function toggleProblem(element) {
+            const details = element.querySelector('.problem-details');
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Window Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Animated Sliding Window */
+        .animated-window {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .array-container {
+            display: flex;
+            gap: 5px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .array-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .window-highlight {
+            position: absolute;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.3);
+            border: 3px solid #667eea;
+            border-radius: 4px;
+            transition: all 1.5s ease;
+            pointer-events: none;
+        }
+
+        .array-cell.in-window {
+            background: #c5cae9;
+            transform: scale(1.05);
+        }
+
+        .animation-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .animation-controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0;
+            margin: 0 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animation-controls button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .animation-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .window-info {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
+        }
+
+        /* Practice Problems Styles */
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .problem-item {
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .array-cell {
+                width: 45px;
+                height: 45px;
+                font-size: 1em;
+            }
+
+            .window-highlight {
+                height: 45px;
+            }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 1: Sliding Window</h1>
+            <span class="category-badge">Arrays & Strings</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>A technique used to perform operations on a specific window size of an array or string. The window "slides" through the data structure to find optimal solutions. This pattern is extremely efficient for problems involving contiguous subarrays or substrings.</p>
+                <p>The sliding window pattern helps avoid nested loops and reduces time complexity from O(n²) or O(n*k) to O(n) in many cases.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Maximum Sum Subarray of Size K</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given an array of positive numbers and a positive number 'k', find the maximum sum of any contiguous subarray of size k.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> array = [2, 1, 5, 1, 3, 2], k = 3<br>
+                    <strong style="color: #10b981;">Output:</strong> 9 (subarray [5, 1, 3])
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Calculate the sum of the <strong>first k elements</strong> to form the initial window</li>
+                    <li><strong>Slide the window</strong> one position to the right</li>
+                    <li>Instead of recalculating the entire sum, <strong>subtract</strong> the element leaving the window and <strong>add</strong> the new element entering</li>
+                    <li>Track the maximum sum seen across all window positions</li>
+                    <li>This optimization reduces time complexity from O(n*k) to O(n)</li>
+                    <li>Example: Window moves from [2,1,5] → [1,5,1] → [5,1,3] → [1,3,2]</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Animated Visual Diagram</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Interactive Sliding Window Animation</div>
+                    <p style="color: #666; margin-bottom: 15px;">Watch the window slide across the array (Window Size: 3)</p>
+
+                    <div class="animated-window">
+                        <div class="array-container" id="arrayContainer">
+                            <div class="window-highlight" id="windowHighlight"></div>
+                            <div class="array-cell" data-index="0">2</div>
+                            <div class="array-cell" data-index="1">1</div>
+                            <div class="array-cell" data-index="2">5</div>
+                            <div class="array-cell" data-index="3">1</div>
+                            <div class="array-cell" data-index="4">3</div>
+                            <div class="array-cell" data-index="5">2</div>
+                        </div>
+                        <div class="window-info" id="windowInfo">Window: [2, 1, 5] | Sum: 8</div>
+                        <div class="animation-controls">
+                            <button id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                            <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        Notice: We remove the leftmost element and add a new element from the right. This is more efficient than recalculating the sum of all elements each time.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Maximum Sum Subarray of Size K</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        Given an array of positive numbers and a positive number 'k', find the <strong>maximum sum of any contiguous subarray of size k</strong>.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> arr = [2, 1, 5, 1, 3, 2], k = 3<br>
+                            <strong>Output:</strong> 9<br>
+                            <strong>Explanation:</strong> Subarray with maximum sum is [5, 1, 3]
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 2:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> arr = [2, 3, 4, 1, 5], k = 2<br>
+                            <strong>Output:</strong> 7<br>
+                            <strong>Explanation:</strong> Subarray with maximum sum is [3, 4]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Maximum sum subarray of size K</span>
+<span class="keyword">public static int</span> <span class="function">maxSubarraySum</span>(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> k) {
+    <span class="keyword">int</span> maxSum = 0, windowSum = 0;
+
+    <span class="comment">// Calculate sum of first window</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; k; i++) {
+        windowSum += arr[i];
+    }
+    maxSum = windowSum;
+
+    <span class="comment">// Slide the window</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; arr.length; i++) {
+        windowSum = windowSum - arr[i - k] + arr[i];
+        maxSum = Math.max(maxSum, windowSum);
+    }
+    <span class="keyword">return</span> maxSum;
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The sliding window approach solves this problem efficiently by avoiding recalculation of sums:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize the first window:</strong> Calculate the sum of the first 'k' elements. This becomes our initial window sum and maximum sum.</li>
+                        <li><strong>Slide the window:</strong> For each subsequent position:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Remove the leftmost element from the previous window</li>
+                                <li>Add the new rightmost element to the current window</li>
+                                <li>Update the maximum sum if current window sum is greater</li>
+                            </ul>
+                        </li>
+                        <li><strong>Return result:</strong> After processing all windows, return the maximum sum found.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> Instead of recalculating the sum of all k elements for each window (which would be O(n*k)),
+                        we reuse the previous sum by subtracting the element that's leaving and adding the element that's entering the window.
+                        This reduces computation to O(n).
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n) | <strong>Space Complexity:</strong> O(1)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>First loop runs k times to calculate initial window sum: O(k)</li>
+                        <li>Second loop runs (n-k) times to slide the window: O(n-k)</li>
+                        <li>Total: O(k) + O(n-k) = O(n)</li>
+                        <li>Each iteration does constant work (one addition, one subtraction, one comparison)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(1)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Only uses a constant amount of extra space</li>
+                        <li>Variables used: maxSum, windowSum (fixed memory regardless of input size)</li>
+                        <li>No additional data structures required</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Maximum sum subarray of size K</li>
+                    <li>Longest substring with K distinct characters</li>
+                    <li>Fruits into Baskets</li>
+                    <li>String anagrams</li>
+                    <li>Smallest subarray with given sum</li>
+                    <li>Longest substring with same letters after replacement</li>
+                </ul>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Sliding Window pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
+
+                <div class="difficulty-section">
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">643. Maximum Average Subarray I</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array nums consisting of n elements, and an integer k. Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [5], k = 1
+Output: 5.00000</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums.length</li>
+                                <li>1 <= k <= n <= 10^5</li>
+                                <li>-10^4 <= nums[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-average-subarray-i/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1456. Maximum Number of Vowels in a Substring of Given Length</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s and an integer k, return the maximum number of vowel letters in any substring of s with length k.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "abciiidef", k = 3
+Output: 3
+Explanation: The substring "iii" contains 3 vowel letters.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "aeiou", k = 2
+Output: 2
+Explanation: Any substring of length 2 contains 2 vowels.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^5</li>
+                                <li>s consists of lowercase English letters</li>
+                                <li>1 <= k <= s.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1652. Defuse the Bomb</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong>You are given an array code of integers and an integer k. Your task is to return an array of the same length as code, where each element in the result is calculated by performing a sum of the elements of the array code, excluding the element at the current index, but following certain rules based on the value of k.</p>
+                            <p>Rules for calculating:</p>
+<p> 1) If k > 0: For index i, the sum of k elements should be taken starting from index i+1 (and wrap around if necessary). </p>
+
+<p> 2) If k < 0: For index i, the sum of k elements should be taken starting from index i-1 (and wrap around if necessary). </p>
+
+<p> 3) If k == 0: Each element in the result is 0 because no sum is needed. </p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: code = [5,7,1,4], k = 3
+Output: [12,10,16,13]
+Explanation: Each number is replaced by the sum of the next 3 numbers. The decrypted code is [7+1+4, 1+4+5, 4+5+7, 5+7+1]. </br> Notice that the numbers wrap around.
+</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: code = [2,4,9,3], k = -2
+Output: [12,5,6,13]
+Explanation: The decrypted code is [3+9, 2+3, 4+2, 9+4]. Notice that the numbers wrap around again. </br> If k is negative, the sum is of the previous numbers.</pre>
+<p><strong>Example 3:</strong></p>
+                            <pre>Input: code = [1,2,3,4], k = 0
+Output: [0,0,0,0]
+Explanation: When k is zero, the numbers are replaced by 0.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == code.length</li>
+                                <li>1 <= n <= 100</li>
+                                <li>1 <= code[i] <= 100</li>
+                                <li>-(n - 1) <= k <= n - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/defuse-the-bomb/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2269. Find the K-Beauty of a Number</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> The k-beauty of an integer num is defined as the number of substrings of num when it is read as a string that meet the following conditions: It has a length of k, It is a divisor of num. Given integers num and k, return the k-beauty of num.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: num = 240, k = 2
+Output: 2
+Explanation: The following are the substrings of num of length k:
+- "24" from "240": 24 is a divisor of 240.
+- "40" from "240": 40 is a divisor of 240.
+Therefore, the k-beauty is 2.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: num = 430043, k = 2
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= num <= 10^9</li>
+                                <li>1 <= k <= num.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-the-k-beauty-of-a-number/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2379. Minimum Recolors to Get K Consecutive Black Blocks</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the ith block. The characters 'W' and 'B' denote the colors white and black, respectively. You are also given an integer k, which is the desired number of consecutive black blocks. In one operation, you can recolor a white block such that it becomes a black block. Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: blocks = "WBBWWBBWBW", k = 7
+Output: 3
+Explanation: One way to achieve 7 consecutive black blocks is to recolor the 0th, 3rd, and 4th blocks.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: blocks = "WBWBBBW", k = 2
+Output: 0
+Explanation: No changes needed.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == blocks.length</li>
+                                <li>1 <= n <= 100</li>
+                                <li>blocks[i] is either 'W' or 'B'</li>
+                                <li>1 <= k <= n</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-recolors-to-get-k-consecutive-black-blocks/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">3. Longest Substring Without Repeating Characters</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s, find the length of the longest substring without repeating characters.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>0 <= s.length <= 5 * 10^4</li>
+                                <li>s consists of English letters, digits, symbols and spaces</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">209. Minimum Size Subarray Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: target = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: The subarray [4,3] has the minimal length under the problem constraint.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: target = 4, nums = [1,4,4]
+Output: 1</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= target <= 10^9</li>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>1 <= nums[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">424. Longest Repeating Character Replacement</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^5</li>
+                                <li>s consists of only uppercase English letters</li>
+                                <li>0 <= k <= s.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">567. Permutation in String</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise. In other words, return true if one of s1's permutations is the substring of s2.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s1 = "ab", s2 = "eidboaoo"
+Output: false</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s1.length, s2.length <= 10^4</li>
+                                <li>s1 and s2 consist of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/permutation-in-string/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1004. Max Consecutive Ones III</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+Output: 6
+Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
+Output: 10
+Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>nums[i] is either 0 or 1</li>
+                                <li>0 <= k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">76. Minimum Window Substring</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "a", t = "a"
+Output: "a"</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == s.length</li>
+                                <li>n == t.length</li>
+                                <li>1 <= m, n <= 10^5</li>
+                                <li>s and t consist of uppercase and lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">239. Sliding Window Maximum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]
+Explanation:
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>-10^4 <= nums[i] <= 10^4</li>
+                                <li>1 <= k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">30. Substring with Concatenation of All Words</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> You are given a string s and an array of strings words. All the strings of words are of the same length. A concatenated string is a string that exactly contains all the strings of any permutation of words concatenated. Return all the starting indices of all the concatenated substrings in s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "barfoothefoobarman", words = ["foo","bar"]
+Output: [0,9]
+Explanation: The substring starting at 0 is "barfoo". It is the concatenation of ["bar","foo"].
+The substring starting at 9 is "foobar". It is the concatenation of ["foo","bar"].</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "wordgoodgoodgoodbestword", words = ["word","good","best","word"]
+Output: []</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^4</li>
+                                <li>1 <= words.length <= 5000</li>
+                                <li>1 <= words[i].length <= 30</li>
+                                <li>s and words[i] consist of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">992. Subarrays with K Different Integers</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums and an integer k, return the number of good subarrays of nums. A good array is an array where the number of different integers in that array is exactly k.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,1,2,3], k = 2
+Output: 7
+Explanation: Subarrays formed with exactly 2 different integers:
+[1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2]</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [1,2,1,3,4], k = 3
+Output: 3
+Explanation: Subarrays formed with exactly 3 different integers: [1,2,1,3], [2,1,3], [1,3,4]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 2 * 10^4</li>
+                                <li>1 <= nums[i], k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of integers nums and an integer limit, return the size of the longest non-empty subarray such that the absolute difference between any two elements of this subarray is less than or equal to limit.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [8,2,4,7], limit = 4
+Output: 2
+Explanation: All subarrays are:
+[8] with maximum absolute diff |8-8| = 0 <= 4.
+[8,2] with maximum absolute diff |8-2| = 6 > 4.
+[8,2,4] with maximum absolute diff |8-2| = 6 > 4.
+[8,2,4,7] with maximum absolute diff |8-2| = 6 > 4.
+[2] with maximum absolute diff |2-2| = 0 <= 4.
+[2,4] with maximum absolute diff |2-4| = 2 <= 4.
+[2,4,7] with maximum absolute diff |2-7| = 5 > 4.
+[4] with maximum absolute diff |4-4| = 0 <= 4.
+[4,7] with maximum absolute diff |4-7| = 3 <= 4.
+[7] with maximum absolute diff |7-7| = 0 <= 4.
+Therefore, the size of the longest subarray is 2.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [10,1,2,4,7,2], limit = 5
+Output: 4
+Explanation: The subarray [2,4,7,2] is the longest since the maximum absolute diff is |2-7| = 5 <= 5.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>1 <= nums[i] <= 10^9</li>
+                                <li>0 <= limit <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle problem details
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+
+        // Sliding Window Animation
+        const arr = [2, 1, 5, 1, 3, 2];
+        const windowSize = 3;
+        let currentPosition = 0;
+        const maxPosition = arr.length - windowSize;
+
+        function updateWindow(position) {
+            const cells = document.querySelectorAll('.array-cell');
+            const highlight = document.getElementById('windowHighlight');
+            const info = document.getElementById('windowInfo');
+
+            // Remove previous highlights
+            cells.forEach(cell => cell.classList.remove('in-window'));
+
+            // Add highlights to current window
+            let sum = 0;
+            let windowValues = [];
+            for (let i = position; i < position + windowSize && i < cells.length; i++) {
+                cells[i].classList.add('in-window');
+                sum += arr[i];
+                windowValues.push(arr[i]);
+            }
+
+            // Update highlight position
+            const cellWidth = 60;
+            const gap = 5;
+            highlight.style.width = (cellWidth * windowSize + gap * (windowSize - 1)) + 'px';
+            highlight.style.left = (position * (cellWidth + gap)) + 'px';
+
+            // Update info with position indicator
+            info.textContent = `Position ${position}: Window = [${windowValues.join(', ')}] | Sum = ${sum}`;
+
+            // Disable button if at end
+            if (position >= maxPosition) {
+                document.getElementById('playBtn').disabled = true;
+                info.textContent += ' ✓ (End reached)';
+            }
+        }
+
+        function playStep() {
+            // Enable reset button after first play
+            document.getElementById('resetBtn').disabled = false;
+
+            if (currentPosition < maxPosition) {
+                currentPosition++;
+                updateWindow(currentPosition);
+            }
+        }
+
+        function resetAnimation() {
+            currentPosition = 0;
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+            updateWindow(currentPosition);
+        }
+
+        // Initialize animation on page load
+        window.addEventListener('load', () => {
+            updateWindow(0);
+        });
+    </script>
+</body>
+</html>

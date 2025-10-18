@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-place Reversal of LinkedList Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-item a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .problem-item a:hover {
+            color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Visualization Styles */
+        .diagram {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .linkedlist-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            min-height: 120px;
+        }
+
+        .node {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .node-box {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            background: white;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .node-box.prev {
+            background: #fef08a;
+            border-color: #facc15;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.5);
+        }
+
+        .node-box.current {
+            background: #93c5fd;
+            border-color: #3b82f6;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+        }
+
+        .node-box.next {
+            background: #fca5a5;
+            border-color: #ef4444;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+        }
+
+        .node-box.reversed {
+            background: #86efac;
+            border-color: #22c55e;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+
+        .arrow.reversed {
+            color: #22c55e;
+        }
+
+        .pointer-label {
+            position: absolute;
+            top: -25px;
+            font-size: 0.7em;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .pointer-label.prev-label {
+            background: #fef08a;
+            color: #854d0e;
+        }
+
+        .pointer-label.current-label {
+            background: #93c5fd;
+            color: #1e3a8a;
+        }
+
+        .pointer-label.next-label {
+            background: #fca5a5;
+            color: #7f1d1d;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            min-height: 25px;
+        }
+
+        /* Problem Item Styles */
+        .problem-item {
+            background: #f8f9fa;
+            padding: 0;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2d3748;
+            flex: 1;
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #cbd5e0;
+        }
+
+        .problem-details.active {
+            display: block;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .problem-example {
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .node-box {
+                width: 50px;
+                height: 50px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 8: In-place Reversal of LinkedList</h1>
+            <span class="category-badge">Linked Lists</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Reverse Linked List</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given the head of a singly linked list, reverse the list in-place and return the new head.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> head = [1,2,3,4,5]<br>
+                    <strong style="color: #10b981;">Output:</strong> [5,4,3,2,1]
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Use three pointers: <strong>prev</strong> (null), <strong>current</strong> (head), <strong>next</strong> (null)</li>
+                    <li>Iterate through the list:</li>
+                    <li>1. Save next node: next = current.next</li>
+                    <li>2. Reverse link: current.next = prev</li>
+                    <li>3. Move prev forward: prev = current</li>
+                    <li>4. Move current forward: current = next</li>
+                    <li>After iteration, prev will be the new head</li>
+                    <li>Time complexity: O(n), Space complexity: O(1)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Visual Representation</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Linked List Reversal Animation</div>
+                    <p style="margin: 10px 0; color: #4a5568;">Watch how pointers reverse the links step by step</p>
+
+                    <div class="linkedlist-container" id="listContainer">
+                        <!-- Nodes will be dynamically generated -->
+                    </div>
+
+                    <div class="controls">
+                        <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                        <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                    </div>
+
+                    <div class="status" id="status">Click Play to start reversing</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the In-place Reversal of LinkedList pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems (5)</div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">206. Reverse Linked List</span>
+                            <span class="problem-number">#206</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a singly linked list, reverse the list, and return the reversed list.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is the range [0, 5000]
+• -5000 ≤ Node.val ≤ 5000
+                            </div>
+                            <p><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">234. Palindrome Linked List</span>
+                            <span class="problem-number">#234</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,2,1]
+Output: true
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [1, 10⁵]
+• 0 ≤ Node.val ≤ 9
+• Follow up: Could you do it in O(n) time and O(1) space?
+                            </div>
+                            <p><a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">21. Merge Two Sorted Lists</span>
+                            <span class="problem-number">#21</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                You are given the heads of two sorted linked lists list1 and list2. Merge the two lists into one sorted list.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+
+<strong>Constraints:</strong>
+• The number of nodes in both lists is in the range [0, 50]
+• -100 ≤ Node.val ≤ 100
+• Both list1 and list2 are sorted in non-decreasing order
+                            </div>
+                            <p><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">83. Remove Duplicates from Sorted List</span>
+                            <span class="problem-number">#83</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,1,2,3,3]
+Output: [1,2,3]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [0, 300]
+• -100 ≤ Node.val ≤ 100
+• The list is guaranteed to be sorted in ascending order
+                            </div>
+                            <p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">876. Middle of the Linked List</span>
+                            <span class="problem-number">#876</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [1, 100]
+• 1 ≤ Node.val ≤ 100
+                            </div>
+                            <p><a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems (5)</div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">92. Reverse Linked List II</span>
+                            <span class="problem-number">#92</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], left = 2, right = 4
+Output: [1,4,3,2,5]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is n
+• 1 ≤ n ≤ 500
+• -500 ≤ Node.val ≤ 500
+• 1 ≤ left ≤ right ≤ n
+                            </div>
+                            <p><a href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">24. Swap Nodes in Pairs</span>
+                            <span class="problem-number">#24</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4]
+Output: [2,1,4,3]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [0, 100]
+• 0 ≤ Node.val ≤ 100
+                            </div>
+                            <p><a href="https://leetcode.com/problems/swap-nodes-in-pairs/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">61. Rotate List</span>
+                            <span class="problem-number">#61</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a linked list, rotate the list to the right by k places.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [0, 500]
+• -100 ≤ Node.val ≤ 100
+• 0 ≤ k ≤ 2 × 10⁹
+                            </div>
+                            <p><a href="https://leetcode.com/problems/rotate-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">143. Reorder List</span>
+                            <span class="problem-number">#143</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                You are given the head of a singly linked-list. Reorder the list to be: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → ... You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [1, 5 × 10⁴]
+• 1 ≤ Node.val ≤ 1000
+                            </div>
+                            <p><a href="https://leetcode.com/problems/reorder-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">2130. Maximum Twin Sum of a Linked List</span>
+                            <span class="problem-number">#2130</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1. Return the maximum twin sum of the linked list.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [5,4,2,1]
+Output: 6
+Explanation: The twin sum is max(5+1, 4+2) = 6
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is an even integer in the range [2, 10⁵]
+• 1 ≤ Node.val ≤ 10⁵
+                            </div>
+                            <p><a href="https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems (5)</div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">25. Reverse Nodes in k-Group</span>
+                            <span class="problem-number">#25</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list. k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], k = 2
+Output: [2,1,4,3,5]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is n
+• 1 ≤ k ≤ n ≤ 5000
+• 0 ≤ Node.val ≤ 1000
+                            </div>
+                            <p><a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">2296. Design a Text Editor</span>
+                            <span class="problem-number">#2296</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                Design a text editor with a cursor that can do the following: Add text, Delete text, Move cursor left/right, Get current text.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: ["TextEditor", "addText", "deleteText", "cursorLeft"]
+       [[], ["leetcode"], [4], [6]]
+Output: [null, null, 4, "leet"]
+
+<strong>Constraints:</strong>
+• 1 ≤ text.length, k ≤ 40
+• text consists of lowercase English letters
+• At most 10⁴ calls in total will be made
+                            </div>
+                            <p><a href="https://leetcode.com/problems/design-a-text-editor/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">2487. Remove Nodes From Linked List</span>
+                            <span class="problem-number">#2487</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                You are given the head of a linked list. Remove every node which has a node with a strictly greater value anywhere to the right side of it. Return the head of the modified linked list.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [5,2,13,3,8]
+Output: [13,8]
+Explanation: Remove 5, 2, and 3.
+
+<strong>Constraints:</strong>
+• The number of the nodes in the given list is in the range [1, 10⁵]
+• 1 ≤ Node.val ≤ 10⁵
+                            </div>
+                            <p><a href="https://leetcode.com/problems/remove-nodes-from-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">1721. Swapping Nodes in a Linked List</span>
+                            <span class="problem-number">#1721</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                You are given the head of a linked list, and an integer k. Return the head of the linked list after swapping the values of the kth node from the beginning and the kth node from the end (the list is 1-indexed).
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], k = 2
+Output: [1,4,3,2,5]
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is n
+• 1 ≤ k ≤ n ≤ 10⁵
+• 0 ≤ Node.val ≤ 100
+                            </div>
+                            <p><a href="https://leetcode.com/problems/swapping-nodes-in-a-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item" onclick="toggleProblem(this)">
+                        <div class="problem-header">
+                            <span class="problem-title">2816. Double a Number Represented as a Linked List</span>
+                            <span class="problem-number">#2816</span>
+                        </div>
+                        <div class="problem-details">
+                            <p class="problem-description">
+                                You are given the head of a non-empty linked list representing a non-negative integer without leading zeroes. Return the head of the linked list after doubling it.
+                            </p>
+                            <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,8,9]
+Output: [3,7,8]
+Explanation: 189 * 2 = 378
+
+<strong>Constraints:</strong>
+• The number of nodes in the list is in the range [1, 10⁴]
+• 0 ≤ Node.val ≤ 9
+• The input is generated such that the list represents a number that does not have leading zeros
+                            </div>
+                            <p><a href="https://leetcode.com/problems/double-a-number-represented-as-a-linked-list/" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // Linked List Reversal Animation
+        let step = 0;
+        let animating = false;
+
+        const steps = [
+            { desc: "Initial list: 1 → 2 → 3 → 4 → 5. Start with prev=null, current=1", prev: null, current: 0, next: null },
+            { desc: "Save next: next=2. Reverse link: 1 → null", prev: null, current: 0, next: 1, reverse: true },
+            { desc: "Move pointers: prev=1, current=2", prev: 0, current: 1, next: null },
+            { desc: "Save next: next=3. Reverse link: 2 → 1", prev: 0, current: 1, next: 2, reverse: true },
+            { desc: "Move pointers: prev=2, current=3", prev: 1, current: 2, next: null },
+            { desc: "Save next: next=4. Reverse link: 3 → 2", prev: 1, current: 2, next: 3, reverse: true },
+            { desc: "Move pointers: prev=3, current=4", prev: 2, current: 3, next: null },
+            { desc: "Save next: next=5. Reverse link: 4 → 3", prev: 2, current: 3, next: 4, reverse: true },
+            { desc: "Move pointers: prev=4, current=5", prev: 3, current: 4, next: null },
+            { desc: "Save next: next=null. Reverse link: 5 → 4", prev: 3, current: 4, next: null, reverse: true },
+            { desc: "Move pointers: prev=5, current=null. Done! New head is 5", prev: 4, current: null, next: null, complete: true }
+        ];
+
+        const values = [1, 2, 3, 4, 5];
+
+        function renderList() {
+            const container = document.getElementById('listContainer');
+            container.innerHTML = '';
+
+            const currentStep = steps[step];
+
+            for (let i = 0; i < values.length; i++) {
+                const node = document.createElement('div');
+                node.className = 'node';
+
+                const box = document.createElement('div');
+                box.className = 'node-box';
+                box.textContent = values[i];
+
+                // Add pointer labels
+                if (currentStep.prev === i) {
+                    const label = document.createElement('span');
+                    label.className = 'pointer-label prev-label';
+                    label.textContent = 'prev';
+                    box.appendChild(label);
+                    box.classList.add('prev');
+                }
+                if (currentStep.current === i) {
+                    const label = document.createElement('span');
+                    label.className = 'pointer-label current-label';
+                    label.textContent = 'current';
+                    box.appendChild(label);
+                    box.classList.add('current');
+                }
+                if (currentStep.next === i) {
+                    const label = document.createElement('span');
+                    label.className = 'pointer-label next-label';
+                    label.textContent = 'next';
+                    box.appendChild(label);
+                    box.classList.add('next');
+                }
+
+                // Mark reversed nodes
+                if (step > 0 && i <= (currentStep.prev !== null ? currentStep.prev : -1)) {
+                    box.classList.add('reversed');
+                }
+
+                node.appendChild(box);
+
+                // Add arrow
+                if (i < values.length - 1) {
+                    const arrow = document.createElement('span');
+                    arrow.className = 'arrow';
+
+                    // Show reversed arrow for reversed portion
+                    if (currentStep.reverse && i === currentStep.current) {
+                        arrow.textContent = '←';
+                        arrow.classList.add('reversed');
+                    } else if (step > 2 && i < currentStep.current) {
+                        arrow.textContent = '←';
+                        arrow.classList.add('reversed');
+                    } else {
+                        arrow.textContent = '→';
+                    }
+
+                    node.appendChild(arrow);
+                }
+
+                container.appendChild(node);
+            }
+        }
+
+        function playStep() {
+            if (animating || step >= steps.length) return;
+
+            animating = true;
+            document.getElementById('playBtn').disabled = true;
+
+            if (step < steps.length) {
+                document.getElementById('status').textContent = steps[step].desc;
+                renderList();
+                step++;
+
+                setTimeout(() => {
+                    animating = false;
+                    if (step < steps.length) {
+                        document.getElementById('playBtn').disabled = false;
+                    } else {
+                        document.getElementById('playBtn').disabled = true;
+                        document.getElementById('resetBtn').disabled = false;
+                    }
+                }, 800);
+            }
+        }
+
+        function resetAnimation() {
+            step = 0;
+            animating = false;
+
+            renderList();
+            document.getElementById('status').textContent = "Click Play to start reversing";
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        // Problem Toggle Function
+        function toggleProblem(element) {
+            const details = element.querySelector('.problem-details');
+            const allDetails = document.querySelectorAll('.problem-details');
+
+            // Close all other problem details
+            allDetails.forEach(detail => {
+                if (detail !== details) {
+                    detail.classList.remove('active');
+                }
+            });
+
+            // Toggle current problem
+            details.classList.toggle('active');
+        }
+
+        // Initialize
+        renderList();
+    </script>
+</body>
+</html>

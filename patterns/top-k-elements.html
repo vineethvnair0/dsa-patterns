@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top K Elements Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .problem-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-title {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .problem-name {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+
+        .problem-item.expanded .problem-details {
+            max-height: 1000px;
+        }
+
+        .problem-content {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .problem-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid #667eea;
+        }
+
+        .problem-example strong {
+            color: #2d3748;
+        }
+
+        .problem-constraints {
+            color: #555;
+            font-size: 0.9em;
+            margin: 15px 0;
+        }
+
+        .problem-constraints ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .problem-constraints li {
+            margin-bottom: 5px;
+        }
+
+        .leetcode-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .leetcode-link:hover {
+            background: #764ba2;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 9: Top K Elements</h1>
+            <span class="category-badge">Heaps</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Kth Largest Element</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Find the kth largest element in an unsorted array. Note that it is the kth largest element in sorted order, not the kth distinct element.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> nums = [3, 2, 1, 5, 6, 4], k = 2<br>
+                    <strong style="color: #10b981;">Output:</strong> 5 (2nd largest element)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works with Heap:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Use a <strong>Min Heap</strong> of size k to track the k largest elements</li>
+                    <li>Add first k elements to the heap</li>
+                    <li>For remaining elements: if element > heap's minimum, <strong>remove min and add new element</strong></li>
+                    <li>This maintains the k largest elements in the heap</li>
+                    <li>The <strong>root of the heap</strong> (smallest among k largest) is the kth largest</li>
+                    <li>Time complexity: O(n log k), Space complexity: O(k)</li>
+                    <li>Better than sorting (O(n log n)) when k is small</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Top K Elements pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#215</span>
+                                    <span class="problem-name">Kth Largest Element in an Array</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given an integer array nums and an integer k, return the kth largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: nums = [3,2,1,5,6,4], k = 2<br>
+                                        Output: 5<br>
+                                        Explanation: The 2nd largest element is 5
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ k ≤ nums.length ≤ 10^5</li>
+                                            <li>-10^4 ≤ nums[i] ≤ 10^4</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#703</span>
+                                    <span class="problem-name">Kth Largest Element in a Stream</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element. Implement KthLargest class with methods to initialize and add new values.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: ["KthLargest", "add", "add", "add", "add", "add"]<br>
+                                        [[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]<br>
+                                        Output: [null, 4, 5, 5, 8, 8]
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ k ≤ 10^4</li>
+                                            <li>0 ≤ nums.length ≤ 10^4</li>
+                                            <li>-10^4 ≤ nums[i] ≤ 10^4</li>
+                                            <li>At most 10^4 calls to add</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#1636</span>
+                                    <span class="problem-name">Sort Array by Increasing Frequency</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: nums = [1,1,2,2,2,3]<br>
+                                        Output: [3,1,1,2,2,2]<br>
+                                        Explanation: '3' has frequency 1, '1' has frequency 2, '2' has frequency 3
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ nums.length ≤ 100</li>
+                                            <li>-100 ≤ nums[i] ≤ 100</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/sort-array-by-increasing-frequency/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#2215</span>
+                                    <span class="problem-name">Find the Difference of Two Arrays</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where: answer[0] is a list of all distinct integers in nums1 which are not present in nums2, and answer[1] is a list of all distinct integers in nums2 which are not present in nums1.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: nums1 = [1,2,3], nums2 = [2,4,6]<br>
+                                        Output: [[1,3],[4,6]]<br>
+                                        Explanation: For nums1, 1 and 3 are not in nums2. For nums2, 4 and 6 are not in nums1
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ nums1.length, nums2.length ≤ 1000</li>
+                                            <li>-1000 ≤ nums1[i], nums2[i] ≤ 1000</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/find-the-difference-of-two-arrays/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#1337</span>
+                                    <span class="problem-name">The K Weakest Rows in a Matrix</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        You are given an m x n binary matrix mat of 1's (representing soldiers) and 0's (representing civilians). The soldiers are positioned in front of the civilians. Return the indices of the k weakest rows in the matrix ordered from weakest to strongest.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: mat = [[1,1,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,1,0,0,0],[1,1,1,1,1]], k = 3<br>
+                                        Output: [2,0,3]<br>
+                                        Explanation: Row 2 has 1 soldier, row 0 has 2, row 3 has 2
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>m == mat.length</li>
+                                            <li>n == mat[i].length</li>
+                                            <li>2 ≤ n, m ≤ 100</li>
+                                            <li>1 ≤ k ≤ m</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#347</span>
+                                    <span class="problem-name">Top K Frequent Elements</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: nums = [1,1,1,2,2,3], k = 2<br>
+                                        Output: [1,2]<br>
+                                        Explanation: Elements 1 and 2 appear most frequently
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ nums.length ≤ 10^5</li>
+                                            <li>-10^4 ≤ nums[i] ≤ 10^4</li>
+                                            <li>k is in the range [1, number of unique elements]</li>
+                                            <li>It is guaranteed that the answer is unique</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#692</span>
+                                    <span class="problem-name">Top K Frequent Words</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given an array of strings words and an integer k, return the k most frequent strings. Return the answer sorted by the frequency from highest to lowest. Sort the words with the same frequency by their lexicographical order.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: words = ["i","love","leetcode","i","love","coding"], k = 2<br>
+                                        Output: ["i","love"]<br>
+                                        Explanation: "i" and "love" are the two most frequent words
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ words.length ≤ 500</li>
+                                            <li>1 ≤ words[i].length ≤ 10</li>
+                                            <li>words[i] consists of lowercase English letters</li>
+                                            <li>k is in the range [1, number of unique words]</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/top-k-frequent-words/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#973</span>
+                                    <span class="problem-name">K Closest Points to Origin</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0). The distance between two points on the X-Y plane is the Euclidean distance.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: points = [[1,3],[-2,2]], k = 1<br>
+                                        Output: [[-2,2]]<br>
+                                        Explanation: Distance from (-2,2) to origin is sqrt(8), smaller than sqrt(10) from (1,3)
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ k ≤ points.length ≤ 10^4</li>
+                                            <li>-10^4 ≤ xi, yi ≤ 10^4</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/k-closest-points-to-origin/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#767</span>
+                                    <span class="problem-name">Reorganize String</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given a string s, rearrange the characters of s so that any two adjacent characters are not the same. Return any possible rearrangement of s or return "" if not possible.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: s = "aab"<br>
+                                        Output: "aba"<br>
+                                        Explanation: Another possible arrangement is "aba"
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ s.length ≤ 500</li>
+                                            <li>s consists of lowercase English letters</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/reorganize-string/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#451</span>
+                                    <span class="problem-name">Sort Characters By Frequency</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        Given a string s, sort it in decreasing order based on the frequency of the characters. The frequency of a character is the number of times it appears in the string. Return the sorted string.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: s = "tree"<br>
+                                        Output: "eert"<br>
+                                        Explanation: 'e' appears twice while 'r' and 't' both appear once
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ s.length ≤ 5 * 10^5</li>
+                                            <li>s consists of uppercase and lowercase English letters and digits</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/sort-characters-by-frequency/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#295</span>
+                                    <span class="problem-name">Find Median from Data Stream</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values. Implement the MedianFinder class which maintains a data stream and finds the median.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: ["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"]<br>
+                                        [[], [1], [2], [], [3], []]<br>
+                                        Output: [null, null, null, 1.5, null, 2.0]
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>-10^5 ≤ num ≤ 10^5</li>
+                                            <li>At most 5 * 10^4 calls to addNum and findMedian</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#480</span>
+                                    <span class="problem-name">Sliding Window Median</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        The median is the middle value in an ordered integer list. Given an array nums and an integer k, there is a sliding window of size k moving from left to right. Return the median array for each window in the original array.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: nums = [1,3,-1,-3,5,3,6,7], k = 3<br>
+                                        Output: [1.0,-1.0,-1.0,3.0,5.0,6.0]<br>
+                                        Explanation: Window [1,3,-1] has median 1, [-1,-3,5] has median -1, etc.
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ k ≤ nums.length ≤ 10^5</li>
+                                            <li>-2^31 ≤ nums[i] ≤ 2^31 - 1</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/sliding-window-median/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#502</span>
+                                    <span class="problem-name">IPO</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        You are given several projects with profit and capital requirements. Initially, you have w capital. When you finish a project, you gain its profit and can use it for other projects. Pick a list of at most k distinct projects to maximize your final capital.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: k = 2, w = 0, profits = [1,2,3], capital = [0,1,1]<br>
+                                        Output: 4<br>
+                                        Explanation: Do project 0 (capital 0, profit 1), then project 2 (capital 1, profit 3)
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ k ≤ 10^5</li>
+                                            <li>0 ≤ w ≤ 10^9</li>
+                                            <li>n == profits.length == capital.length</li>
+                                            <li>1 ≤ n ≤ 10^5</li>
+                                            <li>0 ≤ profits[i] ≤ 10^4</li>
+                                            <li>0 ≤ capital[i] ≤ 10^9</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/ipo/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#2402</span>
+                                    <span class="problem-name">Meeting Rooms III</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        You are given n meeting rooms numbered from 0 to n - 1 and a 2D array meetings where meetings[i] = [start_i, end_i] means a meeting will be held during [start_i, end_i). All meetings will be assigned to rooms based on availability. Return the number of the room that held the most meetings.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: n = 2, meetings = [[0,10],[1,5],[2,7],[3,4]]<br>
+                                        Output: 0<br>
+                                        Explanation: Room 0 holds 3 meetings, room 1 holds 1 meeting
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>1 ≤ n ≤ 100</li>
+                                            <li>1 ≤ meetings.length ≤ 10^5</li>
+                                            <li>meetings[i].length == 2</li>
+                                            <li>0 ≤ start_i < end_i ≤ 5 * 10^5</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/meeting-rooms-iii/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="problem-item" onclick="toggleProblem(this)">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <span class="problem-number">#1439</span>
+                                    <span class="problem-name">Find the Kth Smallest Sum of a Matrix With Sorted Rows</span>
+                                </div>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="problem-details">
+                                <div class="problem-content">
+                                    <div class="problem-description">
+                                        You are given an m x n matrix mat that has its rows sorted in non-decreasing order and an integer k. You can choose exactly one element from each row to form an array. Return the kth smallest array sum among all possible arrays.
+                                    </div>
+                                    <div class="problem-example">
+                                        <strong>Example:</strong><br>
+                                        Input: mat = [[1,3,11],[2,4,6]], k = 5<br>
+                                        Output: 7<br>
+                                        Explanation: Possible arrays are [1,2], [1,4], [1,6], [3,2], [3,4], [3,6], [11,2], [11,4], [11,6]. The 5th smallest sum is 7 ([1,6] or [3,4])
+                                    </div>
+                                    <div class="problem-constraints">
+                                        <strong>Constraints:</strong>
+                                        <ul>
+                                            <li>m == mat.length</li>
+                                            <li>n == mat[i].length</li>
+                                            <li>1 ≤ m, n ≤ 40</li>
+                                            <li>1 ≤ mat[i][j] ≤ 5000</li>
+                                            <li>1 ≤ k ≤ min(200, n^m)</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://leetcode.com/problems/find-the-kth-smallest-sum-of-a-matrix-with-sorted-rows/" target="_blank" class="leetcode-link">Solve on LeetCode</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleProblem(element) {
+            element.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>

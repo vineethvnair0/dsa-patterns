@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Pointers Pattern - DSA Patterns</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6; color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px; margin: 0 auto; background: white;
+            border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 40px; position: relative;
+        }
+        .back-button {
+            display: inline-block; color: white; text-decoration: none;
+            font-size: 1.1em; margin-bottom: 20px; padding: 8px 16px;
+            border: 2px solid white; border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover { background: white; color: #667eea; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .category-badge {
+            display: inline-block; background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px; border-radius: 20px; font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .content { padding: 40px; }
+        .section { margin-bottom: 40px; }
+        .section h2 {
+            color: #667eea; font-size: 1.8em; margin-bottom: 20px;
+            padding-bottom: 10px; border-bottom: 3px solid #667eea;
+        }
+        .diagram {
+            margin: 25px 0; padding: 25px; background: #f8f9fa;
+            border-radius: 8px; border: 2px solid #e0e0e0;
+        }
+        .diagram-title {
+            font-weight: bold; color: #667eea;
+            margin-bottom: 15px; font-size: 1.2em;
+        }
+        .array-container {
+            display: flex; align-items: center; gap: 8px;
+            margin: 20px 0; flex-wrap: wrap; justify-content: center;
+        }
+        .array-cell {
+            width: 60px; height: 60px; border: 3px solid #667eea;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2em; background: #fff;
+            border-radius: 8px; position: relative;
+            transition: all 0.3s ease;
+        }
+        .array-cell.highlight-left {
+            background: #81c784; border-color: #4caf50;
+            transform: scale(1.1);
+        }
+        .array-cell.highlight-right {
+            background: #ff8a80; border-color: #f44336;
+            transform: scale(1.1);
+        }
+        .array-cell.target {
+            background: #ffd54f; border-color: #ffc107;
+        }
+        .pointer-label {
+            position: absolute; bottom: -25px;
+            font-size: 0.85em; font-weight: bold;
+        }
+        .pointer-left { color: #4caf50; }
+        .pointer-right { color: #f44336; }
+        .btn {
+            padding: 0; border: none; border-radius: 50%;
+            background: #667eea; color: white; cursor: pointer;
+            font-size: 24px; transition: all 0.3s ease;
+            width: 50px; height: 50px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn:hover { background: #5568d3; transform: scale(1.1); }
+        .btn:disabled {
+            background: #ccc; cursor: not-allowed; transform: none;
+            opacity: 0.5;
+        }
+        .animation-controls {
+            display: flex; gap: 10px; justify-content: center; margin: 20px 0;
+        }
+        .code-example {
+            background: #2c3e50; color: #ecf0f1; padding: 20px;
+            border-radius: 8px; overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em; line-height: 1.6; white-space: pre;
+        }
+        .problem-item {
+            background: #f8f9fa; margin-bottom: 10px; border-radius: 5px;
+            overflow: hidden; border-left: 4px solid #667eea;
+        }
+        .problem-header {
+            padding: 15px; cursor: pointer;
+            display: flex; justify-content: space-between;
+            align-items: center; transition: background 0.3s ease;
+        }
+        .problem-header:hover { background: #e9ecef; }
+        .problem-difficulty {
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 0.85em; font-weight: bold;
+        }
+        .problem-difficulty.easy { background: #4caf50; color: white; }
+        .problem-difficulty.medium { background: #ff9800; color: white; }
+        .problem-difficulty.hard { background: #f44336; color: white; }
+        .problem-title {
+            flex: 1; margin: 0 15px; font-weight: 600; color: #2c3e50;
+        }
+        .expand-icon {
+            color: #667eea; font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .problem-details {
+            display: none; padding: 20px; background: white;
+            border-top: 1px solid #dee2e6;
+        }
+        .problem-details pre {
+            background: #f8f9fa; padding: 15px; border-radius: 5px;
+            overflow-x: auto; border-left: 3px solid #667eea;
+        }
+        .problem-details a {
+            color: #667eea; text-decoration: none; font-weight: bold;
+        }
+        .problem-details a:hover { text-decoration: underline; }
+        .difficulty-header {
+            font-size: 1.3em; font-weight: bold;
+            margin-bottom: 15px; padding: 10px; border-radius: 5px;
+        }
+        .difficulty-header.easy { background: #c8e6c9; color: #2e7d32; }
+        .difficulty-header.medium { background: #fff9c4; color: #f57f17; }
+        .difficulty-header.hard { background: #ffcdd2; color: #c62828; }
+        footer {
+            background: #2c3e50; color: white; text-align: center;
+            padding: 20px; font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 3: Two Pointers</h1>
+            <span class="category-badge">Arrays & Strings</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>📖 Pattern Overview</h2>
+                <p>The Two Pointers pattern uses two pointers to iterate through a data structure. This technique reduces time complexity from O(n²) to O(n) for many problems.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Two Sum in Sorted Array</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a sorted array of integers and a target value, find two numbers that add up to the target. Return the indices of the two numbers.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> array = [1, 2, 3, 4, 6, 8, 9, 14, 15], target = 13<br>
+                    <strong style="color: #10b981;">Output:</strong> [3, 5] (values 4 + 9 = 13)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Start with <strong>left pointer</strong> at index 0 and <strong>right pointer</strong> at last index</li>
+                    <li>Calculate the <strong>sum</strong> of values at both pointers</li>
+                    <li>If sum <strong>equals target</strong> → Found! Return the indices</li>
+                    <li>If sum is <strong>less than target</strong> → Move left pointer right (to get larger sum)</li>
+                    <li>If sum is <strong>greater than target</strong> → Move right pointer left (to get smaller sum)</li>
+                    <li>Continue until pointers meet or target is found</li>
+                    <li>Time complexity: O(n), Space complexity: O(1)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🎨 Visual Representation</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Two Pointers Finding Target Sum</div>
+                    <p style="color: #666; margin-bottom: 20px;">Array: [1, 2, 3, 4, 6, 8, 9, 14, 15] | Target: 13</p>
+                    <div class="array-container" id="arrayContainer">
+                        <div class="array-cell" data-index="0">1<span class="pointer-label pointer-left" id="label-0"></span></div>
+                        <div class="array-cell" data-index="1">2</div>
+                        <div class="array-cell" data-index="2">3</div>
+                        <div class="array-cell" data-index="3">4</div>
+                        <div class="array-cell" data-index="4">6</div>
+                        <div class="array-cell" data-index="5">8</div>
+                        <div class="array-cell" data-index="6">9</div>
+                        <div class="array-cell" data-index="7">14</div>
+                        <div class="array-cell" data-index="8">15<span class="pointer-label pointer-right" id="label-8"></span></div>
+                    </div>
+                    <div id="statusMessage" style="text-align: center; margin: 20px 0; font-weight: bold; color: #667eea; min-height: 30px; font-size: 1.1em;"></div>
+                    <div class="animation-controls">
+                        <button class="btn" id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                        <button class="btn" id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
+                        <strong style="color: #1976d2;">How it works:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px; color: #555;">
+                            <li>Start with left pointer at beginning, right pointer at end</li>
+                            <li>Click "Play Step" to move through each iteration</li>
+                            <li>If sum equals target, we found the pair!</li>
+                            <li>If sum < target, move left pointer right (increase sum)</li>
+                            <li>If sum > target, move right pointer left (decrease sum)</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Java Implementation</h2>
+                <div class="code-example">public static int[] twoSum(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+        
+        if (sum == target) {
+            return new int[]{left, right};
+        }
+        
+        if (sum < target) {
+            left++;  // Need larger sum
+        } else {
+            right--; // Need smaller sum
+        }
+    }
+    
+    return new int[]{-1, -1}; // Not found
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Practice Problems (15 Problems)</h2>
+                
+                <div style="margin-bottom: 30px;">
+                    <div class="difficulty-header easy">Easy Problems (5)</div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">167. Two Sum II - Input Array Is Sorted</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p1" class="problem-details">
+                            <p><strong>Description:</strong> Find two numbers in sorted array that add up to target.</p>
+                            <pre>Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+Explanation: 2 + 7 = 9</pre>
+                            <p><strong>Constraints:</strong> 2 ≤ numbers.length ≤ 3×10⁴</p>
+                            <p><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">125. Valid Palindrome</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p2" class="problem-details">
+                            <p><strong>Description:</strong> Check if string is palindrome (ignoring non-alphanumeric).</p>
+                            <pre>Input: s = "A man, a plan, a canal: Panama"
+Output: true</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ s.length ≤ 2×10⁵</p>
+                            <p><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">26. Remove Duplicates from Sorted Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p3" class="problem-details">
+                            <p><strong>Description:</strong> Remove duplicates in-place from sorted array.</p>
+                            <pre>Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ nums.length ≤ 3×10⁴</p>
+                            <p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">344. Reverse String</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p4" class="problem-details">
+                            <p><strong>Description:</strong> Reverse string in-place with O(1) space.</p>
+                            <pre>Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ s.length ≤ 10⁵</p>
+                            <p><a href="https://leetcode.com/problems/reverse-string/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">283. Move Zeroes</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p5" class="problem-details">
+                            <p><strong>Description:</strong> Move all zeros to end maintaining relative order.</p>
+                            <pre>Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ nums.length ≤ 10⁴</p>
+                            <p><a href="https://leetcode.com/problems/move-zeroes/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <div class="difficulty-header medium">Medium Problems (5)</div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">15. 3Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p6" class="problem-details">
+                            <p><strong>Description:</strong> Find all triplets that sum to zero.</p>
+                            <pre>Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]</pre>
+                            <p><strong>Constraints:</strong> 3 ≤ nums.length ≤ 3000</p>
+                            <p><a href="https://leetcode.com/problems/3sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">11. Container With Most Water</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p7" class="problem-details">
+                            <p><strong>Description:</strong> Find two lines that form container with most water.</p>
+                            <pre>Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49</pre>
+                            <p><strong>Constraints:</strong> n == height.length, 2 ≤ n ≤ 10⁵</p>
+                            <p><a href="https://leetcode.com/problems/container-with-most-water/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">75. Sort Colors</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p8" class="problem-details">
+                            <p><strong>Description:</strong> Sort array of 0s, 1s, 2s in-place (Dutch National Flag).</p>
+                            <pre>Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]</pre>
+                            <p><strong>Constraints:</strong> n == nums.length, 1 ≤ n ≤ 300</p>
+                            <p><a href="https://leetcode.com/problems/sort-colors/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">16. 3Sum Closest</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p9" class="problem-details">
+                            <p><strong>Description:</strong> Find three numbers whose sum is closest to target.</p>
+                            <pre>Input: nums = [-1,2,1,-4], target = 1
+Output: 2</pre>
+                            <p><strong>Constraints:</strong> 3 ≤ nums.length ≤ 500</p>
+                            <p><a href="https://leetcode.com/problems/3sum-closest/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">845. Longest Mountain in Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p10" class="problem-details">
+                            <p><strong>Description:</strong> Find length of longest mountain subarray.</p>
+                            <pre>Input: arr = [2,1,4,7,3,2,5]
+Output: 5</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ arr.length ≤ 10⁴</p>
+                            <p><a href="https://leetcode.com/problems/longest-mountain-in-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <div class="difficulty-header hard">Hard Problems (5)</div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">42. Trapping Rain Water</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p11" class="problem-details">
+                            <p><strong>Description:</strong> Calculate trapped rainwater given elevation map.</p>
+                            <pre>Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6</pre>
+                            <p><strong>Constraints:</strong> n == height.length, 1 ≤ n ≤ 2×10⁴</p>
+                            <p><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">18. 4Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p12" class="problem-details">
+                            <p><strong>Description:</strong> Find all quadruplets that sum to target.</p>
+                            <pre>Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ nums.length ≤ 200</p>
+                            <p><a href="https://leetcode.com/problems/4sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">632. Smallest Range Covering K Lists</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p13" class="problem-details">
+                            <p><strong>Description:</strong> Find smallest range including element from each list.</p>
+                            <pre>Input: nums = [[4,10,15,24,26],[0,9,12,20],[5,18,22,30]]
+Output: [20,24]</pre>
+                            <p><strong>Constraints:</strong> nums.length == k, 1 ≤ k ≤ 3500</p>
+                            <p><a href="https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">992. Subarrays with K Different Integers</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p14" class="problem-details">
+                            <p><strong>Description:</strong> Count subarrays with exactly K different integers.</p>
+                            <pre>Input: nums = [1,2,1,2,3], k = 2
+Output: 7</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ nums.length ≤ 2×10⁴</p>
+                            <p><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('p15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2953. Count Complete Substrings</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="p15" class="problem-details">
+                            <p><strong>Description:</strong> Count complete substrings with frequency k.</p>
+                            <pre>Input: word = "igigee", k = 2
+Output: 3</pre>
+                            <p><strong>Constraints:</strong> 1 ≤ word.length ≤ 10⁵</p>
+                            <p><a href="https://leetcode.com/problems/count-complete-substrings/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleProblem(id) {
+            var elem = document.getElementById(id);
+            var icon = elem.previousElementSibling.querySelector('.expand-icon');
+            if (elem.style.display === "none" || elem.style.display === "") {
+                elem.style.display = "block";
+                icon.textContent = "▲";
+            } else {
+                elem.style.display = "none";
+                icon.textContent = "▼";
+            }
+        }
+
+        const array = [1, 2, 3, 4, 6, 8, 9, 14, 15];
+        const target = 13;
+        let left = 0;
+        let right = array.length - 1;
+        let isComplete = false;
+
+        function resetAnimation() {
+            left = 0;
+            right = array.length - 1;
+            isComplete = false;
+            
+            const cells = document.querySelectorAll('.array-cell');
+            cells.forEach(cell => {
+                cell.classList.remove('highlight-left', 'highlight-right', 'target');
+            });
+            
+            document.getElementById('statusMessage').textContent = 'Click "Play Step" to start';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('label-0').textContent = 'Left';
+            document.getElementById('label-8').textContent = 'Right';
+        }
+
+        function playStep() {
+            // Enable reset button after first play
+            document.getElementById('resetBtn').disabled = false;
+
+            if (isComplete) {
+                return;
+            }
+
+            const cells = document.querySelectorAll('.array-cell');
+            const statusMsg = document.getElementById('statusMessage');
+
+            // Clear previous highlights
+            cells.forEach(cell => {
+                cell.classList.remove('highlight-left', 'highlight-right', 'target');
+            });
+
+            // Show current pointers
+            cells[left].classList.add('highlight-left');
+            cells[right].classList.add('highlight-right');
+
+            const sum = array[left] + array[right];
+            statusMsg.textContent = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
+
+            if (sum === target) {
+                cells[left].classList.add('target');
+                cells[right].classList.add('target');
+                statusMsg.innerHTML = `✓ <strong>Found!</strong> Pair at indices [${left}, ${right}] sums to ${target}`;
+                document.getElementById('playBtn').disabled = true;
+                isComplete = true;
+            } else if (sum < target) {
+                statusMsg.innerHTML += `<br>→ ${sum} < ${target}: Move <span style="color: #4caf50;">left</span> pointer right`;
+                left++;
+                if (left >= right) {
+                    statusMsg.innerHTML = '✗ No pair found';
+                    document.getElementById('playBtn').disabled = true;
+                    isComplete = true;
+                } else {
+                    document.getElementById('label-' + left).textContent = 'Left';
+                    document.getElementById('label-' + (left - 1)).textContent = '';
+                }
+            } else {
+                statusMsg.innerHTML += `<br>→ ${sum} > ${target}: Move <span style="color: #f44336;">right</span> pointer left`;
+                right--;
+                if (left >= right) {
+                    statusMsg.innerHTML = '✗ No pair found';
+                    document.getElementById('playBtn').disabled = true;
+                    isComplete = true;
+                } else {
+                    document.getElementById('label-' + right).textContent = 'Right';
+                    document.getElementById('label-' + (right + 1)).textContent = '';
+                }
+            }
+        }
+
+        // Initialize
+        resetAnimation();
+    </script>
+</body>
+</html>

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast & Slow Pointers Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .pattern-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #4a5568;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin: 30px 0;
+        }
+
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .code-block {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .complexity {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .complexity-item {
+            margin: 8px 0;
+            color: #2d3748;
+        }
+
+        .complexity-item strong {
+            color: #667eea;
+        }
+
+        .diagram {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .linked-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #cbd5e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: white;
+            transition: all 0.4s ease;
+            position: relative;
+            margin: 0 15px;
+        }
+
+        .node::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            font-size: 1.5em;
+            color: #cbd5e0;
+        }
+
+        .node:last-child::after {
+            content: '';
+        }
+
+        .node.slow {
+            background: #86efac;
+            border-color: #22c55e;
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .node.fast {
+            background: #fca5a5;
+            border-color: #ef4444;
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .node.visited {
+            background: #e0e7ff;
+            border-color: #818cf8;
+        }
+
+        .pointer-label {
+            position: absolute;
+            top: -30px;
+            font-size: 0.8em;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .pointer-label.slow-label {
+            color: #22c55e;
+        }
+
+        .pointer-label.fast-label {
+            color: #ef4444;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #2d3748;
+            min-height: 25px;
+        }
+
+        .problems-section {
+            margin-top: 40px;
+        }
+
+        .difficulty-group {
+            margin: 25px 0;
+        }
+
+        .difficulty-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .difficulty-title.easy { color: #22c55e; }
+        .difficulty-title.medium { color: #f59e0b; }
+        .difficulty-title.hard { color: #ef4444; }
+
+        .problem-item {
+            background: #f7fafc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #cbd5e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .problem-item.easy { border-left-color: #22c55e; }
+        .problem-item.medium { border-left-color: #f59e0b; }
+        .problem-item.hard { border-left-color: #ef4444; }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .problem-number {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .problem-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e0;
+        }
+
+        .problem-details.active {
+            display: block;
+        }
+
+        .problem-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .problem-example {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Patterns</a>
+
+        <h1>Fast & Slow Pointers</h1>
+        <span class="pattern-number">Pattern #5</span>
+
+        <p class="description">
+            The Fast & Slow Pointers technique (also known as the Tortoise and Hare algorithm) uses two pointers that move through a data structure at different speeds.
+            The slow pointer moves one step at a time while the fast pointer moves two steps. This pattern is particularly useful for detecting cycles in linked lists,
+            finding middle elements, and solving problems where you need to identify specific positions in a sequence.
+        </p>
+
+        <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Finding Middle of Linked List</h3>
+            <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.
+            </p>
+
+            <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <strong>Example:</strong><br>
+                <strong style="color: #667eea;">Input:</strong> head = [1, 2, 3, 4, 5]<br>
+                <strong style="color: #10b981;">Output:</strong> 3 (the middle node)
+            </div>
+
+            <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+            <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                <li>Initialize both <strong>slow</strong> and <strong>fast</strong> pointers at the head of the list</li>
+                <li><strong>Slow pointer</strong> moves 1 step at a time: slow = slow.next</li>
+                <li><strong>Fast pointer</strong> moves 2 steps at a time: fast = fast.next.next</li>
+                <li>When the fast pointer reaches the end (or null), the slow pointer will be at the middle</li>
+                <li>This works because fast travels twice as fast, so when it's done, slow is at the midpoint</li>
+                <li>Time complexity: O(n), Space complexity: O(1)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Visual Representation</h2>
+            <div class="diagram">
+                <div class="diagram-title">Finding Middle of Linked List</div>
+                <p style="margin: 10px 0;">Slow moves 1 step, Fast moves 2 steps per iteration</p>
+
+                <div class="linked-list" id="linkedList">
+                    <div class="node" id="node-0" data-value="1"><span>1</span></div>
+                    <div class="node" id="node-1" data-value="2"><span>2</span></div>
+                    <div class="node" id="node-2" data-value="3"><span>3</span></div>
+                    <div class="node" id="node-3" data-value="4"><span>4</span></div>
+                    <div class="node" id="node-4" data-value="5"><span>5</span></div>
+                </div>
+
+                <div class="controls">
+                    <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                    <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                </div>
+
+                <div class="status" id="status">Click Play to start finding the middle element</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>When to Use This Pattern</h2>
+            <ul style="color: #4a5568; line-height: 2; margin-left: 20px;">
+                <li>Detecting cycles in a linked list</li>
+                <li>Finding the middle element of a linked list</li>
+                <li>Finding the starting point of a cycle in a linked list</li>
+                <li>Checking if a linked list is a palindrome</li>
+                <li>Finding the k-th element from the end in a single pass</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Java Implementation</h2>
+            <div class="code-block">
+                <pre>
+// Example 1: Detect Cycle in Linked List
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;        // Move 1 step
+            fast = fast.next.next;   // Move 2 steps
+
+            if (slow == fast) {
+                return true;  // Cycle detected
+            }
+        }
+
+        return false;  // No cycle
+    }
+}
+
+// Example 2: Find Middle of Linked List
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // When fast reaches end, slow is at middle
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+}
+
+// Example 3: Find Cycle Start
+class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) return null;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // Find meeting point
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                // Cycle found - find start
+                slow = head;
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+
+        return null;  // No cycle
+    }
+}
+
+// Example 4: Happy Number
+class Solution {
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = n;
+
+        do {
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
+        } while (slow != fast);
+
+        return slow == 1;
+    }
+
+    private int getNext(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
+    }
+}
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity">
+                <div class="complexity-item">
+                    <strong>Time Complexity:</strong> O(n) - Fast pointer traverses at most 2n nodes
+                </div>
+                <div class="complexity-item">
+                    <strong>Space Complexity:</strong> O(1) - Only two pointers needed
+                </div>
+                <div class="complexity-item">
+                    <strong>Best For:</strong> Cycle detection and finding positions in linked lists without extra space
+                </div>
+            </div>
+        </div>
+
+        <div class="problems-section">
+            <h2>Practice Problems</h2>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title easy">Easy Problems (5)</div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Linked List Cycle</span>
+                        <span class="problem-number">#141</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given head of a linked list, determine if the linked list has a cycle in it. Return true if there is a cycle, else return false.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle, tail connects to the 1st node (0-indexed).
+
+<strong>Constraints:</strong>
+• Number of nodes: [0, 10⁴]
+• -10⁵ ≤ Node.val ≤ 10⁵
+• pos is -1 or a valid index
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Middle of the Linked List</span>
+                        <span class="problem-number">#876</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a singly linked list, return the middle node. If there are two middle nodes, return the second middle node.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node is 3.
+
+<strong>Constraints:</strong>
+• Number of nodes: [1, 100]
+• 1 ≤ Node.val ≤ 100
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Happy Number</span>
+                        <span class="problem-number">#202</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            A happy number is defined by repeatedly replacing the number by the sum of squares of its digits until it equals 1, or loops endlessly in a cycle. Determine if n is a happy number.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: n = 19
+Output: true
+Explanation: 1² + 9² = 82, 8² + 2² = 68, ... → eventually reaches 1
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 2³¹ - 1
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Palindrome Linked List</span>
+                        <span class="problem-number">#234</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a singly linked list, return true if it is a palindrome.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,2,1]
+Output: true
+
+<strong>Constraints:</strong>
+• Number of nodes: [1, 10⁵]
+• 0 ≤ Node.val ≤ 9
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item easy" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Remove Nth Node From End</span>
+                        <span class="problem-number">#19</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a linked list, remove the nth node from the end of the list and return its head.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
+
+<strong>Constraints:</strong>
+• Number of nodes: [1, 30]
+• 0 ≤ Node.val ≤ 100
+• 1 ≤ n ≤ sz
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title medium">Medium Problems (5)</div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Linked List Cycle II</span>
+                        <span class="problem-number">#142</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [3,2,0,-4], pos = 1
+Output: Node at index 1
+Explanation: Cycle begins at node with value 2.
+
+<strong>Constraints:</strong>
+• Number of nodes: [0, 10⁴]
+• -10⁵ ≤ Node.val ≤ 10⁵
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Reorder List</span>
+                        <span class="problem-number">#143</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a singly linked list L: L₀→L₁→...→Lₙ₋₁→Lₙ, reorder it to: L₀→Lₙ→L₁→Lₙ₋₁→L₂→Lₙ₋₂→...
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
+
+<strong>Constraints:</strong>
+• Number of nodes: [1, 5×10⁴]
+• 1 ≤ Node.val ≤ 1000
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Circular Array Loop</span>
+                        <span class="problem-number">#457</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Determine if there is a loop in a circular array where moving i steps forward means index (i + nums[i]) % n.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [2,-1,1,2,2]
+Output: true
+Explanation: Loop exists at indices [0,2,3,0]
+
+<strong>Constraints:</strong>
+• 1 ≤ nums.length ≤ 5000
+• -1000 ≤ nums[i] ≤ 1000
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Find Duplicate Number</span>
+                        <span class="problem-number">#287</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given an array of integers containing n + 1 integers where each integer is in [1, n] inclusive, find the one duplicate number. Do not modify the array.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums = [1,3,4,2,2]
+Output: 2
+
+<strong>Constraints:</strong>
+• 1 ≤ n ≤ 10⁵
+• nums.length == n + 1
+• 1 ≤ nums[i] ≤ n
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item medium" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Rotate List</span>
+                        <span class="problem-number">#61</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a linked list, rotate the list to the right by k places.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+<strong>Constraints:</strong>
+• Number of nodes: [0, 500]
+• -100 ≤ Node.val ≤ 100
+• 0 ≤ k ≤ 2×10⁹
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="difficulty-group">
+                <div class="difficulty-title hard">Hard Problems (5)</div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Reverse Nodes in k-Group</span>
+                        <span class="problem-number">#25</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3,4,5], k = 2
+Output: [2,1,4,3,5]
+
+<strong>Constraints:</strong>
+• Number of nodes: [1, 5000]
+• 0 ≤ Node.val ≤ 1000
+• 1 ≤ k ≤ n
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Split Linked List in Parts</span>
+                        <span class="problem-number">#725</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given the head of a singly linked list and an integer k, split the list into k consecutive linked list parts.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [1,2,3], k = 5
+Output: [[1],[2],[3],[],[]]
+
+<strong>Constraints:</strong>
+• Number of nodes: [0, 1000]
+• 0 ≤ Node.val ≤ 1000
+• 1 ≤ k ≤ 50
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Rearrange String k Distance Apart</span>
+                        <span class="problem-number">#358</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given a string s and an integer k, rearrange s such that the same characters are at least distance k from each other. Return any valid rearrangement or empty string if impossible.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: s = "aabbcc", k = 3
+Output: "abcabc"
+
+<strong>Constraints:</strong>
+• 1 ≤ s.length ≤ 3×10⁵
+• s consists of lowercase English letters
+• 0 ≤ k ≤ s.length
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Copy List with Random Pointer</span>
+                        <span class="problem-number">#138</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            A linked list is given where each node contains an additional random pointer which could point to any node or null. Deep copy the list.
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+
+<strong>Constraints:</strong>
+• 0 ≤ n ≤ 1000
+• -10⁴ ≤ Node.val ≤ 10⁴
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-item hard" onclick="toggleProblem(this)">
+                    <div class="problem-header">
+                        <span class="problem-title">Median of Two Sorted Arrays</span>
+                        <span class="problem-number">#4</span>
+                    </div>
+                    <div class="problem-details">
+                        <p class="problem-description">
+                            Given two sorted arrays nums1 and nums2, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+                        </p>
+                        <div class="problem-example">
+<strong>Example:</strong>
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.0
+Explanation: Merged array = [1,2,3], median = 2
+
+<strong>Constraints:</strong>
+• nums1.length == m, nums2.length == n
+• 0 ≤ m, n ≤ 1000
+• -10⁶ ≤ nums1[i], nums2[i] ≤ 10⁶
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slowPos = 0;
+        let fastPos = 0;
+        let isComplete = false;
+        const totalNodes = 5;
+
+        function playStep() {
+            document.getElementById('resetBtn').disabled = false;
+
+            if (isComplete) return;
+
+            // Remove previous highlights
+            for (let i = 0; i < totalNodes; i++) {
+                document.getElementById('node-' + i).classList.remove('slow', 'fast');
+                const labels = document.getElementById('node-' + i).querySelectorAll('.pointer-label');
+                labels.forEach(label => label.remove());
+            }
+
+            // Mark visited nodes
+            if (slowPos > 0) {
+                for (let i = 0; i < slowPos; i++) {
+                    document.getElementById('node-' + i).classList.add('visited');
+                }
+            }
+
+            // Move pointers
+            if (fastPos < totalNodes - 1) {
+                slowPos++;
+                fastPos += 2;
+
+                if (fastPos >= totalNodes) {
+                    fastPos = totalNodes - 1;
+                }
+
+                // Highlight current positions
+                const slowNode = document.getElementById('node-' + slowPos);
+                const fastNode = document.getElementById('node-' + fastPos);
+
+                slowNode.classList.add('slow');
+                fastNode.classList.add('fast');
+
+                // Add labels
+                const slowLabel = document.createElement('span');
+                slowLabel.className = 'pointer-label slow-label';
+                slowLabel.textContent = 'Slow';
+                slowNode.appendChild(slowLabel);
+
+                const fastLabel = document.createElement('span');
+                fastLabel.className = 'pointer-label fast-label';
+                fastLabel.textContent = 'Fast';
+                fastNode.appendChild(fastLabel);
+
+                // Update status
+                const status = document.getElementById('status');
+                status.textContent = `Slow at node ${slowPos + 1}, Fast at node ${fastPos + 1}`;
+
+                // Check if complete
+                if (fastPos >= totalNodes - 1) {
+                    setTimeout(() => {
+                        document.getElementById('status').textContent = `✓ Middle found! Node ${slowPos + 1} (value: ${slowPos + 1})`;
+                        document.getElementById('playBtn').disabled = true;
+                        isComplete = true;
+                    }, 500);
+                }
+            }
+        }
+
+        function resetAnimation() {
+            slowPos = 0;
+            fastPos = 0;
+            isComplete = false;
+
+            for (let i = 0; i < totalNodes; i++) {
+                const node = document.getElementById('node-' + i);
+                node.classList.remove('slow', 'fast', 'visited');
+                const labels = node.querySelectorAll('.pointer-label');
+                labels.forEach(label => label.remove());
+            }
+
+            document.getElementById('status').textContent = 'Click Play to start finding the middle element';
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        function toggleProblem(element) {
+            const details = element.querySelector('.problem-details');
+            details.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

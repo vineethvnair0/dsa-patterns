@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knapsack Problem Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Animated Knapsack */
+        .animated-knapsack {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .items-container {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .item-box {
+            padding: 15px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: #fff;
+            text-align: center;
+            min-width: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .item-box.selected {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+            transform: scale(1.05);
+        }
+
+        .item-box.excluded {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .item-box.current {
+            background: #ff9800;
+            color: white;
+            border-color: #ff9800;
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+        }
+
+        .dp-table-container {
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .dp-table {
+            border-collapse: collapse;
+            margin: 10px auto;
+            background: white;
+        }
+
+        .dp-table td, .dp-table th {
+            border: 2px solid #667eea;
+            padding: 10px;
+            text-align: center;
+            min-width: 40px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .dp-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .dp-table td.current-cell {
+            background: #ff9800;
+            color: white;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .dp-table td.filled {
+            background: #c5cae9;
+        }
+
+        .animation-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .animation-controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0;
+            margin: 0 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .animation-controls button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .animation-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
+        .knapsack-info {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
+        }
+
+        /* Practice Problems Styles */
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .problem-item {
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
+        }
+
+        .problem-header:hover {
+            background: #e9ecef;
+        }
+
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .item-box {
+                min-width: 80px;
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .dp-table td, .dp-table th {
+                padding: 6px;
+                font-size: 0.8em;
+                min-width: 35px;
+            }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 16: Knapsack Problem</h1>
+            <span class="category-badge">Dynamic Programming</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>The Knapsack Problem is a classic dynamic programming pattern used to solve optimization problems where you need to select items with given weights and values to maximize total value while staying within a weight constraint. This pattern is fundamental to understanding resource allocation and subset selection problems.</p>
+                <p>The most common variant is the 0/1 Knapsack Problem, where each item can only be selected once (you either take it or leave it). This pattern appears frequently in coding interviews and has real-world applications in resource allocation, budget management, and portfolio optimization.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: 0/1 Knapsack</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack. Each item can only be selected once (0 or 1 decision for each item).
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> weights = [1, 3, 4, 5], values = [1, 4, 5, 7], capacity = 7<br>
+                    <strong style="color: #10b981;">Output:</strong> 9 (select items with weight 3 and 4, value = 4 + 5)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Create a 2D DP table: <strong>dp[i][w]</strong> = max value using first i items with capacity w</li>
+                    <li>For each item, make a decision: <strong>include it</strong> or <strong>exclude it</strong></li>
+                    <li><strong>Exclude:</strong> dp[i][w] = dp[i-1][w] (take value without current item)</li>
+                    <li><strong>Include:</strong> dp[i][w] = value[i-1] + dp[i-1][w - weight[i-1]] (if weight[i-1] <= w)</li>
+                    <li>Take the <strong>maximum</strong> of include/exclude options</li>
+                    <li>Time complexity: O(n * W), Space complexity: O(n * W)</li>
+                    <li>Can be optimized to O(W) space using 1D array with reverse iteration</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Animated Visual Diagram</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Interactive 0/1 Knapsack Animation</div>
+                    <p style="color: #666; margin-bottom: 15px;">Watch the DP table being built for Knapsack Capacity: 7</p>
+
+                    <div class="animated-knapsack">
+                        <div style="margin-bottom: 20px;">
+                            <strong style="color: #667eea;">Items Available:</strong>
+                            <div class="items-container">
+                                <div class="item-box" id="item0">
+                                    <div><strong>Item 1</strong></div>
+                                    <div>W: 1, V: 1</div>
+                                </div>
+                                <div class="item-box" id="item1">
+                                    <div><strong>Item 2</strong></div>
+                                    <div>W: 3, V: 4</div>
+                                </div>
+                                <div class="item-box" id="item2">
+                                    <div><strong>Item 3</strong></div>
+                                    <div>W: 4, V: 5</div>
+                                </div>
+                                <div class="item-box" id="item3">
+                                    <div><strong>Item 4</strong></div>
+                                    <div>W: 5, V: 7</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dp-table-container">
+                            <table class="dp-table" id="dpTable">
+                                <thead>
+                                    <tr>
+                                        <th>Items\Cap</th>
+                                        <th>0</th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dpTableBody">
+                                    <tr>
+                                        <th>0</th>
+                                        <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <th>1</th>
+                                        <td>0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>2</th>
+                                        <td>0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>3</th>
+                                        <td>0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>4</th>
+                                        <td>0</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="knapsack-info" id="knapsackInfo">
+                            Ready to start! Click Play to see the DP table being filled.
+                        </div>
+
+                        <div class="animation-controls">
+                            <button id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                            <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Notice:</strong> For each cell, we decide whether to include or exclude the current item. If we include it, we add its value to the solution for the remaining capacity. We take the maximum of both options.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: 0/1 Knapsack</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        You are given weights and values of n items, and a knapsack with capacity W. Find the <strong>maximum total value</strong> that can be obtained by selecting items such that the total weight does not exceed W. Each item can be selected at most once.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> weights = [1, 3, 4, 5], values = [1, 4, 5, 7], capacity = 7<br>
+                            <strong>Output:</strong> 9<br>
+                            <strong>Explanation:</strong> Select items with weights 3 and 4 (values 4 and 5) for total value 9
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 2:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> weights = [2, 3, 1], values = [4, 5, 3], capacity = 4<br>
+                            <strong>Output:</strong> 8<br>
+                            <strong>Explanation:</strong> Select items with weights 3 and 1 (values 5 and 3) for total value 8
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong style="color: #667eea;">Example 3:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> weights = [10, 20, 30], values = [60, 100, 120], capacity = 50<br>
+                            <strong>Output:</strong> 220<br>
+                            <strong>Explanation:</strong> Select items with weights 20 and 30 (values 100 and 120) for total value 220
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// 0/1 Knapsack Problem using Dynamic Programming</span>
+<span class="keyword">public static int</span> <span class="function">knapsack</span>(<span class="keyword">int</span>[] weights, <span class="keyword">int</span>[] values, <span class="keyword">int</span> capacity) {
+    <span class="keyword">int</span> n = weights.length;
+    <span class="keyword">int</span>[][] dp = <span class="keyword">new int</span>[n + 1][capacity + 1];
+
+    <span class="comment">// Build DP table bottom-up</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 1; i &lt;= n; i++) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> w = 1; w &lt;= capacity; w++) {
+            <span class="comment">// Option 1: Exclude current item</span>
+            <span class="keyword">int</span> exclude = dp[i - 1][w];
+
+            <span class="comment">// Option 2: Include current item (if it fits)</span>
+            <span class="keyword">int</span> include = 0;
+            <span class="keyword">if</span> (weights[i - 1] &lt;= w) {
+                include = values[i - 1] + dp[i - 1][w - weights[i - 1]];
+            }
+
+            <span class="comment">// Take maximum of both options</span>
+            dp[i][w] = Math.max(exclude, include);
+        }
+    }
+
+    <span class="keyword">return</span> dp[n][capacity];
+}
+
+<span class="comment">// Space-optimized version using 1D array</span>
+<span class="keyword">public static int</span> <span class="function">knapsackOptimized</span>(<span class="keyword">int</span>[] weights, <span class="keyword">int</span>[] values, <span class="keyword">int</span> capacity) {
+    <span class="keyword">int</span> n = weights.length;
+    <span class="keyword">int</span>[] dp = <span class="keyword">new int</span>[capacity + 1];
+
+    <span class="comment">// Process each item</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; n; i++) {
+        <span class="comment">// Traverse in reverse to avoid overwriting</span>
+        <span class="keyword">for</span> (<span class="keyword">int</span> w = capacity; w &gt;= weights[i]; w--) {
+            dp[w] = Math.max(dp[w], values[i] + dp[w - weights[i]]);
+        }
+    }
+
+    <span class="keyword">return</span> dp[capacity];
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The dynamic programming approach builds a solution by solving smaller subproblems:
+                    </p>
+                    <ol>
+                        <li><strong>Define the DP state:</strong> Let dp[i][w] represent the maximum value achievable using the first i items with a knapsack capacity of w.</li>
+                        <li><strong>Base case:</strong> dp[0][w] = 0 for all w (no items means zero value), and dp[i][0] = 0 for all i (zero capacity means zero value).</li>
+                        <li><strong>For each item i and capacity w:</strong>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><strong>Option 1 - Exclude:</strong> Don't take item i, so dp[i][w] = dp[i-1][w]</li>
+                                <li><strong>Option 2 - Include:</strong> Take item i (if it fits), so dp[i][w] = values[i-1] + dp[i-1][w - weights[i-1]]</li>
+                                <li>Choose the option that gives maximum value: dp[i][w] = max(exclude, include)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Return result:</strong> dp[n][capacity] contains the maximum value achievable with all n items and given capacity.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Space Optimization:</strong> Since we only need the previous row to compute the current row, we can optimize space to O(W) by using a 1D array and traversing in reverse order to prevent overwriting values we still need.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n * W) | <strong>Space Complexity:</strong> O(n * W) or O(W) optimized
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n * W)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>We have two nested loops: outer loop runs n times (for each item)</li>
+                        <li>Inner loop runs W times (for each capacity from 0 to W)</li>
+                        <li>Each cell computation takes O(1) time (just comparison and addition)</li>
+                        <li>Total: O(n * W) where n is number of items and W is capacity</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(n * W) or O(W)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>2D DP approach:</strong> O(n * W) for the dp table</li>
+                        <li><strong>1D DP approach:</strong> O(W) using single array with reverse iteration</li>
+                        <li>The space-optimized version is preferred when only the final answer is needed</li>
+                        <li>Use 2D version if you need to reconstruct which items were selected</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li><strong>Subset Sum Problems:</strong> Determine if a subset with a given sum exists</li>
+                    <li><strong>Partition Equal Subset Sum:</strong> Split array into two equal sum subsets</li>
+                    <li><strong>Target Sum:</strong> Assign + or - to numbers to reach target</li>
+                    <li><strong>Minimum Subset Sum Difference:</strong> Minimize difference between two subsets</li>
+                    <li><strong>Count of Subsets with Given Sum:</strong> Count how many subsets sum to target</li>
+                    <li><strong>Coin Change Problems:</strong> Make amount using minimum coins or count ways</li>
+                    <li><strong>Resource Allocation:</strong> Optimize value within budget/capacity constraints</li>
+                    <li><strong>Portfolio Optimization:</strong> Select investments within capital constraints</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li><strong>0/1 vs Unbounded:</strong> 0/1 allows each item once; Unbounded allows unlimited uses</li>
+                    <li><strong>DP State Definition:</strong> Clearly define what dp[i][w] represents</li>
+                    <li><strong>Include/Exclude Decision:</strong> For each item, consider both taking and not taking it</li>
+                    <li><strong>Space Optimization:</strong> Use 1D array with reverse iteration for O(W) space</li>
+                    <li><strong>Bounded Knapsack:</strong> Each item has a limited count (extension of 0/1)</li>
+                    <li><strong>Fractional Knapsack:</strong> Can take fractions of items (greedy approach works)</li>
+                </ul>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Knapsack Problem pattern with these 15 curated LeetCode problems organized by difficulty level. Click on any problem to see the full description, examples, and constraints.</p>
+
+                <div class="difficulty-section">
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2915. Length of the Longest Subsequence That Sums to Target</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array of integers nums and an integer target. Return the length of the longest subsequence of nums that sums up to target. If no such subsequence exists, return -1.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,3,4,5], target = 9
+Output: 3
+Explanation: The longest subsequence that sums to 9 is [2,3,4] or [1,3,5], both have length 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [4,1,3,2,1,5], target = 7
+Output: 4
+Explanation: The longest subsequence that sums to 7 is [1,3,2,1], which has length 4.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 1000</li>
+                                <li>1 <= nums[i] <= 1000</li>
+                                <li>1 <= target <= 1000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/length-of-the-longest-subsequence-that-sums-to-target/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2787. Ways to Express an Integer as Sum of Powers</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> Given two positive integers n and x, return the number of ways n can be expressed as the sum of the xth power of unique positive integers. Since the result can be very large, return it modulo 10^9 + 7.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 10, x = 2
+Output: 1
+Explanation: We can express n as the following: 10 = 3^2 + 1^2. It can be shown that it is the only way to express 10.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: n = 4, x = 1
+Output: 2
+Explanation: We can express n in the following ways: 4 = 4^1, 4 = 3^1 + 1^1.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 300</li>
+                                <li>1 <= x <= 5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/ways-to-express-an-integer-as-sum-of-powers/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1155. Number of Dice Rolls With Target Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> You have n dice, and each die has k faces numbered from 1 to k. Given three integers n, k, and target, return the number of possible ways (out of the k^n total ways) to roll the dice, so the sum of the face-up numbers equals target. Since the answer may be too large, return it modulo 10^9 + 7.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 1, k = 6, target = 3
+Output: 1
+Explanation: You throw one die with 6 faces. There is only one way to get a sum of 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: n = 2, k = 6, target = 7
+Output: 6
+Explanation: You throw two dice with 6 faces. There are 6 ways to get a sum of 7: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n, k <= 30</li>
+                                <li>1 <= target <= 1000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">377. Combination Sum IV</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target. The test cases are generated so that the answer can fit in a 32-bit integer. Note that different sequences are counted as different combinations.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,3], target = 4
+Output: 7
+Explanation: The possible combination ways are:
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+Note that different sequences are counted as different combinations.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [9], target = 3
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 200</li>
+                                <li>1 <= nums[i] <= 1000</li>
+                                <li>All elements of nums are unique</li>
+                                <li>1 <= target <= 1000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/combination-sum-iv/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">322. Coin Change</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1. You may assume that you have an infinite number of each kind of coin.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: coins = [2], amount = 3
+Output: -1</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: coins = [1], amount = 0
+Output: 0</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= coins.length <= 12</li>
+                                <li>1 <= coins[i] <= 2^31 - 1</li>
+                                <li>0 <= amount <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/coin-change/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">416. Partition Equal Subset Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,5,11,5]
+Output: true
+Explanation: The array can be partitioned as [1, 5, 5] and [11].</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 200</li>
+                                <li>1 <= nums[i] <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/partition-equal-subset-sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">494. Target Sum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array nums and an integer target. You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers. Return the number of different expressions that you can build, which evaluates to target.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,1,1,1,1], target = 3
+Output: 5
+Explanation: There are 5 ways to assign symbols to make the sum of nums be target 3.
+-1 + 1 + 1 + 1 + 1 = 3
++1 - 1 + 1 + 1 + 1 = 3
++1 + 1 - 1 + 1 + 1 = 3
++1 + 1 + 1 - 1 + 1 = 3
++1 + 1 + 1 + 1 - 1 = 3</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [1], target = 1
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 20</li>
+                                <li>0 <= nums[i] <= 1000</li>
+                                <li>0 <= sum(nums[i]) <= 1000</li>
+                                <li>-1000 <= target <= 1000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/target-sum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">518. Coin Change II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money. Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0. You may assume that you have an infinite number of each kind of coin.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: amount = 3, coins = [2]
+Output: 0
+Explanation: the amount of 3 cannot be made up just with coins of 2.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: amount = 10, coins = [10]
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= coins.length <= 300</li>
+                                <li>1 <= coins[i] <= 5000</li>
+                                <li>All the values of coins are unique</li>
+                                <li>0 <= amount <= 5000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/coin-change-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">474. Ones and Zeroes</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array of binary strings strs and two integers m and n. Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset. A set x is a subset of a set y if all elements of x are also elements of y.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: strs = ["10","0001","111001","1","0"], m = 5, n = 3
+Output: 4
+Explanation: The largest subset with at most 5 0's and 3 1's is {"10", "0001", "1", "0"}, so the answer is 4.
+Other valid but smaller subsets include {"0001", "1"} and {"10", "1", "0"}.
+{"111001"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: strs = ["10","0","1"], m = 1, n = 1
+Output: 2
+Explanation: The largest subset is {"0", "1"}, so the answer is 2.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= strs.length <= 600</li>
+                                <li>1 <= strs[i].length <= 100</li>
+                                <li>strs[i] consists only of digits '0' and '1'</li>
+                                <li>1 <= m, n <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/ones-and-zeroes/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1049. Last Stone Weight II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array of integers stones where stones[i] is the weight of the ith stone. We are playing a game with the stones. On each turn, we choose any two stones and smash them together. Suppose the stones have weights x and y with x <= y. The result of this smash is: If x == y, both stones are destroyed, and If x != y, the stone of weight x is destroyed, and the stone of weight y has new weight y - x. At the end of the game, there is at most one stone left. Return the smallest possible weight of the left stone. If there are no stones left, return 0.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: stones = [2,7,4,1,8,1]
+Output: 1
+Explanation: We can combine 2 and 4 to get 2, so the array converts to [2,7,1,8,1] then,
+we can combine 7 and 8 to get 1, so the array converts to [2,1,1,1] then,
+we can combine 2 and 1 to get 1, so the array converts to [1,1,1] then,
+we can combine 1 and 1 to get 0, so the array converts to [1], then that's the optimal value.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: stones = [31,26,33,21,40]
+Output: 5</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= stones.length <= 30</li>
+                                <li>1 <= stones[i] <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/last-stone-weight-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-section">
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1449. Form Largest Integer With Digits That Add up to Target</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of integers cost and an integer target, return the maximum integer you can paint under the following rules: The cost of painting a digit (i + 1) is given by cost[i] (0-indexed). The total cost used must be equal to target. The integer does not have 0 digits. Since the answer may be very large, return it as a string. If there is no way to paint any integer given the condition, return "0".</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: cost = [4,3,2,5,6,7,2,5,5], target = 9
+Output: "7772"
+Explanation: The cost to paint the digit '7' is 2, and the digit '2' is 3. Then cost("7772") = 2*3+ 3*1 = 9. You could also paint "997", but "7772" is the largest number.
+Digit    cost
+  1  ->   4
+  2  ->   3
+  3  ->   2
+  4  ->   5
+  5  ->   6
+  6  ->   7
+  7  ->   2
+  8  ->   5
+  9  ->   5</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: cost = [7,6,5,5,5,6,8,7,8], target = 12
+Output: "85"
+Explanation: The cost to paint the digit '8' is 7, and the digit '5' is 5. Then cost("85") = 7 + 5 = 12.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: cost = [2,4,6,2,4,6,4,4,4], target = 5
+Output: "0"
+Explanation: It is impossible to paint any integer with total cost equal to target.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>cost.length == 9</li>
+                                <li>1 <= cost[i], target <= 5000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">956. Tallest Billboard</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are installing a billboard and want it to have the largest height. The billboard will have two steel supports, one on each side. Each steel support must be an equal height. You are given a collection of rods that can be welded together. For example, if you have rods of lengths 1, 2, and 3, you can weld them together to make a support of length 6. Return the largest possible height of your billboard installation. If you cannot support the billboard, return 0.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: rods = [1,2,3,6]
+Output: 6
+Explanation: We have two disjoint subsets {1,2,3} and {6}, which have the same sum = 6.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: rods = [1,2,3,4,5,6]
+Output: 10
+Explanation: We have two disjoint subsets {2,3,5} and {4,6}, which have the same sum = 10.</pre>
+                            <p><strong>Example 3:</strong></p>
+                            <pre>Input: rods = [1,2]
+Output: 0
+Explanation: The billboard cannot be supported, so we return 0.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= rods.length <= 20</li>
+                                <li>1 <= rods[i] <= 1000</li>
+                                <li>sum(rods[i]) <= 5000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/tallest-billboard/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">879. Profitable Schemes</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> There is a group of n members, and a list of various crimes they could commit. The ith crime generates a profit[i] and requires group[i] members to participate in it. If a member participates in one crime, that member can't participate in another crime. Let's call a profitable scheme any subset of these crimes that generates at least minProfit profit, and the total number of members participating in that subset of crimes is at most n. Return the number of schemes that can be chosen. Since the answer may be very large, return it modulo 10^9 + 7.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 5, minProfit = 3, group = [2,2], profit = [2,3]
+Output: 2
+Explanation: To make a profit of at least 3, the group could either commit crimes 0 and 1, or just crime 1.
+In total, there are 2 schemes.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: n = 10, minProfit = 5, group = [2,3,5], profit = [6,7,8]
+Output: 7
+Explanation: To make a profit of at least 5, the group could commit any crimes, as long as they commit one.
+There are 7 possible schemes: (0), (1), (2), (0,1), (0,2), (1,2), and (0,1,2).</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 100</li>
+                                <li>0 <= minProfit <= 100</li>
+                                <li>1 <= group.length <= 100</li>
+                                <li>1 <= group[i] <= 100</li>
+                                <li>profit.length == group.length</li>
+                                <li>0 <= profit[i] <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/profitable-schemes/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2585. Number of Ways to Earn Points</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> There is a test that has n types of questions. You are given an integer target and a 0-indexed 2D integer array types where types[i] = [count_i, marks_i] indicates that there are count_i questions of the ith type, and each one is worth marks_i points. Return the number of ways you can earn exactly target points in the exam. Since the answer may be too large, return it modulo 10^9 + 7. Note that questions of the same type are indistinguishable. For example, if there are 3 questions of the same type, then solving the 1st and 2nd questions is the same as solving the 1st and 3rd questions, or the 2nd and 3rd questions.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: target = 6, types = [[6,1],[3,2],[2,3]]
+Output: 7
+Explanation: You can earn 6 points in one of the seven ways:
+- Solve 6 questions of the 0th type: 1 + 1 + 1 + 1 + 1 + 1 = 6
+- Solve 4 questions of the 0th type and 1 question of the 1st type: 1 + 1 + 1 + 1 + 2 = 6
+- Solve 2 questions of the 0th type and 2 questions of the 1st type: 1 + 1 + 2 + 2 = 6
+- Solve 3 questions of the 0th type and 1 question of the 2nd type: 1 + 1 + 1 + 3 = 6
+- Solve 1 question of the 0th type, 1 question of the 1st type and 1 question of the 2nd type: 1 + 2 + 3 = 6
+- Solve 3 questions of the 1st type: 2 + 2 + 2 = 6
+- Solve 2 questions of the 2nd type: 3 + 3 = 6</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: target = 5, types = [[50,1],[50,2],[50,5]]
+Output: 4
+Explanation: You can earn 5 points in one of the four ways:
+- Solve 5 questions of the 0th type: 1 + 1 + 1 + 1 + 1 = 5
+- Solve 3 questions of the 0th type and 1 question of the 1st type: 1 + 1 + 1 + 2 = 5
+- Solve 1 questions of the 0th type and 2 questions of the 1st type: 1 + 2 + 2 = 5
+- Solve 1 question of the 2nd type: 5</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= target <= 1000</li>
+                                <li>n == types.length</li>
+                                <li>1 <= n <= 50</li>
+                                <li>types[i].length == 2</li>
+                                <li>1 <= count_i, marks_i <= 50</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-ways-to-earn-points/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">805. Split Array With Same Average</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array nums. You should move each element of nums into one of the two arrays A and B such that A and B are non-empty, and average(A) == average(B). Return true if it is possible to achieve that and false otherwise. Note that for an array arr, average(arr) is the sum of all the elements of arr over the length of arr.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,3,4,5,6,7,8]
+Output: true
+Explanation: We can split the array into [1,4,5,8] and [2,3,6,7], and both of them have an average of 4.5.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: nums = [3,1]
+Output: false</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 30</li>
+                                <li>0 <= nums[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/split-array-with-same-average/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle problem details
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+
+        // Knapsack Animation
+        const weights = [1, 3, 4, 5];
+        const values = [1, 4, 5, 7];
+        const capacity = 7;
+        const n = weights.length;
+
+        // Create DP table
+        let dp = Array(n + 1).fill(0).map(() => Array(capacity + 1).fill(0));
+
+        let currentRow = 1;
+        let currentCol = 1;
+        let animationComplete = false;
+
+        function updateKnapsack() {
+            const info = document.getElementById('knapsackInfo');
+            const table = document.getElementById('dpTableBody');
+
+            if (currentRow > n) {
+                animationComplete = true;
+                document.getElementById('playBtn').disabled = true;
+
+                // Highlight selected items
+                const selectedItems = findSelectedItems();
+                selectedItems.forEach(idx => {
+                    document.getElementById(`item${idx}`).classList.add('selected');
+                });
+
+                info.innerHTML = `<strong>Complete!</strong> Maximum Value: ${dp[n][capacity]}<br>Selected Items: ${selectedItems.map(i => `Item ${i+1}`).join(', ')}`;
+
+                // Remove current highlighting
+                document.querySelectorAll('.current-cell').forEach(cell => {
+                    cell.classList.remove('current-cell');
+                    cell.classList.add('filled');
+                });
+                document.querySelectorAll('.item-box.current').forEach(item => {
+                    item.classList.remove('current');
+                });
+
+                return;
+            }
+
+            // Highlight current item
+            document.querySelectorAll('.item-box').forEach(item => item.classList.remove('current'));
+            document.getElementById(`item${currentRow - 1}`).classList.add('current');
+
+            // Calculate DP value
+            let w = currentCol;
+            let exclude = dp[currentRow - 1][w];
+            let include = 0;
+
+            if (weights[currentRow - 1] <= w) {
+                include = values[currentRow - 1] + dp[currentRow - 1][w - weights[currentRow - 1]];
+            }
+
+            dp[currentRow][w] = Math.max(exclude, include);
+
+            // Update table cell
+            const rows = table.getElementsByTagName('tr');
+            const cells = rows[currentRow].getElementsByTagName('td');
+
+            // Remove previous highlighting
+            document.querySelectorAll('.current-cell').forEach(cell => {
+                cell.classList.remove('current-cell');
+                cell.classList.add('filled');
+            });
+
+            cells[currentCol].textContent = dp[currentRow][w];
+            cells[currentCol].classList.add('current-cell');
+
+            // Update info
+            let decision = '';
+            if (weights[currentRow - 1] > w) {
+                decision = `Item ${currentRow} (W:${weights[currentRow-1]}, V:${values[currentRow-1]}) doesn't fit. <strong>Exclude</strong>: dp[${currentRow}][${w}] = ${exclude}`;
+            } else if (include > exclude) {
+                decision = `<strong>Include</strong> Item ${currentRow}: dp[${currentRow}][${w}] = ${values[currentRow-1]} + dp[${currentRow-1}][${w - weights[currentRow-1]}] = ${include}`;
+            } else {
+                decision = `<strong>Exclude</strong> Item ${currentRow}: dp[${currentRow}][${w}] = dp[${currentRow-1}][${w}] = ${exclude}`;
+            }
+
+            info.innerHTML = `Processing Item ${currentRow}, Capacity ${w}<br>${decision}`;
+
+            // Move to next cell
+            currentCol++;
+            if (currentCol > capacity) {
+                currentRow++;
+                currentCol = 1;
+            }
+        }
+
+        function findSelectedItems() {
+            let selected = [];
+            let i = n;
+            let w = capacity;
+
+            while (i > 0 && w > 0) {
+                if (dp[i][w] != dp[i-1][w]) {
+                    selected.push(i - 1);
+                    w -= weights[i - 1];
+                }
+                i--;
+            }
+
+            return selected.reverse();
+        }
+
+        function playStep() {
+            document.getElementById('resetBtn').disabled = false;
+
+            if (!animationComplete) {
+                updateKnapsack();
+            }
+        }
+
+        function resetAnimation() {
+            currentRow = 1;
+            currentCol = 1;
+            animationComplete = false;
+
+            // Reset DP table
+            dp = Array(n + 1).fill(0).map(() => Array(capacity + 1).fill(0));
+
+            // Reset table display
+            const table = document.getElementById('dpTableBody');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i <= n; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                for (let j = 1; j <= capacity; j++) {
+                    cells[j].textContent = '-';
+                    cells[j].classList.remove('current-cell', 'filled');
+                }
+            }
+
+            // Reset items
+            document.querySelectorAll('.item-box').forEach(item => {
+                item.classList.remove('current', 'selected', 'excluded');
+            });
+
+            // Reset info
+            document.getElementById('knapsackInfo').textContent = 'Ready to start! Click Play to see the DP table being filled.';
+
+            // Enable play button
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('resetBtn').disabled = true;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            // Set up initial state
+            resetAnimation();
+        });
+    </script>
+</body>
+</html>

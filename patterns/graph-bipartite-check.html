@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph - Bipartite Check Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 25px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-item a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .problem-item a:hover {
+            color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 21: Graph - Bipartite Check</h1>
+            <span class="category-badge">Graphs</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
+                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+            </div>
+
+            <div class="section">
+                <h2>Key Concepts</h2>
+                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical interviews at top tech companies including FAANG/MAANG.</p>
+                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Graph - Bipartite Check pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#1</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 1</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#2</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 2</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#3</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 3</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#4</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 4</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#5</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 5</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#6</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#7</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#8</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#9</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#10</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#11</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#12</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#13</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#14</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#15</span>
+                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+</body>
+</html>

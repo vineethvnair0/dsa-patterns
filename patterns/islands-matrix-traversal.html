@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islands (Matrix Traversal) Pattern - DSA Patterns</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .diagram-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 55px);
+            gap: 3px;
+            margin: 15px 0;
+        }
+
+        .matrix-cell {
+            width: 55px;
+            height: 55px;
+            border: 1px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            border-radius: 4px;
+        }
+
+        .matrix-cell.island-1 {
+            background: #ff9800;
+            color: white;
+        }
+
+        .matrix-cell.island-2 {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .matrix-cell.island-3 {
+            background: #4caf50;
+            color: white;
+        }
+
+        .matrix-cell.water {
+            background: #e3f2fd;
+            color: #999;
+        }
+
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
+        }
+
+        .practice-problems {
+            margin-top: 30px;
+        }
+
+        .difficulty-section {
+            margin-bottom: 30px;
+        }
+
+        .difficulty-header {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-header.easy {
+            background: #4caf50;
+        }
+
+        .difficulty-header.medium {
+            background: #ff9800;
+        }
+
+        .difficulty-header.hard {
+            background: #f44336;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-item a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .problem-item a:hover {
+            color: #667eea;
+        }
+
+        .problem-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .matrix-grid {
+                grid-template-columns: repeat(5, 40px);
+            }
+
+            .matrix-cell {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-button">← Back to All Patterns</a>
+            <h1>Pattern 2: Islands (Matrix Traversal)</h1>
+            <span class="category-badge">Matrices & Graphs</span>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>Pattern Overview</h2>
+                <p>This pattern describes all the efficient ways of traversing a matrix (or 2D array). It's extensively used in problems involving grids, islands, and connected components. The typical approach involves using DFS (Depth-First Search) or BFS (Breadth-First Search) to explore all connected cells.</p>
+                <p>The key insight is to mark visited cells to avoid revisiting them, and to explore all 4 (or 8) adjacent directions from each cell.</p>
+            </div>
+
+            <div class="section">
+                <h2>Visual Diagram</h2>
+                <div class="diagram">
+                    <div class="diagram-title">Finding Islands in a Matrix</div>
+                    <p style="color: #666; margin-bottom: 15px;">Matrix with 3 distinct islands (1 = land, 0 = water)</p>
+                    <div class="matrix-grid">
+                        <div class="matrix-cell island-1">1</div>
+                        <div class="matrix-cell island-1">1</div>
+                        <div class="matrix-cell island-1">1</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell island-1">1</div>
+                        <div class="matrix-cell island-1">1</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell island-3">1</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell island-2">1</div>
+                        <div class="matrix-cell island-2">1</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell island-2">1</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                        <div class="matrix-cell water">0</div>
+                    </div>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        Result: 3 distinct islands (orange, purple, green). Each connected group of 1's forms an island.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Number of Islands</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        Given a 2D grid map of '1's (land) and '0's (water), count the <strong>number of islands</strong>.
+                        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong><br>
+                            grid = [<br>
+                            &nbsp;&nbsp;['1','1','1','0','0'],<br>
+                            &nbsp;&nbsp;['0','1','0','0','1'],<br>
+                            &nbsp;&nbsp;['0','0','1','1','0'],<br>
+                            &nbsp;&nbsp;['0','0','1','0','0']<br>
+                            ]<br>
+                            <strong>Output:</strong> 3<br>
+                            <strong>Explanation:</strong> There are 3 distinct islands
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Count number of islands using DFS</span>
+<span class="keyword">public static int</span> <span class="function">numIslands</span>(<span class="keyword">char</span>[][] grid) {
+    <span class="keyword">if</span> (grid == <span class="keyword">null</span> || grid.length == 0) {
+        <span class="keyword">return</span> 0;
+    }
+    <span class="keyword">int</span> count = 0;
+
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; grid.length; i++) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> j = 0; j &lt; grid[0].length; j++) {
+            <span class="keyword">if</span> (grid[i][j] == <span class="string">'1'</span>) {
+                count++;
+                dfs(grid, i, j);
+            }
+        }
+    }
+    <span class="keyword">return</span> count;
+}
+
+<span class="keyword">private static void</span> <span class="function">dfs</span>(<span class="keyword">char</span>[][] grid, <span class="keyword">int</span> i, <span class="keyword">int</span> j) {
+    <span class="keyword">if</span> (i &lt; 0 || i &gt;= grid.length || j &lt; 0 ||
+        j &gt;= grid[0].length || grid[i][j] == <span class="string">'0'</span>) {
+        <span class="keyword">return</span>;
+    }
+    grid[i][j] = <span class="string">'0'</span>; <span class="comment">// Mark as visited</span>
+    dfs(grid, i + 1, j); dfs(grid, i - 1, j); <span class="comment">// Down, Up</span>
+    dfs(grid, i, j + 1); dfs(grid, i, j - 1); <span class="comment">// Right, Left</span>
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        This solution uses Depth-First Search (DFS) to explore and mark all connected land cells:
+                    </p>
+                    <ol>
+                        <li><strong>Iterate through the grid:</strong> Traverse each cell in the 2D grid using nested loops.</li>
+                        <li><strong>Find unvisited land:</strong> When we encounter a '1' (land), we've found a new island:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Increment the island counter</li>
+                                <li>Launch DFS to mark all connected land cells</li>
+                            </ul>
+                        </li>
+                        <li><strong>DFS traversal:</strong> The DFS function recursively:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Checks boundaries and if current cell is land</li>
+                                <li>Marks current cell as visited by changing '1' to '0'</li>
+                                <li>Recursively explores all 4 adjacent cells (up, down, left, right)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Return result:</strong> After processing all cells, return the total island count.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> By marking visited cells as '0', we avoid revisiting them and ensure each island
+                        is counted exactly once. The DFS explores the entire island in one go.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(m × n) | <strong>Space Complexity:</strong> O(m × n) for recursion stack
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(m × n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>m = number of rows, n = number of columns</li>
+                        <li>In worst case, we visit every cell once in the nested loops: O(m × n)</li>
+                        <li>Each cell is processed at most twice (once in main loop, once in DFS)</li>
+                        <li>DFS marks cells as visited, so no cell is processed multiple times</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(m × n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>In worst case (all land cells forming one island), DFS call stack can go as deep as m × n</li>
+                        <li>Recursion stack space: O(m × n) in worst case</li>
+                        <li>No additional data structures used (modifying input grid in-place)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Number of Islands</li>
+                    <li>Flood Fill</li>
+                    <li>Max Area of Island</li>
+                    <li>Surrounded Regions</li>
+                    <li>Number of Closed Islands</li>
+                    <li>Number of Distinct Islands</li>
+                </ul>
+            </div>
+
+            <div class="section practice-problems">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Islands (Matrix Traversal) pattern with these 15 curated LeetCode problems.</p>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header easy">Easy Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#733</span>
+                            <a href="https://leetcode.com/problems/flood-fill/" target="_blank">Flood Fill</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1254</span>
+                            <a href="https://leetcode.com/problems/number-of-closed-islands/" target="_blank">Number of Closed Islands</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#463</span>
+                            <a href="https://leetcode.com/problems/island-perimeter/" target="_blank">Island Perimeter</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1020</span>
+                            <a href="https://leetcode.com/problems/number-of-enclaves/" target="_blank">Number of Enclaves</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1905</span>
+                            <a href="https://leetcode.com/problems/count-sub-islands/" target="_blank">Count Sub Islands</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header medium">Medium Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#200</span>
+                            <a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Number of Islands</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#695</span>
+                            <a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">Max Area of Island</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#130</span>
+                            <a href="https://leetcode.com/problems/surrounded-regions/" target="_blank">Surrounded Regions</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#417</span>
+                            <a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">Pacific Atlantic Water Flow</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#694</span>
+                            <a href="https://leetcode.com/problems/number-of-distinct-islands/" target="_blank">Number of Distinct Islands (Premium)</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="difficulty-section">
+                    <div class="difficulty-header hard">Hard Problems</div>
+                    <ul class="problem-list">
+                        <li class="problem-item">
+                            <span class="problem-number">#827</span>
+                            <a href="https://leetcode.com/problems/making-a-large-island/" target="_blank">Making A Large Island</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#778</span>
+                            <a href="https://leetcode.com/problems/swim-in-rising-water/" target="_blank">Swim in Rising Water</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1970</span>
+                            <a href="https://leetcode.com/problems/last-day-where-you-can-still-cross/" target="_blank">Last Day Where You Can Still Cross</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1559</span>
+                            <a href="https://leetcode.com/problems/detect-cycles-in-2d-grid/" target="_blank">Detect Cycles in 2D Grid</a>
+                        </li>
+                        <li class="problem-item">
+                            <span class="problem-number">#1162</span>
+                            <a href="https://leetcode.com/problems/as-far-from-land-as-possible/" target="_blank">As Far from Land as Possible</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Master this pattern through consistent practice. Good luck!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+</body>
+</html>

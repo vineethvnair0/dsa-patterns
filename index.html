@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Coding Patterns for FAANG/MAANG Interviews</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        .intro {
+            padding: 40px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .intro p {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 40px;
+        }
+
+        .pattern-card {
+            background: #fff;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border-left-width: 8px;
+        }
+
+        .pattern-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .pattern-number {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+
+        .pattern-card h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 0;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .pattern-description {
+            color: #666;
+            margin-top: 12px;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .use-cases-preview {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .use-cases-preview strong {
+            color: #667eea;
+            font-size: 0.9em;
+        }
+
+        .use-cases-preview ul {
+            margin-top: 8px;
+            margin-left: 20px;
+        }
+
+        .use-cases-preview li {
+            color: #777;
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .view-details {
+            display: inline-block;
+            margin-top: 15px;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .view-details::after {
+            content: " →";
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .pattern-card:hover .view-details::after {
+            transform: translateX(5px);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.95em;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .patterns-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .intro {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 DSA Coding Patterns</h1>
+            <p>Master These 23 Patterns for FAANG/MAANG Interviews</p>
+        </header>
+
+        <div class="intro">
+            <h2>Why Learn These Patterns?</h2>
+            <p>Instead of grinding 1000+ random LeetCode problems, focus on these 23 core patterns that cover 80% of coding interview questions. Each pattern includes detailed explanations, visual diagrams, Java implementations, and curated practice problems organized by difficulty.</p>
+        </div>
+
+        <div class="patterns-grid">
+            <!-- Pattern 1 -->
+            <a href="patterns/sliding-window.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">1</div>
+                    <h3>Sliding Window</h3>
+                </div>
+                <span class="category-badge">Arrays & Strings</span>
+                <p class="pattern-description">Efficiently processes contiguous subarrays/substrings by maintaining a window that slides through the data.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Maximum sum subarray of size K</li>
+                        <li>Longest substring with K distinct chars</li>
+                        <li>String anagrams</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 2 -->
+            <a href="patterns/islands-matrix-traversal.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">2</div>
+                    <h3>Islands (Matrix Traversal)</h3>
+                </div>
+                <span class="category-badge">Matrices</span>
+                <p class="pattern-description">Traverses 2D matrices to find connected components using DFS/BFS, commonly used for island counting problems.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Number of islands</li>
+                        <li>Flood fill</li>
+                        <li>Surrounded regions</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 3 -->
+            <a href="patterns/two-pointers.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">3</div>
+                    <h3>Two Pointers</h3>
+                </div>
+                <span class="category-badge">Arrays & Strings</span>
+                <p class="pattern-description">Uses two pointers to iterate through data structure from different ends or at different speeds.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Pair with target sum</li>
+                        <li>Remove duplicates</li>
+                        <li>Palindrome check</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 4 -->
+            <a href="patterns/binary-search.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">4</div>
+                    <h3>Binary Search</h3>
+                </div>
+                <span class="category-badge">Arrays</span>
+                <p class="pattern-description">Efficiently searches sorted arrays by repeatedly dividing the search space in half.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Search in rotated array</li>
+                        <li>Find peak element</li>
+                        <li>Search in 2D matrix</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 5 -->
+            <a href="patterns/fast-slow-pointers.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">5</div>
+                    <h3>Fast & Slow Pointers</h3>
+                </div>
+                <span class="category-badge">Linked Lists</span>
+                <p class="pattern-description">Uses two pointers moving at different speeds to detect cycles and find middle elements.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Detect cycle in linked list</li>
+                        <li>Find middle of linked list</li>
+                        <li>Happy number problem</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 6 -->
+            <a href="patterns/merge-intervals.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">6</div>
+                    <h3>Merge Intervals</h3>
+                </div>
+                <span class="category-badge">Arrays</span>
+                <p class="pattern-description">Handles overlapping intervals by merging, inserting, or finding intersections.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Merge overlapping intervals</li>
+                        <li>Insert interval</li>
+                        <li>Meeting rooms</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 7 -->
+            <a href="patterns/cyclic-sort.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">7</div>
+                    <h3>Cyclic Sort</h3>
+                </div>
+                <span class="category-badge">Arrays</span>
+                <p class="pattern-description">Sorts arrays containing numbers in a given range in O(n) time by placing each number at its correct index.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Find missing number</li>
+                        <li>Find duplicate number</li>
+                        <li>Find all duplicates</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 8 -->
+            <a href="patterns/inplace-reversal-linkedlist.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">8</div>
+                    <h3>In-place Reversal of LinkedList</h3>
+                </div>
+                <span class="category-badge">Linked Lists</span>
+                <p class="pattern-description">Reverses linked lists or portions of linked lists by manipulating pointers in-place.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Reverse linked list</li>
+                        <li>Reverse sublist</li>
+                        <li>Reverse nodes in k-group</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 9 -->
+            <a href="patterns/top-k-elements.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">9</div>
+                    <h3>Top K Elements</h3>
+                </div>
+                <span class="category-badge">Heaps</span>
+                <p class="pattern-description">Finds K largest/smallest elements using heaps for efficient partial sorting.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Kth largest element</li>
+                        <li>Top K frequent elements</li>
+                        <li>K closest points</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 10 -->
+            <a href="patterns/k-way-merge.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">10</div>
+                    <h3>K-way Merge</h3>
+                </div>
+                <span class="category-badge">Heaps</span>
+                <p class="pattern-description">Merges K sorted arrays/lists using a min-heap to efficiently find the smallest elements.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Merge K sorted lists</li>
+                        <li>Kth smallest in M sorted arrays</li>
+                        <li>Smallest range in K lists</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 11 -->
+            <a href="patterns/breadth-first-search.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">11</div>
+                    <h3>Breadth-First Search (BFS)</h3>
+                </div>
+                <span class="category-badge">Graphs</span>
+                <p class="pattern-description">Explores graphs/trees level by level using a queue, finding shortest paths in unweighted graphs.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Shortest path in grid</li>
+                        <li>Word ladder</li>
+                        <li>Minimum jumps</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 12 -->
+            <a href="patterns/depth-first-search.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">12</div>
+                    <h3>Depth-First Search (DFS)</h3>
+                </div>
+                <span class="category-badge">Graphs</span>
+                <p class="pattern-description">Explores graphs/trees by going deep into branches before backtracking.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Path exists in graph</li>
+                        <li>Clone graph</li>
+                        <li>Course schedule</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 13 -->
+            <a href="patterns/backtracking.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">13</div>
+                    <h3>Backtracking</h3>
+                </div>
+                <span class="category-badge">Recursion</span>
+                <p class="pattern-description">Builds solutions incrementally and backtracks when a solution path fails.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Generate permutations</li>
+                        <li>N-Queens problem</li>
+                        <li>Sudoku solver</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 14 -->
+            <a href="patterns/dynamic-programming.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">14</div>
+                    <h3>Dynamic Programming (DP)</h3>
+                </div>
+                <span class="category-badge">Optimization</span>
+                <p class="pattern-description">Solves complex problems by breaking them into simpler subproblems and storing results.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Fibonacci sequence</li>
+                        <li>Longest common subsequence</li>
+                        <li>Coin change problem</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 15 -->
+            <a href="patterns/kadanes-algorithm.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">15</div>
+                    <h3>Kadane's Algorithm</h3>
+                </div>
+                <span class="category-badge">Arrays</span>
+                <p class="pattern-description">Finds maximum sum contiguous subarray in O(n) time using dynamic programming.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Maximum subarray sum</li>
+                        <li>Maximum product subarray</li>
+                        <li>Maximum circular subarray</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 16 -->
+            <a href="patterns/knapsack-problem.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">16</div>
+                    <h3>Knapsack Problem</h3>
+                </div>
+                <span class="category-badge">Dynamic Programming</span>
+                <p class="pattern-description">Selects items to maximize value within weight capacity constraint.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>0/1 Knapsack</li>
+                        <li>Subset sum</li>
+                        <li>Partition equal subset sum</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 17 -->
+            <a href="patterns/tree-depth-first-search.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">17</div>
+                    <h3>Tree Depth-First Search</h3>
+                </div>
+                <span class="category-badge">Trees</span>
+                <p class="pattern-description">Tree-specific DFS with preorder, inorder, and postorder traversals.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Path sum problems</li>
+                        <li>Validate BST</li>
+                        <li>Diameter of binary tree</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 18 -->
+            <a href="patterns/tree-breadth-first-search.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">18</div>
+                    <h3>Tree Breadth-First Search</h3>
+                </div>
+                <span class="category-badge">Trees</span>
+                <p class="pattern-description">Processes tree level by level using queue-based traversal.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Level order traversal</li>
+                        <li>Zigzag level order</li>
+                        <li>Right view of tree</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 19 -->
+            <a href="patterns/topological-sort.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">19</div>
+                    <h3>Topological Sort</h3>
+                </div>
+                <span class="category-badge">Graphs</span>
+                <p class="pattern-description">Linear ordering of DAG vertices respecting edge directions.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Course schedule</li>
+                        <li>Task scheduling</li>
+                        <li>Build dependencies</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 20 -->
+            <a href="patterns/trie.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">20</div>
+                    <h3>Trie</h3>
+                </div>
+                <span class="category-badge">Trees & Strings</span>
+                <p class="pattern-description">Tree structure for efficient string storage and prefix-based searches.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Autocomplete</li>
+                        <li>Spell checker</li>
+                        <li>Word search</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 21 -->
+            <a href="patterns/graph-bipartite-check.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">21</div>
+                    <h3>Graph - Bipartite Check</h3>
+                </div>
+                <span class="category-badge">Graphs</span>
+                <p class="pattern-description">Determines if graph can be colored with two colors (no adjacent same color).</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Is graph bipartite</li>
+                        <li>Possible bipartition</li>
+                        <li>Conflict detection</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 22 -->
+            <a href="patterns/bitwise-xor.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">22</div>
+                    <h3>Bitwise XOR</h3>
+                </div>
+                <span class="category-badge">Bit Manipulation</span>
+                <p class="pattern-description">Uses XOR properties to find unique elements and missing numbers efficiently.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Single number</li>
+                        <li>Missing number</li>
+                        <li>Two non-repeating elements</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+
+            <!-- Pattern 23 -->
+            <a href="patterns/sliding-window-optimal.html" class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-number">23</div>
+                    <h3>Sliding Window - Optimal</h3>
+                </div>
+                <span class="category-badge">Arrays & Strings</span>
+                <p class="pattern-description">Advanced sliding window for minimum/maximum window size problems.</p>
+                <div class="use-cases-preview">
+                    <strong>Use Cases:</strong>
+                    <ul>
+                        <li>Minimum window substring</li>
+                        <li>Longest substring without repeating</li>
+                        <li>Smallest subarray with sum</li>
+                    </ul>
+                </div>
+                <span class="view-details">View Pattern Details</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>Master these patterns through consistent practice. Good luck with your interviews!</p>
+            <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
+        </footer>
+    </div>
+</body>
+</html>
