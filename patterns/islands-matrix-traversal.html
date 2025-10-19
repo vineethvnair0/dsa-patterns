@@ -512,16 +512,16 @@
                     </div>
 
                     <div class="step-container" id="step-2">
-                        <div class="step-title">Step 2: DFS exploring → (0,1), (0,2), (1,1), (1,2)</div>
+                        <div class="step-title">Step 2: DFS from (0,0) - Check DOWN → (1,0) is water, skip it!</div>
                         <div class="matrix-grid">
                             <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell island-1">1</div>
                             <div class="matrix-cell water">0</div>
                             <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water" style="border: 3px solid red;">0</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell island-1">1</div>
                             <div class="matrix-cell water">0</div>
                             <div class="matrix-cell water">0</div>
                             <div class="matrix-cell island-2">1</div>
@@ -541,12 +541,148 @@
                             <div class="matrix-cell water">0</div>
                         </div>
                         <p style="color: #666; font-size: 0.95em;">
-                            DFS recursively explores all connected cells of first island and marks them as visited
+                            <strong>DFS checks DOWN first:</strong> (1,0) is water (0). DFS only explores land (1), so skip this direction.
                         </p>
                     </div>
 
                     <div class="step-container" id="step-3">
-                        <div class="step-title">Step 3: First island complete - Continue scanning grid</div>
+                        <div class="step-title">Step 3: DFS from (0,0) - Check RIGHT → (0,1) is land, explore it!</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-2">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            <strong>Check RIGHT:</strong> (0,1) is land (1)! Mark as visited and recursively explore from here.
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-4">
+                        <div class="step-title">Step 4: DFS from (0,1) - Check DOWN → (1,1) is land, explore it!</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-2">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            <strong>From (0,1), check DOWN:</strong> (1,1) is land (1)! Continue DFS exploration.
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-5">
+                        <div class="step-title">Step 5: DFS from (1,1) - Check RIGHT → (1,2) is land, explore it!</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell island-1">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-2">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            <strong>From (1,1), check RIGHT:</strong> (1,2) is land (1)! Mark and continue exploring.
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-6">
+                        <div class="step-title">Step 6: DFS from (1,2) - Check UP → (0,2) is land, explore it!</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-2">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            <strong>From (1,2), check UP:</strong> (0,2) is land (1)! This completes exploring all connected cells.
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-7">
+                        <div class="step-title">Step 7: First island fully explored - All 5 connected cells marked</div>
                         <div class="matrix-grid">
                             <div class="matrix-cell visited">V</div>
                             <div class="matrix-cell visited">V</div>
@@ -575,148 +711,182 @@
                             <div class="matrix-cell water">0</div>
                         </div>
                         <p style="color: #666; font-size: 0.95em;">
-                            First island fully explored! Continue scanning row by row to find next unvisited land
-                        </p>
-                    </div>
-
-                    <div class="step-container" id="step-4">
-                        <div class="step-title">Step 4: Found second island at (2,0) | Island Count = 2</div>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell current">1</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                        </div>
-                        <p style="color: #666; font-size: 0.95em;">
-                            Found new unvisited land at (2,0)! Increment count to 2 and start DFS
-                        </p>
-                    </div>
-
-                    <div class="step-container" id="step-5">
-                        <div class="step-title">Step 5: Second island complete - Continue scanning</div>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                        </div>
-                        <p style="color: #666; font-size: 0.95em;">
-                            Second island only has one cell. DFS marks it as visited. Continue scanning for more islands
-                        </p>
-                    </div>
-
-                    <div class="step-container" id="step-6">
-                        <div class="step-title">Step 6: Found third island at (3,3) | Island Count = 3</div>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell current">1</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell island-3">1</div>
-                            <div class="matrix-cell water">0</div>
-                        </div>
-                        <p style="color: #666; font-size: 0.95em;">
-                            Found third unvisited land at (3,3)! Increment count to 3 and start DFS
-                        </p>
-                    </div>
-
-                    <div class="step-container" id="step-7">
-                        <div class="step-title">Step 7: DFS exploring third island → (3,4), (4,3)</div>
-                        <div class="matrix-grid">
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell water">0</div>
-                            <div class="matrix-cell visited">V</div>
-                            <div class="matrix-cell water">0</div>
-                        </div>
-                        <p style="color: #666; font-size: 0.95em;">
-                            DFS explores all connected cells of third island: (3,4) and (4,3)
+                            <strong>DFS complete for island 1!</strong> All connected land cells marked as visited. Water (0) acts as barriers.
                         </p>
                     </div>
 
                     <div class="step-container" id="step-8">
-                        <div class="step-title">Step 8: Complete! All 3 islands found | Final Count = 3</div>
+                        <div class="step-title">Step 8: Continue scanning - Skip visited cells and water</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-2">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            Continue scanning row by row. Skip visited cells (V) and water (0). Looking for next unvisited land (1)...
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-9">
+                        <div class="step-title">Step 9: Found second island at (2,0) | Island Count = 2</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            Found new unvisited land at (2,0)! Increment count to 2 and start DFS. This island is isolated (surrounded by water).
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-10">
+                        <div class="step-title">Step 10: Second island complete - Continue scanning</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            Second island only has one cell (no connected neighbors). DFS checks all 4 directions - all water! Continue scanning...
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-11">
+                        <div class="step-title">Step 11: Found third island at (3,3) | Island Count = 3</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell current">1</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell island-3">1</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            Found third unvisited land at (3,3)! Increment count to 3 and start DFS to explore connected cells.
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-12">
+                        <div class="step-title">Step 12: DFS exploring third island → (3,4), (4,3)</div>
+                        <div class="matrix-grid">
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell water">0</div>
+                            <div class="matrix-cell visited">V</div>
+                            <div class="matrix-cell water">0</div>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">
+                            DFS explores all connected cells: (3,4) horizontally connected, (4,3) vertically connected to (3,3).
+                        </p>
+                    </div>
+
+                    <div class="step-container" id="step-13">
+                        <div class="step-title">Step 13: Complete! All 3 islands found | Final Count = 3</div>
                         <div class="matrix-grid">
                             <div class="matrix-cell visited">V</div>
                             <div class="matrix-cell visited">V</div>
@@ -983,7 +1153,7 @@
     <script>
         // Island DFS Visualization Animation
         let currentStep = 1;
-        const totalSteps = 8;
+        const totalSteps = 13;
 
         function showStep(stepNumber) {
             // Hide all steps
