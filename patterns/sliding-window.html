@@ -484,7 +484,8 @@
                         </div>
                         <div class="window-info" id="windowInfo">Window: [2, 1, 5] | Sum: 8</div>
                         <div class="animation-controls">
-                            <button id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                            <button id="backBtn" onclick="backStep()" disabled title="Previous Step">◀</button>
+                            <button id="playBtn" onclick="playStep()" title="Next Step">▶</button>
                             <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
                         </div>
                     </div>
@@ -1108,8 +1109,9 @@ Explanation: The subarray [2,4,7,2] is the longest since the maximum absolute di
         }
 
         function playStep() {
-            // Enable reset button after first play
+            // Enable reset and back buttons after first play
             document.getElementById('resetBtn').disabled = false;
+            document.getElementById('backBtn').disabled = false;
 
             if (currentPosition < maxPosition) {
                 currentPosition++;
@@ -1117,10 +1119,26 @@ Explanation: The subarray [2,4,7,2] is the longest since the maximum absolute di
             }
         }
 
+        function backStep() {
+            if (currentPosition > 0) {
+                currentPosition--;
+                updateWindow(currentPosition);
+
+                // Enable play button when moving back
+                document.getElementById('playBtn').disabled = false;
+
+                // Disable back button if we're at the start
+                if (currentPosition === 0) {
+                    document.getElementById('backBtn').disabled = true;
+                }
+            }
+        }
+
         function resetAnimation() {
             currentPosition = 0;
             document.getElementById('playBtn').disabled = false;
             document.getElementById('resetBtn').disabled = true;
+            document.getElementById('backBtn').disabled = true;
             updateWindow(currentPosition);
         }
 

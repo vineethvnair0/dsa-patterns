@@ -156,8 +156,9 @@
 
         <div class="content">
             <div class="section">
-                <h2>📖 Pattern Overview</h2>
-                <p>The Two Pointers pattern uses two pointers to iterate through a data structure. This technique reduces time complexity from O(n²) to O(n) for many problems.</p>
+                <h2>Pattern Overview</h2>
+                <p>The Two Pointers pattern uses two pointers to iterate through a data structure, typically an array or string. This technique is extremely efficient for solving problems involving searching pairs, triplets, or subarrays with specific properties.</p>
+                <p>The pattern reduces time complexity from O(n²) to O(n) by intelligently moving pointers based on certain conditions. It's particularly powerful when working with sorted arrays or when you need to process elements from both ends simultaneously.</p>
             </div>
 
             <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -185,24 +186,28 @@
             </div>
 
             <div class="section">
-                <h2>🎨 Visual Representation</h2>
+                <h2>Animated Visual Diagram</h2>
+                <p style="color: #555; margin-bottom: 20px;">
+                    Watch the two pointers move through the array to find the target sum. The algorithm intelligently moves pointers based on whether the current sum is too small or too large.
+                </p>
                 <div class="diagram">
-                    <div class="diagram-title">Two Pointers Finding Target Sum</div>
+                    <div class="diagram-title">Interactive Two Pointers Animation</div>
                     <p style="color: #666; margin-bottom: 20px;">Array: [1, 2, 3, 4, 6, 8, 9, 14, 15] | Target: 13</p>
                     <div class="array-container" id="arrayContainer">
                         <div class="array-cell" data-index="0">1<span class="pointer-label pointer-left" id="label-0"></span></div>
-                        <div class="array-cell" data-index="1">2</div>
-                        <div class="array-cell" data-index="2">3</div>
-                        <div class="array-cell" data-index="3">4</div>
-                        <div class="array-cell" data-index="4">6</div>
-                        <div class="array-cell" data-index="5">8</div>
-                        <div class="array-cell" data-index="6">9</div>
-                        <div class="array-cell" data-index="7">14</div>
+                        <div class="array-cell" data-index="1">2<span class="pointer-label" id="label-1"></span></div>
+                        <div class="array-cell" data-index="2">3<span class="pointer-label" id="label-2"></span></div>
+                        <div class="array-cell" data-index="3">4<span class="pointer-label" id="label-3"></span></div>
+                        <div class="array-cell" data-index="4">6<span class="pointer-label" id="label-4"></span></div>
+                        <div class="array-cell" data-index="5">8<span class="pointer-label" id="label-5"></span></div>
+                        <div class="array-cell" data-index="6">9<span class="pointer-label" id="label-6"></span></div>
+                        <div class="array-cell" data-index="7">14<span class="pointer-label" id="label-7"></span></div>
                         <div class="array-cell" data-index="8">15<span class="pointer-label pointer-right" id="label-8"></span></div>
                     </div>
                     <div id="statusMessage" style="text-align: center; margin: 20px 0; font-weight: bold; color: #667eea; min-height: 30px; font-size: 1.1em;"></div>
                     <div class="animation-controls">
-                        <button class="btn" id="playBtn" onclick="playStep()" title="Play Step">▶</button>
+                        <button class="btn" id="backBtn" onclick="backStep()" disabled title="Previous Step">◀</button>
+                        <button class="btn" id="playBtn" onclick="playStep()" title="Next Step">▶</button>
                         <button class="btn" id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
                     </div>
                     <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
@@ -219,7 +224,44 @@
             </div>
 
             <div class="section">
-                <h2>💻 Java Implementation</h2>
+                <h2>More Examples</h2>
+
+                <div class="problem-box" style="margin-bottom: 20px; padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 1: Palindrome Check</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> s = "racecar"<br>
+                            <strong>Output:</strong> true<br>
+                            <strong>Explanation:</strong> Use two pointers from both ends, compare characters while moving toward center
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box" style="margin-bottom: 20px; padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 2: Remove Duplicates from Sorted Array</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> nums = [1, 1, 2, 2, 3, 4, 4]<br>
+                            <strong>Output:</strong> 4 (modified array: [1, 2, 3, 4, _, _, _])<br>
+                            <strong>Explanation:</strong> Use slow and fast pointers to track unique elements
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box" style="padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 3: Container With Most Water</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> height = [1, 8, 6, 2, 5, 4, 8, 3, 7]<br>
+                            <strong>Output:</strong> 49<br>
+                            <strong>Explanation:</strong> Start with widest container, move pointer with smaller height inward
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
                 <div class="code-example">public static int[] twoSum(int[] arr, int target) {
     int left = 0, right = arr.length - 1;
     
@@ -242,10 +284,71 @@
             </div>
 
             <div class="section">
-                <h2>🎯 Practice Problems (15 Problems)</h2>
+                <h2>Solution Explanation</h2>
+                <div style="margin: 25px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #4caf50; border-radius: 4px;">
+                    <strong style="color: #4caf50; font-size: 1.1em;">Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The two pointers approach efficiently finds a pair that sums to the target value:
+                    </p>
+                    <ol style="margin: 15px 0 15px 25px;">
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Initialize two pointers:</strong> Place the left pointer at the start (index 0) and the right pointer at the end (last index) of the sorted array.</li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Calculate the sum:</strong> Add the values at both pointer positions: sum = arr[left] + arr[right]</li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Compare with target:</strong>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>If sum equals target → Found! Return the indices [left, right]</li>
+                                <li>If sum is less than target → Move left pointer right (to increase sum)</li>
+                                <li>If sum is greater than target → Move right pointer left (to decrease sum)</li>
+                            </ul>
+                        </li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Repeat:</strong> Continue the process until pointers meet or target is found.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> Because the array is sorted, we can make intelligent decisions about which pointer to move. Moving the left pointer increases the sum, while moving the right pointer decreases it. This eliminates the need to check all possible pairs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div style="margin: 25px 0; padding: 15px 20px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 4px;">
+                    <strong style="color: #e65100;">Time Complexity:</strong> O(n) | <strong style="color: #e65100;">Space Complexity:</strong> O(1)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Each element is visited at most once by either the left or right pointer</li>
+                        <li>The pointers move toward each other, never backtracking</li>
+                        <li>In the worst case, all n elements are examined once</li>
+                        <li>Much better than brute force O(n²) approach of checking all pairs</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(1)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Only uses constant extra space for two pointer variables</li>
+                        <li>No additional data structures required</li>
+                        <li>Memory usage doesn't grow with input size</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Finding pairs or triplets with a specific sum</li>
+                    <li>Palindrome checking and validation</li>
+                    <li>Removing duplicates from sorted arrays</li>
+                    <li>Reversing arrays or strings in-place</li>
+                    <li>Container with most water / trapping rain water</li>
+                    <li>Squaring a sorted array</li>
+                    <li>Comparing strings or arrays</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Two Pointers pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
                 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header easy">Easy Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Easy Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p1')">
@@ -324,8 +427,8 @@ Output: [1,3,12,0,0]</pre>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header medium">Medium Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Medium Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p6')">
@@ -403,8 +506,8 @@ Output: 5</pre>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header hard">Hard Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Hard Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p11')">
@@ -507,26 +610,112 @@ Output: 3</pre>
         let left = 0;
         let right = array.length - 1;
         let isComplete = false;
+        let history = [];
 
         function resetAnimation() {
             left = 0;
             right = array.length - 1;
             isComplete = false;
-            
+            history = [];  // Start with empty history
+
             const cells = document.querySelectorAll('.array-cell');
             cells.forEach(cell => {
                 cell.classList.remove('highlight-left', 'highlight-right', 'target');
             });
-            
+
+            // Clear all labels first
+            for (let i = 0; i < array.length; i++) {
+                document.getElementById('label-' + i).textContent = '';
+            }
+
             document.getElementById('statusMessage').textContent = 'Click "Play Step" to start';
             document.getElementById('playBtn').disabled = false;
+            document.getElementById('backBtn').disabled = true;
+            document.getElementById('resetBtn').disabled = true;
             document.getElementById('label-0').textContent = 'Left';
             document.getElementById('label-8').textContent = 'Right';
         }
 
+        function backStep() {
+            if (history.length === 0) {
+                return;
+            }
+
+            // Remove current state
+            history.pop();
+
+            // Restore previous state or initial state
+            if (history.length === 0) {
+                left = 0;
+                right = array.length - 1;
+            } else {
+                const prevState = history[history.length - 1];
+                left = prevState.left;
+                right = prevState.right;
+            }
+
+            isComplete = false;
+
+            // Update UI
+            const cells = document.querySelectorAll('.array-cell');
+            cells.forEach(cell => {
+                cell.classList.remove('highlight-left', 'highlight-right', 'target');
+            });
+
+            // Clear labels
+            for (let i = 0; i < array.length; i++) {
+                const label = document.getElementById('label-' + i);
+                if (label) label.textContent = '';
+            }
+
+            const sum = array[left] + array[right];
+            const statusMsg = document.getElementById('statusMessage');
+
+            // If this is the initial state, show simple message
+            if (history.length === 0) {
+                cells[left].classList.add('highlight-left');
+                cells[right].classList.add('highlight-right');
+                document.getElementById('label-' + left).textContent = 'Left';
+                document.getElementById('label-' + right).textContent = 'Right';
+                statusMsg.textContent = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
+            } else {
+                // Check if this state is the found state
+                if (sum === target) {
+                    // Only show target styling (yellow) when found
+                    cells[left].classList.add('target');
+                    cells[right].classList.add('target');
+                    document.getElementById('label-' + left).textContent = 'Left';
+                    document.getElementById('label-' + right).textContent = 'Right';
+                    statusMsg.innerHTML = `✓ <strong>Found!</strong> Pair at indices [${left}, ${right}] sums to ${target}`;
+                } else {
+                    // Show pointer highlights (green/red) when searching
+                    cells[left].classList.add('highlight-left');
+                    cells[right].classList.add('highlight-right');
+                    document.getElementById('label-' + left).textContent = 'Left';
+                    document.getElementById('label-' + right).textContent = 'Right';
+                    statusMsg.innerHTML = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
+
+                    if (sum < target) {
+                        statusMsg.innerHTML += `<br>→ ${sum} < ${target}: Move <span style="color: #4caf50;">left</span> pointer right`;
+                    } else {
+                        statusMsg.innerHTML += `<br>→ ${sum} > ${target}: Move <span style="color: #f44336;">right</span> pointer left`;
+                    }
+                }
+            }
+
+            // Enable play button
+            document.getElementById('playBtn').disabled = false;
+
+            // Disable back button if at start
+            if (history.length === 0) {
+                document.getElementById('backBtn').disabled = true;
+            }
+        }
+
         function playStep() {
-            // Enable reset button after first play
+            // Enable reset and back buttons after first play
             document.getElementById('resetBtn').disabled = false;
+            document.getElementById('backBtn').disabled = false;
 
             if (isComplete) {
                 return;
@@ -540,21 +729,24 @@ Output: 3</pre>
                 cell.classList.remove('highlight-left', 'highlight-right', 'target');
             });
 
-            // Show current pointers
-            cells[left].classList.add('highlight-left');
-            cells[right].classList.add('highlight-right');
-
             const sum = array[left] + array[right];
-            statusMsg.textContent = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
 
             if (sum === target) {
+                // Only show target styling (yellow) when found
                 cells[left].classList.add('target');
                 cells[right].classList.add('target');
                 statusMsg.innerHTML = `✓ <strong>Found!</strong> Pair at indices [${left}, ${right}] sums to ${target}`;
                 document.getElementById('playBtn').disabled = true;
                 isComplete = true;
+                history.push({left: left, right: right});
             } else if (sum < target) {
+                // Show pointer highlights (green/red) when searching
+                cells[left].classList.add('highlight-left');
+                cells[right].classList.add('highlight-right');
+                statusMsg.textContent = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
                 statusMsg.innerHTML += `<br>→ ${sum} < ${target}: Move <span style="color: #4caf50;">left</span> pointer right`;
+                // Save current state BEFORE moving
+                history.push({left: left, right: right});
                 left++;
                 if (left >= right) {
                     statusMsg.innerHTML = '✗ No pair found';
@@ -565,7 +757,13 @@ Output: 3</pre>
                     document.getElementById('label-' + (left - 1)).textContent = '';
                 }
             } else {
+                // Show pointer highlights (green/red) when searching
+                cells[left].classList.add('highlight-left');
+                cells[right].classList.add('highlight-right');
+                statusMsg.textContent = `Checking: arr[${left}] + arr[${right}] = ${array[left]} + ${array[right]} = ${sum} (Target: ${target})`;
                 statusMsg.innerHTML += `<br>→ ${sum} > ${target}: Move <span style="color: #f44336;">right</span> pointer left`;
+                // Save current state BEFORE moving
+                history.push({left: left, right: right});
                 right--;
                 if (left >= right) {
                     statusMsg.innerHTML = '✗ No pair found';

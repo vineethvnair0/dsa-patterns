@@ -150,49 +150,48 @@
 
         <div class="content">
             <div class="section">
-                <h2>📖 Pattern Overview</h2>
-                <p>Binary Search efficiently searches sorted arrays by repeatedly dividing the search space in half. This technique reduces time complexity from O(n) to O(log n).</p>
-                <ul style="margin: 15px 0 0 30px;">
-                    <li>Works only on sorted arrays</li>
-                    <li>Divides search space by half each iteration</li>
-                    <li>Compares target with middle element</li>
-                    <li>O(log n) time complexity</li>
+                <h2>Pattern Overview</h2>
+                <p>Binary Search is one of the most efficient searching algorithms, designed to find elements in sorted arrays. By repeatedly dividing the search space in half, it dramatically reduces the time complexity from O(n) to O(log n).</p>
+                <p>This technique works by comparing the target value with the middle element and eliminating half of the remaining elements with each comparison. It's a fundamental algorithm that serves as the foundation for many advanced searching and optimization problems.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Binary Search in Sorted Array</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a sorted array of integers and a target value, find the index of the target in the array. If the target is not found, return -1. Use binary search to achieve O(log n) time complexity.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> array = [1, 5, 9, 13, 17, 21, 23, 28, 34], target = 23<br>
+                    <strong style="color: #10b981;">Output:</strong> 6 (index where 23 is found)
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Start with <strong>left pointer</strong> at index 0, <strong>right pointer</strong> at last index</li>
+                    <li>Calculate <strong>mid</strong> = (left + right) / 2</li>
+                    <li>If array[mid] equals target → <strong>Found!</strong> Return mid</li>
+                    <li>If array[mid] < target → Search <strong>right half</strong> (left = mid + 1)</li>
+                    <li>If array[mid] > target → Search <strong>left half</strong> (right = mid - 1)</li>
+                    <li>Repeat until target is found or search space is exhausted</li>
+                    <li>Time complexity: O(log n), Space complexity: O(1)</li>
                 </ul>
             </div>
 
             <div class="section">
-                <h2>🎨 Visual Representation</h2>
-
-                <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h3 style="color: #2d3748; margin-bottom: 10px;">Problem:</h3>
-                    <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
-                        Given a sorted array of integers and a target value, find the index of the target in the array. If not found, return -1.
-                    </p>
-
-                    <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
-                        <strong>Example:</strong><br>
-                        <strong style="color: #667eea;">Input:</strong> array = [1, 5, 9, 13, 17, 21, 23, 28, 34], target = 23<br>
-                        <strong style="color: #10b981;">Output:</strong> 6 (index where 23 is found)
-                    </div>
-
-                    <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
-                    <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
-                        <li>Start with <strong>left</strong> pointer at index 0, <strong>right</strong> pointer at last index</li>
-                        <li>Calculate <strong>mid</strong> = (left + right) / 2</li>
-                        <li>If array[mid] == target → Found! Return mid</li>
-                        <li>If array[mid] < target → Search right half (eliminate left half)</li>
-                        <li>If array[mid] > target → Search left half (eliminate right half)</li>
-                        <li>Repeat until target is found or search space is exhausted</li>
-                    </ul>
-                </div>
-
+                <h2>Animated Visual Diagram</h2>
+                <p style="color: #555; margin-bottom: 20px;">
+                    Watch how binary search efficiently finds the target by halving the search space with each step.
+                </p>
                 <div class="diagram">
                     <div class="diagram-title">Step-by-Step Visualization</div>
                     <p style="color: #666; margin-bottom: 20px;">Target = 23 in Sorted Array: [1, 5, 9, 13, 17, 21, 23, 28, 34]</p>
                     <div class="array-container" id="arrayContainer"></div>
                     <div id="statusMessage" style="text-align: center; margin: 20px 0; font-weight: bold; color: #667eea; min-height: 30px; font-size: 1.1em;"></div>
                     <div class="animation-controls">
-                        <button id="playBtn" class="btn" onclick="playStep()" title="Play Step">▶</button>
+                        <button id="backBtn" class="btn" onclick="backStep()" disabled title="Previous Step">◀</button>
+                        <button id="playBtn" class="btn" onclick="playStep()" title="Next Step">▶</button>
                         <button id="resetBtn" class="btn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
                     </div>
                     <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
@@ -209,7 +208,44 @@
             </div>
 
             <div class="section">
-                <h2>💻 Java Implementation</h2>
+                <h2>More Examples</h2>
+
+                <div class="problem-box" style="margin-bottom: 20px; padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 1: Search Insert Position</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> nums = [1, 3, 5, 6], target = 5<br>
+                            <strong>Output:</strong> 2<br>
+                            <strong>Explanation:</strong> Binary search finds 5 at index 2
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box" style="margin-bottom: 20px; padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 2: Search in Rotated Array</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> nums = [4, 5, 6, 7, 0, 1, 2], target = 0<br>
+                            <strong>Output:</strong> 4<br>
+                            <strong>Explanation:</strong> Modified binary search handles rotation to find target
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box" style="padding: 20px; background: #f0f7ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong>Example 3: First Bad Version</strong>
+                    <div style="margin-top: 15px;">
+                        <div style="background: #fff; padding: 15px; margin-top: 10px; border-radius: 4px; font-family: 'Courier New', monospace; border: 1px solid #e0e0e0;">
+                            <strong>Input:</strong> n = 5, bad = 4<br>
+                            <strong>Output:</strong> 4<br>
+                            <strong>Explanation:</strong> Binary search minimizes API calls to find first bad version
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
                 <div class="code-example">public static int binarySearch(int[] arr, int target) {
     int left = 0, right = arr.length - 1;
     
@@ -245,10 +281,71 @@ public static int binarySearchRecursive(int[] arr, int target,
             </div>
 
             <div class="section">
-                <h2>🎯 Practice Problems (15 Problems)</h2>
+                <h2>Solution Explanation</h2>
+                <div style="margin: 25px 0; padding: 20px; background: #f9f9f9; border-left: 4px solid #4caf50; border-radius: 4px;">
+                    <strong style="color: #4caf50; font-size: 1.1em;">Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        Binary search works by repeatedly eliminating half of the search space:
+                    </p>
+                    <ol style="margin: 15px 0 15px 25px;">
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Initialize pointers:</strong> Set left = 0 and right = array.length - 1</li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Calculate middle:</strong> mid = left + (right - left) / 2 (avoids integer overflow)</li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Compare with target:</strong>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>If arr[mid] == target → Success! Return mid</li>
+                                <li>If arr[mid] < target → Target is in right half, set left = mid + 1</li>
+                                <li>If arr[mid] > target → Target is in left half, set right = mid - 1</li>
+                            </ul>
+                        </li>
+                        <li style="color: #555; margin-bottom: 10px; line-height: 1.8;"><strong>Repeat:</strong> Continue until left > right (not found) or target is found</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> Each comparison eliminates half of the remaining elements, making this algorithm exponentially faster than linear search for large datasets.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div style="margin: 25px 0; padding: 15px 20px; background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 4px;">
+                    <strong style="color: #e65100;">Time Complexity:</strong> O(log n) | <strong style="color: #e65100;">Space Complexity:</strong> O(1) for iterative, O(log n) for recursive
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(log n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Each iteration eliminates half of the remaining search space</li>
+                        <li>For an array of size n, maximum comparisons = log₂(n)</li>
+                        <li>Example: Array of 1 million elements needs only ~20 comparisons</li>
+                        <li>Dramatically faster than O(n) linear search</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><strong>Iterative:</strong> O(1) - uses only constant extra space</li>
+                        <li><strong>Recursive:</strong> O(log n) - recursion stack depth = log n</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Searching in sorted arrays or lists</li>
+                    <li>Finding insertion positions for sorted data</li>
+                    <li>Searching in rotated sorted arrays</li>
+                    <li>Finding peaks, minimums, or boundaries</li>
+                    <li>Optimizing search-based problems (minimize/maximize)</li>
+                    <li>Square root and nth root calculations</li>
+                    <li>Search in 2D matrices</li>
+                    <li>Finding first/last occurrence of elements</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Practice Problems</h2>
+                <p style="color: #555; margin-bottom: 25px;">Master the Binary Search pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
                 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header easy">Easy Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Easy Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p1')">
@@ -328,8 +425,8 @@ Output: true</pre>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header medium">Medium Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Medium Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p6')">
@@ -408,8 +505,8 @@ Output: true</pre>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 30px;">
-                    <div class="difficulty-header hard">Hard Problems (5)</div>
+                <div style="margin-bottom: 40px;">
+                    <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Hard Problems (5)</h3>
                     
                     <div class="problem-item">
                         <div class="problem-header" onclick="toggleProblem('p11')">
@@ -517,6 +614,7 @@ Explanation: magical numbers are 2,3,4,6...</pre>
         let right = array.length - 1;
         let isComplete = false;
         let step = 0;
+        let history = [];
 
         function initializeArray() {
             const container = document.getElementById('arrayContainer');
@@ -535,15 +633,66 @@ Explanation: magical numbers are 2,3,4,6...</pre>
             right = array.length - 1;
             isComplete = false;
             step = 0;
-            
+            history = [{left: 0, right: array.length - 1, step: 0}];
+
             initializeArray();
             document.getElementById('statusMessage').textContent = 'Click ▶ to start binary search';
             document.getElementById('playBtn').disabled = false;
+            document.getElementById('backBtn').disabled = true;
             document.getElementById('resetBtn').disabled = true;
+        }
+
+        function backStep() {
+            if (history.length <= 1) {
+                return;
+            }
+
+            // Remove current state
+            history.pop();
+
+            // Restore previous state
+            const prevState = history[history.length - 1];
+            left = prevState.left;
+            right = prevState.right;
+            step = prevState.step;
+            isComplete = false;
+
+            // Redraw array
+            initializeArray();
+
+            const mid = Math.floor((left + right) / 2);
+
+            // Restore visual state
+            for (let i = 0; i < left; i++) {
+                document.getElementById('cell-' + i).classList.add('eliminated');
+            }
+            for (let i = right + 1; i < array.length; i++) {
+                document.getElementById('cell-' + i).classList.add('eliminated');
+            }
+
+            if (step > 0) {
+                document.getElementById('cell-' + left).classList.add('left');
+                document.getElementById('cell-' + mid).classList.add('mid');
+                document.getElementById('cell-' + right).classList.add('right');
+
+                const statusMsg = document.getElementById('statusMessage');
+                statusMsg.innerHTML = `Step ${step}: left=${left}, mid=${mid}, right=${right}<br>Comparing arr[${mid}]=${array[mid]} with target=${target}`;
+            } else {
+                document.getElementById('statusMessage').textContent = 'Click ▶ to start binary search';
+            }
+
+            // Enable play button
+            document.getElementById('playBtn').disabled = false;
+
+            // Disable back button if at start
+            if (history.length <= 1) {
+                document.getElementById('backBtn').disabled = true;
+            }
         }
 
         function playStep() {
             document.getElementById('resetBtn').disabled = false;
+            document.getElementById('backBtn').disabled = false;
 
             if (isComplete) return;
 
@@ -584,12 +733,15 @@ Explanation: magical numbers are 2,3,4,6...</pre>
                 statusMsg.innerHTML += `<br>✓ <strong>Found!</strong> Target ${target} at index ${mid}`;
                 document.getElementById('playBtn').disabled = true;
                 isComplete = true;
+                history.push({left: left, right: right, step: step});
             } else if (array[mid] < target) {
                 statusMsg.innerHTML += `<br>→ arr[${mid}] < target: Search <span style="color: #7986cb;">right half</span>`;
                 left = mid + 1;
+                history.push({left: left, right: right, step: step});
             } else {
                 statusMsg.innerHTML += `<br>→ arr[${mid}] > target: Search <span style="color: #e57373;">left half</span>`;
                 right = mid - 1;
+                history.push({left: left, right: right, step: step});
             }
         }
 

@@ -329,62 +329,112 @@
         }
 
         .difficulty-section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .difficulty-header {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-header.easy {
-            background: #4caf50;
-        }
-
-        .difficulty-header.medium {
-            background: #ff9800;
-        }
-
-        .difficulty-header.hard {
-            background: #f44336;
-        }
-
-        .problem-list {
-            list-style: none;
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         .problem-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .problem-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .problem-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
         }
 
-        .problem-item a:hover {
-            color: #667eea;
+        .problem-header:hover {
+            background: #e9ecef;
         }
 
-        .problem-number {
-            color: #667eea;
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: bold;
-            margin-right: 10px;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
         }
 
         footer {
@@ -428,51 +478,43 @@
             <div class="section">
                 <h2>Pattern Overview</h2>
                 <p>This pattern describes all the efficient ways of traversing a matrix (or 2D array). It's extensively used in problems involving grids, islands, and connected components. The typical approach involves using DFS (Depth-First Search) or BFS (Breadth-First Search) to explore all connected cells.</p>
-                <p>The key insight is to mark visited cells to avoid revisiting them, and to explore all 4 (or 8) adjacent directions from each cell.</p>
+                <p>The key insight is to mark visited cells to avoid revisiting them, and to explore all 4 (or 8) adjacent directions from each cell. This pattern reduces time complexity and provides elegant solutions to matrix problems.</p>
             </div>
 
-            <div class="section">
-                <h2>Visual Diagram</h2>
-                <div class="diagram">
-                    <div class="diagram-title">Finding Islands in a Matrix</div>
-                    <p style="color: #666; margin-bottom: 15px;">Matrix with 3 distinct islands (1 = land, 0 = water)</p>
-                    <div class="matrix-grid">
-                        <div class="matrix-cell island-1">1</div>
-                        <div class="matrix-cell island-1">1</div>
-                        <div class="matrix-cell island-1">1</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell island-1">1</div>
-                        <div class="matrix-cell island-1">1</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell island-2">1</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell island-3">1</div>
-                        <div class="matrix-cell island-3">1</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell water">0</div>
-                        <div class="matrix-cell island-3">1</div>
-                        <div class="matrix-cell water">0</div>
-                    </div>
-                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
-                        Result: 3 distinct islands (orange, purple, green). Each connected group of 1's forms an island.
-                    </p>
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Number of Islands</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a 2D grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are surrounded by water.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> grid = [<br>
+                    &nbsp;&nbsp;['1','1','1','0','0'],<br>
+                    &nbsp;&nbsp;['0','1','1','0','0'],<br>
+                    &nbsp;&nbsp;['0','0','1','0','0'],<br>
+                    &nbsp;&nbsp;['0','0','0','1','1'],<br>
+                    &nbsp;&nbsp;['0','0','0','1','0']<br>
+                    ]<br>
+                    <strong style="color: #10b981;">Output:</strong> 3 islands
                 </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Scan the grid</strong> row by row, column by column</li>
+                    <li>When you find an unvisited <strong>land cell ('1')</strong>, increment the island counter</li>
+                    <li>Use <strong>DFS (Depth-First Search)</strong> to mark all connected land cells as visited</li>
+                    <li>DFS explores in 4 directions: <strong>Up, Down, Left, Right</strong></li>
+                    <li>Mark visited cells by changing '1' to '0' to avoid counting the same island twice</li>
+                    <li>Continue scanning until the entire grid is processed</li>
+                    <li>This approach reduces time complexity from O(n²×m²) to O(n×m)</li>
+                </ul>
             </div>
 
             <div class="section">
-                <h2>DFS Traversal Visualization</h2>
+                <h2>Animated Visual Diagram</h2>
                 <p style="color: #555; margin-bottom: 20px;">
-                    Let's visualize how DFS explores the matrix to find all 3 islands. We scan the grid row by row,
+                    Watch how DFS explores the matrix to find all 3 islands. We scan the grid row by row,
                     and when we find an unvisited land cell, we increment the island count and use DFS to mark all connected cells.
                 </p>
 
@@ -1158,7 +1200,8 @@
                     </div>
 
                     <div class="animation-controls">
-                        <button id="playBtn" onclick="playStep()" title="Play Next Step">▶</button>
+                        <button id="backBtn" onclick="backStep()" disabled title="Previous Step">◀</button>
+                        <button id="playBtn" onclick="playStep()" title="Next Step">▶</button>
                         <button id="resetBtn" onclick="resetAnimation()" disabled title="Reset">⟲</button>
                     </div>
 
@@ -1178,25 +1221,54 @@
             </div>
 
             <div class="section">
-                <h2>Example Problem</h2>
-                <div class="problem-box">
-                    <strong>Problem: Number of Islands</strong>
-                    <p style="margin-top: 10px; color: #555;">
-                        Given a 2D grid map of '1's (land) and '0's (water), count the <strong>number of islands</strong>.
-                        An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
-                    </p>
+                <h2>More Examples</h2>
+
+                <div class="problem-box" style="margin-bottom: 20px;">
+                    <strong>Example 1: Single Large Island</strong>
                     <div style="margin-top: 15px;">
-                        <strong style="color: #667eea;">Example 1:</strong>
                         <div class="example-box">
                             <strong>Input:</strong><br>
                             grid = [<br>
-                            &nbsp;&nbsp;['1','1','1','0','0'],<br>
-                            &nbsp;&nbsp;['0','1','0','0','1'],<br>
-                            &nbsp;&nbsp;['0','0','1','1','0'],<br>
-                            &nbsp;&nbsp;['0','0','1','0','0']<br>
+                            &nbsp;&nbsp;['1','1','1','1','0'],<br>
+                            &nbsp;&nbsp;['1','1','0','1','0'],<br>
+                            &nbsp;&nbsp;['1','1','0','0','0'],<br>
+                            &nbsp;&nbsp;['0','0','0','0','0']<br>
+                            ]<br>
+                            <strong>Output:</strong> 1<br>
+                            <strong>Explanation:</strong> All the 1's are connected, forming a single island
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box" style="margin-bottom: 20px;">
+                    <strong>Example 2: Multiple Small Islands</strong>
+                    <div style="margin-top: 15px;">
+                        <div class="example-box">
+                            <strong>Input:</strong><br>
+                            grid = [<br>
+                            &nbsp;&nbsp;['1','1','0','0','0'],<br>
+                            &nbsp;&nbsp;['1','1','0','0','0'],<br>
+                            &nbsp;&nbsp;['0','0','1','0','0'],<br>
+                            &nbsp;&nbsp;['0','0','0','1','1']<br>
                             ]<br>
                             <strong>Output:</strong> 3<br>
-                            <strong>Explanation:</strong> There are 3 distinct islands
+                            <strong>Explanation:</strong> Three separate islands exist in different regions
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problem-box">
+                    <strong>Example 3: No Islands</strong>
+                    <div style="margin-top: 15px;">
+                        <div class="example-box">
+                            <strong>Input:</strong><br>
+                            grid = [<br>
+                            &nbsp;&nbsp;['0','0','0','0','0'],<br>
+                            &nbsp;&nbsp;['0','0','0','0','0'],<br>
+                            &nbsp;&nbsp;['0','0','0','0','0']<br>
+                            ]<br>
+                            <strong>Output:</strong> 0<br>
+                            <strong>Explanation:</strong> All cells are water, no land exists
                         </div>
                     </div>
                 </div>
@@ -1300,84 +1372,384 @@
 
             <div class="section practice-problems">
                 <h2>Practice Problems</h2>
-                <p style="color: #555; margin-bottom: 25px;">Master the Islands (Matrix Traversal) pattern with these 15 curated LeetCode problems.</p>
+                <p style="color: #555; margin-bottom: 25px;">Master the Islands (Matrix Traversal) pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header easy">Easy Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#733</span>
-                            <a href="https://leetcode.com/problems/flood-fill/" target="_blank">Flood Fill</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1254</span>
-                            <a href="https://leetcode.com/problems/number-of-closed-islands/" target="_blank">Number of Closed Islands</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#463</span>
-                            <a href="https://leetcode.com/problems/island-perimeter/" target="_blank">Island Perimeter</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1020</span>
-                            <a href="https://leetcode.com/problems/number-of-enclaves/" target="_blank">Number of Enclaves</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1905</span>
-                            <a href="https://leetcode.com/problems/count-sub-islands/" target="_blank">Count Sub Islands</a>
-                        </li>
-                    </ul>
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">733. Flood Fill</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image. You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+Explanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting pixel are colored with the new color.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == image.length</li>
+                                <li>n == image[i].length</li>
+                                <li>1 <= m, n <= 50</li>
+                                <li>0 <= image[i][j], color < 2^16</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/flood-fill/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">463. Island Perimeter</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). There is exactly one island. Determine the perimeter of the island.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+Output: 16
+Explanation: The perimeter is the 16 yellow stripes in the image.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>row == grid.length</li>
+                                <li>col == grid[i].length</li>
+                                <li>1 <= row, col <= 100</li>
+                                <li>grid[i][j] is 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/island-perimeter/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1254. Number of Closed Islands</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> Given a 2D grid consists of 0s (land) and 1s (water). An island is a maximal 4-directionally connected group of 0s and a closed island is an island totally (all left, top, right, bottom) surrounded by 1s. Return the number of closed islands.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]
+Output: 2
+Explanation: Islands in grey are closed because they are completely surrounded by water (group of 1s).</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= grid.length, grid[0].length <= 100</li>
+                                <li>0 <= grid[i][j] <= 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-closed-islands/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1020. Number of Enclaves</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> You are given an m x n binary matrix grid, where 0 represents a sea cell and 1 represents a land cell. A move consists of walking from one land cell to another adjacent (4-directionally) land cell or walking off the boundary of the grid. Return the number of land cells in grid for which we cannot walk off the boundary of the grid in any number of moves.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,0,0,0],[1,0,1,0],[0,1,1,0],[0,0,0,0]]
+Output: 3
+Explanation: There are three 1s that are enclosed by 0s, and one 1 that is not enclosed because its on the boundary.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 500</li>
+                                <li>grid[i][j] is either 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-enclaves/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1905. Count Sub Islands</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> You are given two m x n binary matrices grid1 and grid2 containing only 0's (representing water) and 1's (representing land). An island is a group of 1's connected 4-directionally. An island in grid2 is considered a sub-island if there is an island in grid1 that contains all the cells that make up this island in grid2.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid1 = [[1,1,1,0,0],[0,1,1,1,1],[0,0,0,0,0],[1,0,0,0,0],[1,1,0,1,1]], grid2 = [[1,1,1,0,0],[0,0,1,1,1],[0,1,0,0,0],[1,0,1,1,0],[0,1,0,1,0]]
+Output: 3
+Explanation: In the picture above, the grid on the left is grid1 and the grid on the right is grid2.
+The 1s colored red in grid2 are those considered to be part of a sub-island. There are three sub-islands.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid1.length == grid2.length</li>
+                                <li>n == grid1[i].length == grid2[i].length</li>
+                                <li>1 <= m, n <= 500</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/count-sub-islands/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header medium">Medium Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#200</span>
-                            <a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Number of Islands</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#695</span>
-                            <a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">Max Area of Island</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#130</span>
-                            <a href="https://leetcode.com/problems/surrounded-regions/" target="_blank">Surrounded Regions</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#417</span>
-                            <a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">Pacific Atlantic Water Flow</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#694</span>
-                            <a href="https://leetcode.com/problems/number-of-distinct-islands/" target="_blank">Number of Distinct Islands (Premium)</a>
-                        </li>
-                    </ul>
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">200. Number of Islands</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 300</li>
+                                <li>grid[i][j] is '0' or '1'</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">695. Max Area of Island</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water. The area of an island is the number of cells with a value 1 in the island. Return the maximum area of an island in grid. If there is no island, return 0.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0]]
+Output: 6
+Explanation: The answer is not 11, because the island must be connected 4-directionally.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 50</li>
+                                <li>grid[i][j] is either 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">130. Surrounded Regions</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You are given an m x n matrix board containing letters 'X' and 'O', capture regions that are surrounded. A region is captured by flipping all 'O's into 'X's in that surrounded region. A region is surrounded with 'X's if you can connect the region with 'X's and none of the region cells are on the edge of the board.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
+Output: [["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]]
+Explanation: Notice that an 'O' should not be flipped if it is on the border.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == board.length</li>
+                                <li>n == board[i].length</li>
+                                <li>1 <= m, n <= 200</li>
+                                <li>board[i][j] is 'X' or 'O'</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/surrounded-regions/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">417. Pacific Atlantic Water Flow</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> There is an m x n rectangular island that borders both the Pacific Ocean and Atlantic Ocean. Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower. Find all cells where water can flow to both the Pacific and Atlantic oceans.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+Output: [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
+Explanation: The following cells can flow to the Pacific and Atlantic oceans: [0,4], [1,3], [1,4], [2,2], [3,0], [3,1], [4,0]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == heights.length</li>
+                                <li>n == heights[r].length</li>
+                                <li>1 <= m, n <= 200</li>
+                                <li>0 <= heights[r][c] <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">694. Number of Distinct Islands</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water. Count the number of distinct islands. An island is considered to be the same as another if they have the same shape.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,1,0,0,0],[1,1,0,0,0],[0,0,0,1,1],[0,0,0,1,1]]
+Output: 1
+Explanation: Two islands have the same shape.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 50</li>
+                                <li>grid[i][j] is either 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-distinct-islands/" target="_blank">Solve on LeetCode → (Premium)</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header hard">Hard Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#827</span>
-                            <a href="https://leetcode.com/problems/making-a-large-island/" target="_blank">Making A Large Island</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#778</span>
-                            <a href="https://leetcode.com/problems/swim-in-rising-water/" target="_blank">Swim in Rising Water</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1970</span>
-                            <a href="https://leetcode.com/problems/last-day-where-you-can-still-cross/" target="_blank">Last Day Where You Can Still Cross</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1559</span>
-                            <a href="https://leetcode.com/problems/detect-cycles-in-2d-grid/" target="_blank">Detect Cycles in 2D Grid</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#1162</span>
-                            <a href="https://leetcode.com/problems/as-far-from-land-as-possible/" target="_blank">As Far from Land as Possible</a>
-                        </li>
-                    </ul>
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">827. Making A Large Island</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1. Return the size of the largest island in grid after applying this operation. An island is a 4-directionally connected group of 1s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,0],[0,1]]
+Output: 3
+Explanation: Change one 0 to 1 and connect two 1s, then we get an island with area = 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: grid = [[1,1],[1,0]]
+Output: 4
+Explanation: Change the 0 to 1 makes the island bigger.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= n <= 500</li>
+                                <li>grid[i][j] is either 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/making-a-large-island/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">778. Swim in Rising Water</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are given an n x n integer matrix grid where each value grid[i][j] represents the elevation at that point (i, j). The rain starts to fall. At time t, the depth of the water everywhere is t. You can swim from a square to another 4-directionally adjacent square if the elevation of both squares is at most t. Return the minimum time t where you can swim from the top left square (0, 0) to the bottom right square (n - 1, n - 1).</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,2],[1,3]]
+Output: 3
+Explanation: At time 0, you are in grid location (0, 0). You cannot go anywhere else because 4-directionally adjacent neighbors have higher elevation than t = 0.
+At time 3, all squares are available.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= n <= 50</li>
+                                <li>0 <= grid[i][j] < n^2</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/swim-in-rising-water/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1970. Last Day Where You Can Still Cross</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> There is a 1-based binary matrix where 0 represents land and 1 represents water. You are given integers row and col representing the number of rows and columns in the matrix, respectively. Initially on day 0, the entire matrix is land. However, each day a new cell becomes flooded with water. You are given an array cells, where cells[i] = [ri, ci] represents that on the ith day, the cell on the rith row and cith column becomes flooded with water. You want to find the last day that it is possible to walk from the top to the bottom by only walking on land cells.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: row = 2, col = 2, cells = [[1,1],[2,1],[1,2],[2,2]]
+Output: 2
+Explanation: The above image depicts how the matrix changes each day starting from day 0.
+The last day where it is possible to cross from top to bottom is on day 2.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= row, col <= 2 * 10^4</li>
+                                <li>4 <= row * col <= 2 * 10^4</li>
+                                <li>cells.length == row * col</li>
+                                <li>1 <= ri <= row</li>
+                                <li>1 <= ci <= col</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/last-day-where-you-can-still-cross/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1559. Detect Cycles in 2D Grid</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> Given a 2D array of characters grid of size m x n, you need to find if there exists any cycle consisting of the same value in grid. A cycle is a path of length 4 or more in the grid that starts and ends at the same cell. The length of a cycle is the number of cells visited in the cycle. Return true if any cycle of the same value exists in grid, otherwise, return false.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [["a","a","a","a"],["a","b","b","a"],["a","b","b","a"],["a","a","a","a"]]
+Output: true
+Explanation: There are two valid cycles: a-a-a-a-a and b-b-b-b</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 500</li>
+                                <li>grid consists only of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/detect-cycles-in-2d-grid/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1162. As Far from Land as Possible</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given an n x n grid containing only values 0 and 1, where 0 represents water and 1 represents land, find a water cell such that its distance to the nearest land cell is maximized, and return the distance. If no land or water exists in the grid, return -1. The distance used in this problem is the Manhattan distance.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,0,1],[0,0,0],[1,0,1]]
+Output: 2
+Explanation: The cell (1, 1) is as far as possible from all the land with distance 2.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: grid = [[1,0,0],[0,0,0],[0,0,0]]
+Output: 4
+Explanation: The cell (2, 2) is as far as possible from all the land with distance 4.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= n <= 100</li>
+                                <li>grid[i][j] is 0 or 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/as-far-from-land-as-possible/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1389,6 +1761,20 @@
     </div>
 
     <script>
+        // Toggle problem details
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+
         // Island DFS Visualization Animation
         let currentStep = 1;
         const totalSteps = 20;
@@ -1410,8 +1796,9 @@
         }
 
         function playStep() {
-            // Enable reset button after first play
+            // Enable reset and back buttons after first play
             document.getElementById('resetBtn').disabled = false;
+            document.getElementById('backBtn').disabled = false;
 
             if (currentStep < totalSteps) {
                 currentStep++;
@@ -1424,10 +1811,26 @@
             }
         }
 
+        function backStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+
+                // Enable play button when moving back
+                document.getElementById('playBtn').disabled = false;
+
+                // Disable back button if we're at the start
+                if (currentStep === 1) {
+                    document.getElementById('backBtn').disabled = true;
+                }
+            }
+        }
+
         function resetAnimation() {
             currentStep = 1;
             document.getElementById('playBtn').disabled = false;
             document.getElementById('resetBtn').disabled = true;
+            document.getElementById('backBtn').disabled = true;
             showStep(currentStep);
         }
 
