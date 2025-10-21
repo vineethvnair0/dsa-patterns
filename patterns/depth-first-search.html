@@ -32,6 +32,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
+            position: relative;
         }
 
         .back-button {
@@ -81,83 +82,216 @@
             border-bottom: 3px solid #667eea;
         }
 
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
         .section p {
             color: #555;
             line-height: 1.8;
             margin-bottom: 15px;
         }
 
-        .section ul {
-            margin-left: 25px;
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
             color: #555;
+            margin-bottom: 10px;
             line-height: 1.8;
         }
 
-        .section li {
-            margin-bottom: 8px;
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
         }
 
         .practice-problems {
             margin-top: 30px;
         }
 
-        .difficulty-section {
-            margin-bottom: 30px;
-        }
-
-        .difficulty-header {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-header.easy {
-            background: #4caf50;
-        }
-
-        .difficulty-header.medium {
-            background: #ff9800;
-        }
-
-        .difficulty-header.hard {
-            background: #f44336;
-        }
-
-        .problem-list {
-            list-style: none;
-        }
-
         .problem-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .problem-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .problem-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
         }
 
-        .problem-item a:hover {
-            color: #667eea;
+        .problem-header:hover {
+            background: #e9ecef;
         }
 
-        .problem-number {
-            color: #667eea;
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: bold;
-            margin-right: 10px;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         footer {
@@ -176,6 +310,10 @@
             .content {
                 padding: 20px;
             }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -190,104 +328,499 @@
         <div class="content">
             <div class="section">
                 <h2>Pattern Overview</h2>
-                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
-                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+                <p>Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. It uses either recursion (implicit stack) or an explicit stack data structure to keep track of vertices to visit.</p>
+                <p>DFS is particularly useful for detecting cycles, finding connected components, topological sorting, solving puzzles and mazes, and exploring all possible paths or solutions in a problem space.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Clone Graph</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a value and a list of its neighbors.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> adjList = [[2,4],[1,3],[2,4],[1,3]]<br>
+                    <strong style="color: #10b981;">Output:</strong> [[2,4],[1,3],[2,4],[1,3]]<br>
+                    <strong>Explanation:</strong> A deep copy of the graph is created
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Start from a source node and mark it as visited</li>
+                    <li>Explore the first unvisited neighbor recursively</li>
+                    <li>Continue exploring deeper until you reach a node with no unvisited neighbors</li>
+                    <li>Backtrack to the previous node and explore other neighbors</li>
+                    <li>This creates a deep exploration pattern before moving to siblings</li>
+                    <li>DFS uses O(h) space where h is the maximum depth, compared to BFS which uses O(w) where w is maximum width</li>
+                </ul>
             </div>
 
             <div class="section">
-                <h2>Key Concepts</h2>
-                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical coding interviews.</p>
-                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Number of Provinces</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c. A province is a group of directly or indirectly connected cities. Given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, return the total number of provinces.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> isConnected = [[1,1,0],[1,1,0],[0,0,1]]<br>
+                            <strong>Output:</strong> 2<br>
+                            <strong>Explanation:</strong> Cities 0 and 1 form one province, city 2 forms another
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Number of Provinces using DFS</span>
+<span class="keyword">public int</span> <span class="function">findCircleNum</span>(<span class="keyword">int</span>[][] isConnected) {
+    <span class="keyword">int</span> n = isConnected.length;
+    <span class="keyword">boolean</span>[] visited = <span class="keyword">new boolean</span>[n];
+    <span class="keyword">int</span> provinces = 0;
+
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; n; i++) {
+        <span class="keyword">if</span> (!visited[i]) {
+            provinces++;
+            dfs(isConnected, visited, i);
+        }
+    }
+    <span class="keyword">return</span> provinces;
+}
+
+<span class="keyword">private void</span> <span class="function">dfs</span>(<span class="keyword">int</span>[][] isConnected, <span class="keyword">boolean</span>[] visited, <span class="keyword">int</span> city) {
+    visited[city] = <span class="keyword">true</span>;
+
+    <span class="comment">// Explore all connected cities</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> j = 0; j &lt; isConnected.length; j++) {
+        <span class="keyword">if</span> (isConnected[city][j] == 1 &amp;&amp; !visited[j]) {
+            dfs(isConnected, visited, j);
+        }
+    }
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The DFS approach explores each province completely before moving to the next:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize:</strong> Create a visited array to track which cities have been explored.</li>
+                        <li><strong>Iterate through cities:</strong> For each unvisited city, we've found a new province.</li>
+                        <li><strong>DFS exploration:</strong> Starting from the current city:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Mark the current city as visited</li>
+                                <li>Recursively visit all directly connected cities that haven't been visited</li>
+                                <li>Each recursive call explores deeper into the province</li>
+                            </ul>
+                        </li>
+                        <li><strong>Backtracking:</strong> When no more unvisited neighbors exist, the recursion naturally backtracks.</li>
+                        <li><strong>Count provinces:</strong> Each time we start a new DFS from an unvisited city, we increment the province count.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> DFS explores the entire province (connected component) before moving to the next unvisited city, making it perfect for counting connected components.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(n²) | <strong>Space Complexity:</strong> O(n)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(n²)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>We visit each city once: O(n)</li>
+                        <li>For each city, we check connections with all other cities: O(n)</li>
+                        <li>Total: O(n × n) = O(n²)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(n)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Visited array: O(n)</li>
+                        <li>Recursion call stack (worst case - linear chain): O(n)</li>
+                        <li>Total: O(n) + O(n) = O(n)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Finding connected components in graphs</li>
+                    <li>Detecting cycles in graphs</li>
+                    <li>Topological sorting</li>
+                    <li>Solving mazes and puzzles</li>
+                    <li>Finding paths between nodes</li>
+                    <li>Tree traversals (preorder, inorder, postorder)</li>
+                </ul>
             </div>
 
             <div class="section practice-problems">
                 <h2>Practice Problems</h2>
-                <p style="color: #555; margin-bottom: 25px;">Master the Depth-First Search (DFS) pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+                <p style="color: #555; margin-bottom: 25px;">Master the Depth-First Search pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header easy">Easy Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#1</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 1</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#2</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 2</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#3</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 3</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#4</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 4</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#5</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 5</a>
-                        </li>
-                    </ul>
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">104. Maximum Depth of Binary Tree</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> Given the root of a binary tree, return its maximum depth. A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: root = [3,9,20,null,null,15,7]
+Output: 3</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: root = [1,null,2]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>The number of nodes in the tree is in the range [0, 10^4]</li>
+                                <li>-100 <= Node.val <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">617. Merge Two Binary Trees</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> You are given two binary trees root1 and root2. Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+Output: [3,4,5,5,4,null,7]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>The number of nodes in both trees is in the range [0, 2000]</li>
+                                <li>-10^4 <= Node.val <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/merge-two-binary-trees/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">733. Flood Fill</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image. You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == image.length</li>
+                                <li>n == image[i].length</li>
+                                <li>1 <= m, n <= 50</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/flood-fill/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">463. Island Perimeter</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island. The island doesn't have "lakes". Return the perimeter of the island.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+Output: 16</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>row == grid.length</li>
+                                <li>col == grid[i].length</li>
+                                <li>1 <= row, col <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/island-perimeter/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">257. Binary Tree Paths</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> Given the root of a binary tree, return all root-to-leaf paths in any order. A leaf is a node with no children.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: root = [1,2,3,null,5]
+Output: ["1->2->5","1->3"]</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: root = [1]
+Output: ["1"]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>The number of nodes in the tree is in the range [1, 100]</li>
+                                <li>-100 <= Node.val <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/binary-tree-paths/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header medium">Medium Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#6</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#7</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#8</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#9</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#10</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
-                        </li>
-                    </ul>
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">547. Number of Provinces</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> There are n cities. Some of them are connected, while some are not. A province is a group of directly or indirectly connected cities. Given an n x n matrix isConnected, return the total number of provinces.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+Output: 2</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 200</li>
+                                <li>isConnected[i][j] is 1 or 0</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/number-of-provinces/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">133. Clone Graph</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: adjList = [[2,4],[1,3],[2,4],[1,3]]
+Output: [[2,4],[1,3],[2,4],[1,3]]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>The number of nodes in the graph is in the range [0, 100]</li>
+                                <li>1 <= Node.val <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/clone-graph/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">695. Max Area of Island</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water. The area of an island is the number of cells with a value 1 in the island. Return the maximum area of an island in grid. If there is no island, return 0.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0]]
+Output: 6</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 50</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">417. Pacific Atlantic Water Flow</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> There is an m x n rectangular island that borders both the Pacific Ocean and Atlantic Ocean. Given an m x n matrix of non-negative integers representing the height of each unit cell, return a list of grid coordinates where water can flow to both the Pacific and Atlantic oceans.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+Output: [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == heights.length</li>
+                                <li>n == heights[i].length</li>
+                                <li>1 <= m, n <= 200</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">130. Surrounded Regions</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> Given an m x n matrix board containing 'X' and 'O', capture all regions that are 4-directionally surrounded by 'X'. A region is captured by flipping all 'O's into 'X's in that surrounded region.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
+Output: [["X","X","X","X"],["X","X","X","X"],["X","X","X","X"],["X","O","X","X"]]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == board.length</li>
+                                <li>n == board[i].length</li>
+                                <li>1 <= m, n <= 200</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/surrounded-regions/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header hard">Hard Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#11</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#12</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#13</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#14</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#15</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
-                        </li>
-                    </ul>
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">332. Reconstruct Itinerary</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> You are given a list of airline tickets where tickets[i] = [fromi, toi] represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it. All of the tickets belong to a man who departs from "JFK", thus, the itinerary must begin with "JFK". If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+Output: ["JFK","MUC","LHR","SFO","SJC"]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= tickets.length <= 300</li>
+                                <li>tickets[i].length == 2</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/reconstruct-itinerary/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">329. Longest Increasing Path in a Matrix</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> Given an m x n integers matrix, return the length of the longest increasing path in matrix. From each cell, you can either move in four directions: left, right, up, or down. You may not move diagonally or move outside the boundary.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: matrix = [[9,9,4],[6,6,8],[2,1,1]]
+Output: 4
+Explanation: The longest increasing path is [1, 2, 6, 9].</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == matrix.length</li>
+                                <li>n == matrix[i].length</li>
+                                <li>1 <= m, n <= 200</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-increasing-path-in-a-matrix/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">980. Unique Paths III</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> You are given an m x n integer array grid where grid[i][j] could be: 1 (starting square), 2 (ending square), 0 (empty square), -1 (obstacle). Return the number of 4-directional walks from the starting square to the ending square, that walk over every non-obstacle square exactly once.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 20</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/unique-paths-iii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">827. Making A Large Island</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1. Return the size of the largest island in grid after applying this operation. An island is a 4-directionally connected group of 1s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [[1,0],[0,1]]
+Output: 3
+Explanation: Change one 0 to 1 and connect two 1s, then we get an island with area = 3.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= n <= 500</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/making-a-large-island/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">301. Remove Invalid Parentheses</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid. Return a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "()())()"
+Output: ["(())()","()()()"]</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "(a)())()"
+Output: ["(a())()","(a)()()"]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 25</li>
+                                <li>s consists of lowercase English letters and parentheses '(' and ')'</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/remove-invalid-parentheses/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p>Master this pattern through consistent practice. Good luck!</p>
             <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
         </footer>
     </div>
+
+    <script>
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+    </script>
 </body>
 </html>

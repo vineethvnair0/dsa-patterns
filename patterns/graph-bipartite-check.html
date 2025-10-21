@@ -32,6 +32,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
+            position: relative;
         }
 
         .back-button {
@@ -81,83 +82,216 @@
             border-bottom: 3px solid #667eea;
         }
 
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
         .section p {
             color: #555;
             line-height: 1.8;
             margin-bottom: 15px;
         }
 
-        .section ul {
-            margin-left: 25px;
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
             color: #555;
+            margin-bottom: 10px;
             line-height: 1.8;
         }
 
-        .section li {
-            margin-bottom: 8px;
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
         }
 
         .practice-problems {
             margin-top: 30px;
         }
 
-        .difficulty-section {
-            margin-bottom: 30px;
-        }
-
-        .difficulty-header {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-header.easy {
-            background: #4caf50;
-        }
-
-        .difficulty-header.medium {
-            background: #ff9800;
-        }
-
-        .difficulty-header.hard {
-            background: #f44336;
-        }
-
-        .problem-list {
-            list-style: none;
-        }
-
         .problem-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .problem-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .problem-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
         }
 
-        .problem-item a:hover {
-            color: #667eea;
+        .problem-header:hover {
+            background: #e9ecef;
         }
 
-        .problem-number {
-            color: #667eea;
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: bold;
-            margin-right: 10px;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         footer {
@@ -176,6 +310,10 @@
             .content {
                 padding: 20px;
             }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -190,104 +328,504 @@
         <div class="content">
             <div class="section">
                 <h2>Pattern Overview</h2>
-                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
-                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+                <p>A bipartite graph is a graph whose vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other set. In other words, it's a graph that can be colored using two colors such that no two adjacent vertices have the same color.</p>
+                <p>This pattern is useful for solving problems involving conflict detection, scheduling, matching problems, and determining if relationships can be divided into two groups. The bipartite check can be implemented using either BFS or DFS with a coloring approach.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Is Graph Bipartite?</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given an undirected graph, determine if it's bipartite. The graph is represented as an adjacency list where graph[u] is an array of nodes that node u is adjacent to.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> graph = [[1,3],[0,2],[1,3],[0,2]]<br>
+                    <strong style="color: #10b981;">Output:</strong> true<br>
+                    <strong>Explanation:</strong> We can divide vertices into {0, 2} and {1, 3}
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Start by assigning one color (e.g., 0) to the starting node</li>
+                    <li>Use BFS or DFS to traverse the graph</li>
+                    <li>For each neighbor, assign the opposite color (e.g., 1) to what the current node has</li>
+                    <li>If we encounter a neighbor that already has the same color as the current node, the graph is not bipartite</li>
+                    <li>If we successfully color all nodes without conflicts, the graph is bipartite</li>
+                    <li>Handle disconnected components by checking all unvisited nodes</li>
+                </ul>
             </div>
 
             <div class="section">
-                <h2>Key Concepts</h2>
-                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical coding interviews.</p>
-                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Possible Bipartition</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        We want to split a group of n people (labeled from 1 to n) into two groups of any size. Each person may dislike some other people, and they should not go into the same group. Given the integer n and the array dislikes where dislikes[i] = [ai, bi] indicates that the person labeled ai does not like the person labeled bi, return true if it is possible to split everyone into two groups in this way.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> n = 4, dislikes = [[1,2],[1,3],[2,4]]<br>
+                            <strong>Output:</strong> true<br>
+                            <strong>Explanation:</strong> Group 1: [1,4], Group 2: [2,3]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Bipartite Graph Check using BFS</span>
+<span class="keyword">public boolean</span> <span class="function">isBipartite</span>(<span class="keyword">int</span>[][] graph) {
+    <span class="keyword">int</span> n = graph.length;
+    <span class="keyword">int</span>[] colors = <span class="keyword">new int</span>[n];
+    Arrays.fill(colors, -1); <span class="comment">// -1 means uncolored</span>
+
+    <span class="comment">// Handle disconnected components</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; n; i++) {
+        <span class="keyword">if</span> (colors[i] == -1) {
+            <span class="keyword">if</span> (!bfs(graph, i, colors)) {
+                <span class="keyword">return false</span>;
+            }
+        }
+    }
+    <span class="keyword">return true</span>;
+}
+
+<span class="keyword">private boolean</span> <span class="function">bfs</span>(<span class="keyword">int</span>[][] graph, <span class="keyword">int</span> start, <span class="keyword">int</span>[] colors) {
+    Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();
+    queue.offer(start);
+    colors[start] = 0; <span class="comment">// Start with color 0</span>
+
+    <span class="keyword">while</span> (!queue.isEmpty()) {
+        <span class="keyword">int</span> node = queue.poll();
+
+        <span class="keyword">for</span> (<span class="keyword">int</span> neighbor : graph[node]) {
+            <span class="keyword">if</span> (colors[neighbor] == -1) {
+                <span class="comment">// Color with opposite color</span>
+                colors[neighbor] = 1 - colors[node];
+                queue.offer(neighbor);
+            } <span class="keyword">else if</span> (colors[neighbor] == colors[node]) {
+                <span class="comment">// Same color as current node - not bipartite</span>
+                <span class="keyword">return false</span>;
+            }
+        }
+    }
+    <span class="keyword">return true</span>;
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The bipartite check uses a graph coloring approach:
+                    </p>
+                    <ol>
+                        <li><strong>Initialize:</strong> Create a colors array where -1 indicates uncolored, 0 and 1 represent two different colors.</li>
+                        <li><strong>Handle disconnected components:</strong> Iterate through all nodes and start BFS from any uncolored node.</li>
+                        <li><strong>BFS coloring:</strong> Starting from a node:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Color the starting node with color 0</li>
+                                <li>For each neighbor, check its color</li>
+                                <li>If uncolored, assign the opposite color and add to queue</li>
+                                <li>If it has the same color as current node, return false (not bipartite)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Conflict detection:</strong> If we find two adjacent nodes with the same color, the graph cannot be bipartite.</li>
+                        <li><strong>Success:</strong> If all nodes are successfully colored without conflicts, the graph is bipartite.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> A graph is bipartite if and only if it contains no odd-length cycles. The coloring approach naturally detects such cycles.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(V + E) | <strong>Space Complexity:</strong> O(V)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(V + E)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>V = number of vertices, E = number of edges</li>
+                        <li>Each vertex is visited at most once: O(V)</li>
+                        <li>Each edge is examined at most twice (once from each endpoint): O(E)</li>
+                        <li>Total: O(V + E)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(V)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Colors array: O(V)</li>
+                        <li>Queue for BFS (worst case): O(V)</li>
+                        <li>Total: O(V)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Determining if a graph can be two-colored</li>
+                    <li>Conflict resolution and group partitioning</li>
+                    <li>Scheduling problems with constraints</li>
+                    <li>Matching problems (bipartite matching)</li>
+                    <li>Detecting odd-length cycles</li>
+                    <li>Social network analysis (dividing into two groups)</li>
+                </ul>
             </div>
 
             <div class="section practice-problems">
                 <h2>Practice Problems</h2>
-                <p style="color: #555; margin-bottom: 25px;">Master the Graph - Bipartite Check pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+                <p style="color: #555; margin-bottom: 25px;">Master the Bipartite Check pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header easy">Easy Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#1</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 1</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#2</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 2</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#3</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 3</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#4</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 4</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#5</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 5</a>
-                        </li>
-                    </ul>
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1791. Find Center of Star Graph</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> There is an undirected star graph consisting of n nodes labeled from 1 to n. A star graph is a graph where there is one center node and exactly n - 1 edges that connect the center node with every other node. Given a 2D integer array edges, return the center of the given star graph.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: edges = [[1,2],[2,3],[4,2]]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>3 <= n <= 10^5</li>
+                                <li>edges.length == n - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-center-of-star-graph/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1559. Detect Cycles in 2D Grid</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> Given a 2D array of characters grid of size m x n, you need to find if there exists any cycle consisting of the same value in grid. A cycle is a path of length 4 or more in the grid that starts and ends at the same cell.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: grid = [["a","a","a","a"],["a","b","b","a"],["a","b","b","a"],["a","a","a","a"]]
+Output: true</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == grid.length</li>
+                                <li>n == grid[i].length</li>
+                                <li>1 <= m, n <= 500</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/detect-cycles-in-2d-grid/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1822. Sign of the Product of an Array</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> There is a function signFunc(x) that returns 1 if x is positive, -1 if x is negative, and 0 if x is equal to 0. You are given an integer array nums. Let product be the product of all values in the array nums. Return signFunc(product).</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [-1,-2,-3,-4,3,2,1]
+Output: 1</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 1000</li>
+                                <li>-100 <= nums[i] <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/sign-of-the-product-of-an-array/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1971. Find if Path Exists in Graph</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> There is a bi-directional graph with n vertices. Given edges and two vertices source and destination, return true if there is a valid path from source to destination.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, edges = [[0,1],[1,2],[2,0]], source = 0, destination = 2
+Output: true</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 2 * 10^5</li>
+                                <li>0 <= edges.length <= 2 * 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-if-path-exists-in-graph/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1557. Minimum Number of Vertices to Reach All Nodes</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> Given a directed acyclic graph, with n vertices numbered from 0 to n-1, and an array edges, return the smallest set of vertices from which all nodes in the graph are reachable.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 6, edges = [[0,1],[0,2],[2,5],[3,4],[4,2]]
+Output: [0,3]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= n <= 10^5</li>
+                                <li>1 <= edges.length <= min(10^5, n * (n - 1) / 2)</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header medium">Medium Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#6</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#7</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#8</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#9</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#10</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
-                        </li>
-                    </ul>
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">785. Is Graph Bipartite?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> There is an undirected graph with n nodes. Given the graph as an adjacency list, return true if and only if it is bipartite.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
+Output: false</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: graph = [[1,3],[0,2],[1,3],[0,2]]
+Output: true</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>graph.length == n</li>
+                                <li>1 <= n <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/is-graph-bipartite/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">886. Possible Bipartition</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> We want to split a group of n people into two groups of any size. Given the dislikes array where dislikes[i] = [ai, bi], return true if it is possible to split everyone into two groups.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 4, dislikes = [[1,2],[1,3],[2,4]]
+Output: true</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: n = 3, dislikes = [[1,2],[1,3],[2,3]]
+Output: false</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 2000</li>
+                                <li>0 <= dislikes.length <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/possible-bipartition/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1042. Flower Planting With No Adjacent</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You have n gardens, labeled from 1 to n, and an array paths where paths[i] = [xi, yi] describes a bidirectional path. You need to choose a flower type for each garden such that, for any two gardens connected by a path, they have different types of flowers. Return any such choice as an array answer.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, paths = [[1,2],[2,3],[3,1]]
+Output: [1,2,3]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 10^4</li>
+                                <li>0 <= paths.length <= 2 * 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/flower-planting-with-no-adjacent/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1129. Shortest Path with Alternating Colors</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer n and arrays redEdges and blueEdges. Return an array answer of length n, where each answer[x] is the length of the shortest path from node 0 to node x such that the edge colors alternate along the path.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, redEdges = [[0,1],[1,2]], blueEdges = []
+Output: [0,1,-1]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 100</li>
+                                <li>0 <= redEdges.length, blueEdges.length <= 400</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/shortest-path-with-alternating-colors/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">802. Find Eventual Safe States</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> There is a directed graph of n nodes with each node labeled from 0 to n - 1. A node is a terminal node if there are no outgoing edges. A node is a safe node if every possible path starting from that node leads to a terminal node. Return an array containing all the safe nodes of the graph.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: graph = [[1,2],[2,3],[5],[0],[5],[],[]]
+Output: [2,4,5,6]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == graph.length</li>
+                                <li>1 <= n <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-eventual-safe-states/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header hard">Hard Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#11</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#12</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#13</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#14</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#15</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
-                        </li>
-                    </ul>
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1349. Maximum Students Taking Exam</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given an m x n matrix seats where seats[i][j] represents whether the seat is broken ('#') or available ('.'), return the maximum number of students that can take an exam such that no two students cheat.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: seats = [["#",".","#","#",".","#"],
+                [".","#","#","#","#","."],
+                ["#",".","#","#",".","#"]]
+Output: 4</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>seats contains only characters '.' and '#'</li>
+                                <li>m == seats.length</li>
+                                <li>n == seats[i].length</li>
+                                <li>1 <= m, n <= 8</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-students-taking-exam/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1595. Minimum Cost to Connect Two Groups of Points</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are given two groups of points where the first group has size1 points and the second group has size2 points. You must connect each point in the first group to a point in the second group such that the total cost is minimized.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: cost = [[15,96],[36,2]]
+Output: 17</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>size1 == cost.length</li>
+                                <li>size2 == cost[i].length</li>
+                                <li>1 <= size1, size2 <= 12</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-cost-to-connect-two-groups-of-points/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1761. Minimum Degree of a Connected Trio in a Graph</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> You are given an undirected graph. A connected trio is a set of three nodes where there is an edge between every pair of them. The degree of a connected trio is the number of edges where one endpoint is in the trio, and the other is not. Return the minimum degree of a connected trio in the graph, or -1 if the graph has no connected trios.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 6, edges = [[1,2],[1,3],[3,2],[4,1],[5,2],[3,6]]
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= n <= 400</li>
+                                <li>edges[i].length == 2</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-degree-of-a-connected-trio-in-a-graph/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1192. Critical Connections in a Network</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections. A critical connection is a connection that, if removed, will make some servers unable to reach some other server. Return all critical connections in the network in any order.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]
+Output: [[1,3]]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= n <= 10^5</li>
+                                <li>n - 1 <= connections.length <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/critical-connections-in-a-network/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1520. Maximum Number of Non-Overlapping Substrings</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s of lowercase letters, you need to find the maximum number of non-empty non-overlapping substrings such that each substring contains only one unique character.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "adefaddaccc"
+Output: ["e","f","ccc"]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^5</li>
+                                <li>s contains only lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-number-of-non-overlapping-substrings/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p>Master this pattern through consistent practice. Good luck!</p>
             <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
         </footer>
     </div>
+
+    <script>
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+    </script>
 </body>
 </html>

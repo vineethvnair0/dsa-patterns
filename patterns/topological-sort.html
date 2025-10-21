@@ -32,6 +32,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
+            position: relative;
         }
 
         .back-button {
@@ -81,83 +82,216 @@
             border-bottom: 3px solid #667eea;
         }
 
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
         .section p {
             color: #555;
             line-height: 1.8;
             margin-bottom: 15px;
         }
 
-        .section ul {
-            margin-left: 25px;
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
             color: #555;
+            margin-bottom: 10px;
             line-height: 1.8;
         }
 
-        .section li {
-            margin-bottom: 8px;
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
         }
 
         .practice-problems {
             margin-top: 30px;
         }
 
-        .difficulty-section {
-            margin-bottom: 30px;
-        }
-
-        .difficulty-header {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-header.easy {
-            background: #4caf50;
-        }
-
-        .difficulty-header.medium {
-            background: #ff9800;
-        }
-
-        .difficulty-header.hard {
-            background: #f44336;
-        }
-
-        .problem-list {
-            list-style: none;
-        }
-
         .problem-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .problem-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .problem-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
         }
 
-        .problem-item a:hover {
-            color: #667eea;
+        .problem-header:hover {
+            background: #e9ecef;
         }
 
-        .problem-number {
-            color: #667eea;
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: bold;
-            margin-right: 10px;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         footer {
@@ -176,6 +310,10 @@
             .content {
                 padding: 20px;
             }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -183,136 +321,518 @@
     <div class="container">
         <header>
             <a href="../index.html" class="back-button">← Back to All Patterns</a>
-            <h1>Pattern 19: Topological Sort</h1>
+            <h1>Pattern 18: Topological Sort</h1>
             <span class="category-badge">Graphs</span>
         </header>
 
         <div class="content">
             <div class="section">
                 <h2>Pattern Overview</h2>
-                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
-                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+                <p>Topological Sort is an algorithm for ordering vertices in a Directed Acyclic Graph (DAG) such that for every directed edge from vertex u to vertex v, u comes before v in the ordering. It's only possible for DAGs - graphs with no cycles.</p>
+                <p>This pattern is essential for solving dependency-based problems like course scheduling, task ordering, build systems, and determining the order of execution. It can be implemented using either Kahn's algorithm (BFS-based) or DFS-based approach.</p>
             </div>
 
             <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Course Schedule</h3>
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Course Schedule II</h3>
                 <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
-                    There are n courses to take (0 to n-1). Some courses have prerequisites. Given the total number of courses and prerequisite pairs, return the ordering of courses you should take to finish all courses.
+                    There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return the ordering of courses you should take to finish all courses.
                 </p>
 
                 <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
                     <strong>Example:</strong><br>
                     <strong style="color: #667eea;">Input:</strong> numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]<br>
-                    <strong style="color: #10b981;">Output:</strong> [0,1,2,3] or [0,2,1,3]
+                    <strong style="color: #10b981;">Output:</strong> [0,1,2,3] or [0,2,1,3]<br>
+                    <strong>Explanation:</strong> Take course 0, then 1 and 2, then 3
                 </div>
 
-                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How Topological Sort works:</h3>
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
                 <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
-                    <li><strong>Topological Sort</strong> orders nodes in a DAG (Directed Acyclic Graph) so all edges go from left to right</li>
-                    <li>Calculate <strong>in-degree</strong> (number of incoming edges) for each node</li>
-                    <li>Add all nodes with in-degree 0 to a queue</li>
-                    <li>While queue is not empty:</li>
-                    <li>1. Remove a node from queue and add to result</li>
-                    <li>2. For each neighbor, decrement its in-degree</li>
-                    <li>3. If neighbor's in-degree becomes 0, add it to queue</li>
-                    <li>Time complexity: O(V + E), Space complexity: O(V)</li>
+                    <li>Calculate the in-degree (number of incoming edges) for each vertex</li>
+                    <li>Add all vertices with in-degree 0 to a queue (no dependencies)</li>
+                    <li>While the queue is not empty, dequeue a vertex and add it to the result</li>
+                    <li>For each neighbor of the dequeued vertex, reduce its in-degree by 1</li>
+                    <li>If a neighbor's in-degree becomes 0, add it to the queue</li>
+                    <li>If all vertices are processed, return the result; otherwise, a cycle exists</li>
                 </ul>
             </div>
 
             <div class="section">
-                <h2>Key Concepts</h2>
-                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical coding interviews.</p>
-                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Course Schedule</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        There are a total of numCourses courses labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi before course ai. Return true if you can finish all courses. Otherwise, return false.
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> numCourses = 2, prerequisites = [[1,0]]<br>
+                            <strong>Output:</strong> true<br>
+                            <strong>Explanation:</strong> Take course 0, then course 1
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Topological Sort using Kahn's Algorithm (BFS)</span>
+<span class="keyword">public int</span>[] <span class="function">findOrder</span>(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites) {
+    <span class="comment">// Build adjacency list and in-degree array</span>
+    List&lt;Integer&gt;[] graph = <span class="keyword">new</span> ArrayList[numCourses];
+    <span class="keyword">int</span>[] inDegree = <span class="keyword">new int</span>[numCourses];
+
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; numCourses; i++) {
+        graph[i] = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    }
+
+    <span class="comment">// Build the graph</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span>[] prereq : prerequisites) {
+        <span class="keyword">int</span> course = prereq[0];
+        <span class="keyword">int</span> prerequisite = prereq[1];
+        graph[prerequisite].add(course);
+        inDegree[course]++;
+    }
+
+    <span class="comment">// Find all courses with no prerequisites</span>
+    Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; numCourses; i++) {
+        <span class="keyword">if</span> (inDegree[i] == 0) {
+            queue.offer(i);
+        }
+    }
+
+    <span class="comment">// Process courses in topological order</span>
+    <span class="keyword">int</span>[] result = <span class="keyword">new int</span>[numCourses];
+    <span class="keyword">int</span> index = 0;
+
+    <span class="keyword">while</span> (!queue.isEmpty()) {
+        <span class="keyword">int</span> course = queue.poll();
+        result[index++] = course;
+
+        <span class="comment">// Reduce in-degree for neighbors</span>
+        <span class="keyword">for</span> (<span class="keyword">int</span> neighbor : graph[course]) {
+            inDegree[neighbor]--;
+            <span class="keyword">if</span> (inDegree[neighbor] == 0) {
+                queue.offer(neighbor);
+            }
+        }
+    }
+
+    <span class="comment">// Check if all courses can be finished</span>
+    <span class="keyword">return</span> index == numCourses ? result : <span class="keyword">new int</span>[0];
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        Kahn's algorithm efficiently finds a topological ordering:
+                    </p>
+                    <ol>
+                        <li><strong>Build the graph:</strong> Create an adjacency list representation and calculate in-degrees for all vertices.</li>
+                        <li><strong>Initialize queue:</strong> Add all vertices with in-degree 0 (no dependencies) to the queue.</li>
+                        <li><strong>Process vertices:</strong> While queue is not empty:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Dequeue a vertex and add it to the result</li>
+                                <li>For each neighbor, decrement its in-degree</li>
+                                <li>If a neighbor's in-degree becomes 0, add it to the queue</li>
+                            </ul>
+                        </li>
+                        <li><strong>Cycle detection:</strong> If all vertices are processed, we have a valid topological order. If not, a cycle exists.</li>
+                        <li><strong>Return result:</strong> Return the ordering if valid, otherwise return empty array.</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> Vertices with in-degree 0 can be processed immediately since they have no dependencies. As we process each vertex, we "remove" it from the graph by reducing the in-degree of its neighbors.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(V + E) | <strong>Space Complexity:</strong> O(V + E)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(V + E)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Building the graph: O(E) where E is the number of edges</li>
+                        <li>Initializing in-degrees and queue: O(V)</li>
+                        <li>Processing each vertex once: O(V)</li>
+                        <li>Processing each edge once when updating in-degrees: O(E)</li>
+                        <li>Total: O(V + E)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(V + E)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Adjacency list: O(V + E)</li>
+                        <li>In-degree array: O(V)</li>
+                        <li>Queue (worst case): O(V)</li>
+                        <li>Result array: O(V)</li>
+                        <li>Total: O(V + E)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Course prerequisite scheduling</li>
+                    <li>Build system dependency resolution</li>
+                    <li>Task scheduling with dependencies</li>
+                    <li>Determining compilation order</li>
+                    <li>Detecting circular dependencies</li>
+                    <li>Job sequencing problems</li>
+                </ul>
             </div>
 
             <div class="section practice-problems">
                 <h2>Practice Problems</h2>
-                <p style="color: #555; margin-bottom: 25px;">Master the Topological Sort pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+                <p style="color: #555; margin-bottom: 25px;">Master the Topological Sort pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header easy">Easy Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#1</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 1</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#2</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 2</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#3</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 3</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#4</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 4</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#5</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 5</a>
-                        </li>
-                    </ul>
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1603. Design Parking System</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> Design a parking system for a parking lot. The parking lot has three kinds of parking spaces: big, medium, and small, with a fixed number of slots for each size.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: ["ParkingSystem", "addCar", "addCar", "addCar", "addCar"]
+[[1, 1, 0], [1], [2], [3], [1]]
+Output: [null, true, true, false, false]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>0 <= big, medium, small <= 1000</li>
+                                <li>carType is 1, 2, or 3</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/design-parking-system/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">997. Find the Town Judge</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge. The town judge trusts nobody and everybody (except for the town judge) trusts the town judge. Return the label of the town judge if exists.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 2, trust = [[1,2]]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 1000</li>
+                                <li>0 <= trust.length <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-the-town-judge/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1136. Parallel Courses</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer n, which indicates there are n courses labeled from 1 to n. You are also given an array relations where relations[i] = [prevCoursei, nextCoursei], representing a prerequisite relationship. Return the minimum number of semesters needed to take all courses.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, relations = [[1,3],[2,3]]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 5000</li>
+                                <li>1 <= relations.length <= 5000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/parallel-courses/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2077. Paths in Maze That Lead to Same Room</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> A maze consists of n rooms numbered from 1 to n, and some rooms are connected by corridors. You are given a 2D integer array corridors where corridors[i] = [room1i, room2i] indicates that there is a corridor connecting room1i and room2i. Return the number of cycles of length 3.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 5, corridors = [[1,2],[5,2],[4,1],[2,4],[3,1],[3,4]]
+Output: 2</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= n <= 1000</li>
+                                <li>1 <= corridors.length <= 5 * 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/paths-in-maze-that-lead-to-same-room/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1462. Course Schedule IV</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> There are a total of numCourses courses. Some courses may have direct prerequisites. You are also given an array queries where queries[j] = [uj, vj]. For the jth query, you should answer whether course uj is a prerequisite of course vj or not.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]
+Output: [false,true]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= numCourses <= 100</li>
+                                <li>0 <= prerequisites.length <= (numCourses * (numCourses - 1) / 2)</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/course-schedule-iv/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header medium">Medium Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#6</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#7</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#8</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#9</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#10</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
-                        </li>
-                    </ul>
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">207. Course Schedule</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> There are a total of numCourses courses labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: numCourses = 2, prerequisites = [[1,0]]
+Output: true</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= numCourses <= 2000</li>
+                                <li>0 <= prerequisites.length <= 5000</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/course-schedule/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">210. Course Schedule II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> There are a total of numCourses courses you have to take. You are given an array prerequisites. Return the ordering of courses you should take to finish all courses. If it is impossible, return an empty array.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: numCourses = 2, prerequisites = [[1,0]]
+Output: [0,1]</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,2,1,3]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= numCourses <= 2000</li>
+                                <li>0 <= prerequisites.length <= numCourses * (numCourses - 1)</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">310. Minimum Height Trees</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> A tree is an undirected graph in which any two vertices are connected by exactly one path. For an undirected graph with tree characteristics, you can choose any node as the root. The height of the tree is determined by the number of edges on the longest path. Given such a graph, return a list of all MHTs' root labels.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 4, edges = [[1,0],[1,2],[1,3]]
+Output: [1]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 2 * 10^4</li>
+                                <li>edges.length == n - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-height-trees/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1059. All Paths from Source Lead to Destination</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> Given the edges of a directed graph and two nodes source and destination, determine whether all paths starting from source eventually end at destination. The graph may contain cycles.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, edges = [[0,1],[0,2]], source = 0, destination = 2
+Output: false</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 10^4</li>
+                                <li>0 <= edges.length <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/all-paths-from-source-lead-to-destination/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">2115. Find All Possible Recipes from Given Supplies</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> You have information about n different recipes. You are given arrays recipes and ingredients. Given an array supplies of ingredients you have, return a list of all the recipes from recipes that you can create.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: recipes = ["bread"], ingredients = [["yeast","flour"]], supplies = ["yeast","flour","corn"]
+Output: ["bread"]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == recipes.length == ingredients.length</li>
+                                <li>1 <= n <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header hard">Hard Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#11</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#12</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#13</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#14</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#15</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
-                        </li>
-                    </ul>
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">269. Alien Dictionary</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> There is a new alien language that uses the English alphabet. However, the order among the letters is unknown to you. You are given a list of strings words from the alien language's dictionary, where the strings in words are sorted lexicographically. Return a string of the unique letters in the new alien language sorted in lexicographically increasing order.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: words = ["wrt","wrf","er","ett","rftt"]
+Output: "wertf"</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= words.length <= 100</li>
+                                <li>1 <= words[i].length <= 100</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/alien-dictionary/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1203. Sort Items by Groups Respecting Dependencies</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> There are n items each belonging to zero or one of m groups. Given the groups and dependencies, return a sorted list of items such that items belonging to the same group are next to each other and there are no dependency conflicts.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3,6],[],[],[]]
+Output: [6,3,4,1,5,2,0,7]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= m <= n <= 3 * 10^4</li>
+                                <li>group.length == beforeItems.length == n</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/sort-items-by-groups-respecting-dependencies/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1857. Largest Color Value in a Directed Graph</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> There is a directed graph of n colored nodes and m edges. You are given a string colors where colors[i] is a lowercase English letter representing the color of the ith node. Return the largest value of any valid path in the graph, where the value of a path is the number of nodes with the most frequently-occurring color along that path.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: colors = "abaca", edges = [[0,1],[0,2],[2,3],[3,4]]
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == colors.length</li>
+                                <li>m == edges.length</li>
+                                <li>1 <= n <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/largest-color-value-in-a-directed-graph/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">2050. Parallel Courses III</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given a 2D integer array relations and an integer array time. Return the minimum number of months needed to complete all the courses.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 3, relations = [[1,3],[2,3]], time = [3,2,5]
+Output: 8</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= n <= 5 * 10^4</li>
+                                <li>0 <= relations.length <= min(n * (n - 1) / 2, 5 * 10^4)</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/parallel-courses-iii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1591. Strange Printer II</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> There is a strange printer with the following properties: you can print any rectangular pattern of a single color. Given an m x n matrix targetGrid, where targetGrid[row][col] is the color in the position (row, col), return true if it is possible to print the matrix using the given printer.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: targetGrid = [[1,1,1,1],[1,2,2,1],[1,2,2,1],[1,1,1,1]]
+Output: true</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == targetGrid.length</li>
+                                <li>n == targetGrid[i].length</li>
+                                <li>1 <= m, n <= 60</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/strange-printer-ii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p>Master this pattern through consistent practice. Good luck!</p>
             <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
         </footer>
     </div>
+
+    <script>
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+    </script>
 </body>
 </html>

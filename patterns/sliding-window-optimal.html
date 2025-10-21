@@ -32,6 +32,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
+            position: relative;
         }
 
         .back-button {
@@ -81,83 +82,216 @@
             border-bottom: 3px solid #667eea;
         }
 
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
         .section p {
             color: #555;
             line-height: 1.8;
             margin-bottom: 15px;
         }
 
-        .section ul {
-            margin-left: 25px;
+        .problem-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .problem-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e0e0e0;
+        }
+
+        .code-example {
+            margin: 25px 0;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-example .keyword {
+            color: #c678dd;
+        }
+
+        .code-example .function {
+            color: #61afef;
+        }
+
+        .code-example .string {
+            color: #98c379;
+        }
+
+        .code-example .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .explanation-box {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .explanation-box strong {
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+
+        .explanation-box ol, .explanation-box ul {
+            margin: 15px 0 15px 25px;
+        }
+
+        .explanation-box li {
             color: #555;
+            margin-bottom: 10px;
             line-height: 1.8;
         }
 
-        .section li {
-            margin-bottom: 8px;
+        .complexity {
+            margin: 25px 0;
+            padding: 15px 20px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .complexity strong {
+            color: #e65100;
         }
 
         .practice-problems {
             margin-top: 30px;
         }
 
-        .difficulty-section {
-            margin-bottom: 30px;
-        }
-
-        .difficulty-header {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .difficulty-header.easy {
-            background: #4caf50;
-        }
-
-        .difficulty-header.medium {
-            background: #ff9800;
-        }
-
-        .difficulty-header.hard {
-            background: #f44336;
-        }
-
-        .problem-list {
-            list-style: none;
-        }
-
         .problem-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .problem-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .problem-item a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
+        .problem-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            transition: background 0.3s ease;
         }
 
-        .problem-item a:hover {
-            color: #667eea;
+        .problem-header:hover {
+            background: #e9ecef;
         }
 
-        .problem-number {
-            color: #667eea;
+        .problem-difficulty {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: bold;
-            margin-right: 10px;
+            color: white;
+        }
+
+        .problem-difficulty.easy {
+            background: #4caf50;
+        }
+
+        .problem-difficulty.medium {
+            background: #ff9800;
+        }
+
+        .problem-difficulty.hard {
+            background: #f44336;
+        }
+
+        .problem-title {
+            flex: 1;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .expand-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .problem-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .problem-details {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .problem-details p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .problem-details pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .problem-details a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .problem-details a:hover {
+            color: #5568d3;
+        }
+
+        .difficulty-section {
+            margin-bottom: 40px;
+        }
+
+        .difficulty-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         footer {
@@ -176,6 +310,10 @@
             .content {
                 padding: 20px;
             }
+
+            .problem-header {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -183,111 +321,541 @@
     <div class="container">
         <header>
             <a href="../index.html" class="back-button">← Back to All Patterns</a>
-            <h1>Pattern 23: Sliding Window - Optimal</h1>
+            <h1>Pattern 2: Variable-Size Sliding Window</h1>
             <span class="category-badge">Arrays & Strings</span>
         </header>
 
         <div class="content">
             <div class="section">
                 <h2>Pattern Overview</h2>
-                <p>This pattern is essential for solving specific types of algorithmic problems efficiently. It provides a systematic approach to tackle common challenges in coding interviews.</p>
-                <p>Understanding when and how to apply this pattern will significantly improve your problem-solving skills and interview performance.</p>
+                <p>The Variable-Size Sliding Window pattern (also called Optimal Sliding Window) is used when you need to find a window of dynamic size that satisfies certain conditions. Unlike fixed-size windows, these windows can shrink and expand based on the problem constraints.</p>
+                <p>This pattern is ideal for problems asking for the longest/shortest subarray, substring, or sequence that meets specific criteria. The key is maintaining window boundaries that adapt to satisfy the condition optimally.</p>
+            </div>
+
+            <div style="background: #e0e7ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #2d3748; margin-bottom: 10px;">Problem: Longest Substring Without Repeating Characters</h3>
+                <p style="color: #4a5568; line-height: 1.8; margin-bottom: 15px;">
+                    Given a string s, find the length of the longest substring without repeating characters.
+                </p>
+
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                    <strong>Example:</strong><br>
+                    <strong style="color: #667eea;">Input:</strong> s = "abcabcbb"<br>
+                    <strong style="color: #10b981;">Output:</strong> 3<br>
+                    <strong>Explanation:</strong> The answer is "abc" with length 3
+                </div>
+
+                <h3 style="color: #2d3748; margin: 15px 0 10px 0;">How it works:</h3>
+                <ul style="color: #4a5568; line-height: 1.8; margin-left: 20px;">
+                    <li>Use two pointers (left and right) to represent the window boundaries</li>
+                    <li>Expand the window by moving right pointer and adding elements</li>
+                    <li>When the condition is violated, shrink from the left until valid again</li>
+                    <li>Track the optimal result during expansion</li>
+                    <li>Use a HashMap or Set to track elements in the current window</li>
+                    <li>Time complexity is O(n) as each element is visited at most twice</li>
+                </ul>
             </div>
 
             <div class="section">
-                <h2>Key Concepts</h2>
-                <p>This pattern demonstrates fundamental algorithmic techniques that are frequently tested in technical coding interviews.</p>
-                <p>Master this pattern by practicing the curated problems below, starting with easy problems to build foundational understanding, then progressing to medium and hard problems to develop expertise.</p>
+                <h2>Example Problem</h2>
+                <div class="problem-box">
+                    <strong>Problem: Minimum Window Substring</strong>
+                    <p style="margin-top: 10px; color: #555;">
+                        Given two strings s and t, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <strong style="color: #667eea;">Example 1:</strong>
+                        <div class="example-box">
+                            <strong>Input:</strong> s = "ADOBECODEBANC", t = "ABC"<br>
+                            <strong>Output:</strong> "BANC"<br>
+                            <strong>Explanation:</strong> The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Code</h2>
+                <div class="code-example"><span class="comment">// Minimum Window Substring</span>
+<span class="keyword">public</span> String <span class="function">minWindow</span>(String s, String t) {
+    <span class="keyword">if</span> (s.length() == 0 || t.length() == 0) <span class="keyword">return</span> <span class="string">""</span>;
+
+    <span class="comment">// Dictionary to keep count of characters in t</span>
+    Map&lt;Character, Integer&gt; dictT = <span class="keyword">new</span> HashMap&lt;&gt;();
+    <span class="keyword">for</span> (<span class="keyword">char</span> c : t.toCharArray()) {
+        dictT.put(c, dictT.getOrDefault(c, 0) + 1);
+    }
+
+    <span class="keyword">int</span> required = dictT.size();
+    <span class="keyword">int</span> formed = 0;
+    <span class="keyword">int</span> left = 0, right = 0;
+    Map&lt;Character, Integer&gt; windowCounts = <span class="keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="comment">// ans = [window length, left, right]</span>
+    <span class="keyword">int</span>[] ans = {-1, 0, 0};
+
+    <span class="keyword">while</span> (right &lt; s.length()) {
+        <span class="comment">// Expand window</span>
+        <span class="keyword">char</span> c = s.charAt(right);
+        windowCounts.put(c, windowCounts.getOrDefault(c, 0) + 1);
+
+        <span class="keyword">if</span> (dictT.containsKey(c) &amp;&amp;
+            windowCounts.get(c).intValue() == dictT.get(c).intValue()) {
+            formed++;
+        }
+
+        <span class="comment">// Contract window</span>
+        <span class="keyword">while</span> (left &lt;= right &amp;&amp; formed == required) {
+            c = s.charAt(left);
+
+            <span class="comment">// Update result if this window is smaller</span>
+            <span class="keyword">if</span> (ans[0] == -1 || right - left + 1 &lt; ans[0]) {
+                ans[0] = right - left + 1;
+                ans[1] = left;
+                ans[2] = right;
+            }
+
+            <span class="comment">// Remove from left</span>
+            windowCounts.put(c, windowCounts.get(c) - 1);
+            <span class="keyword">if</span> (dictT.containsKey(c) &amp;&amp;
+                windowCounts.get(c) &lt; dictT.get(c)) {
+                formed--;
+            }
+            left++;
+        }
+        right++;
+    }
+
+    <span class="keyword">return</span> ans[0] == -1 ? <span class="string">""</span> : s.substring(ans[1], ans[2] + 1);
+}</div>
+            </div>
+
+            <div class="section">
+                <h2>Solution Explanation</h2>
+                <div class="explanation-box">
+                    <strong>Step-by-Step Breakdown:</strong>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        The variable-size sliding window efficiently finds the minimum window:
+                    </p>
+                    <ol>
+                        <li><strong>Setup:</strong> Create a frequency map for target string t and track required unique characters.</li>
+                        <li><strong>Expand phase:</strong> Move right pointer to include characters:
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Add current character to window count</li>
+                                <li>If character count matches requirement, increment formed count</li>
+                                <li>Continue until window contains all required characters</li>
+                            </ul>
+                        </li>
+                        <li><strong>Contract phase:</strong> When window is valid (formed == required):
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Update the result if current window is smaller</li>
+                                <li>Remove character at left pointer</li>
+                                <li>Shrink window by moving left pointer</li>
+                                <li>Continue while window remains valid</li>
+                            </ul>
+                        </li>
+                        <li><strong>Optimization:</strong> Each character is processed at most twice (once by right, once by left).</li>
+                    </ol>
+                    <p style="margin-top: 15px; color: #555; line-height: 1.6;">
+                        <strong>Key Insight:</strong> The window dynamically adjusts its size - expanding when seeking validity, contracting when optimizing the result.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Complexity Analysis</h2>
+                <div class="complexity">
+                    <strong>Time Complexity:</strong> O(|S| + |T|) | <strong>Space Complexity:</strong> O(|S| + |T|)
+                </div>
+                <div style="margin-top: 15px; color: #555; line-height: 1.6;">
+                    <p><strong>Time Complexity: O(|S| + |T|)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>In the worst case, every character in S is visited twice (by left and right pointers)</li>
+                        <li>Creating the frequency map for T takes O(|T|)</li>
+                        <li>Total: O(2|S| + |T|) = O(|S| + |T|)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Space Complexity: O(|S| + |T|)</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Dictionary for T: O(|T|) in the worst case</li>
+                        <li>Window counts map: O(|S|) in the worst case when all characters are unique</li>
+                        <li>Total: O(|S| + |T|)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Common Use Cases</h2>
+                <ul style="margin-left: 25px; color: #555; line-height: 1.8;">
+                    <li>Finding longest substring with at most K distinct characters</li>
+                    <li>Minimum window containing all characters</li>
+                    <li>Longest substring without repeating characters</li>
+                    <li>Subarrays with sum at most/at least K</li>
+                    <li>Longest repeating character replacement</li>
+                    <li>Permutation in string problems</li>
+                </ul>
             </div>
 
             <div class="section practice-problems">
                 <h2>Practice Problems</h2>
-                <p style="color: #555; margin-bottom: 25px;">Master the Sliding Window - Optimal pattern with these 15 curated LeetCode problems organized by difficulty level. Each problem has been carefully selected to help you understand and apply this pattern effectively.</p>
+                <p style="color: #555; margin-bottom: 25px;">Master the Variable-Size Sliding Window pattern with these 15 curated LeetCode problems. Click on any problem to see the full description, examples, and constraints.</p>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header easy">Easy Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#1</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 1</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#2</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 2</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#3</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 3</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#4</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 4</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#5</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 5</a>
-                        </li>
-                    </ul>
+                    <h3>Easy Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem1')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">121. Best Time to Buy and Sell Stock</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem1" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= prices.length <= 10^5</li>
+                                <li>0 <= prices[i] <= 10^4</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem2')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">643. Maximum Average Subarray I</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem2" class="problem-details">
+                            <p><strong>Description:</strong> You are given an integer array nums consisting of n elements, and an integer k. Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == nums.length</li>
+                                <li>1 <= k <= n <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/maximum-average-subarray-i/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem3')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">1876. Substrings of Size Three with Distinct Characters</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem3" class="problem-details">
+                            <p><strong>Description:</strong> A string is good if there are no repeated characters. Given a string s, return the number of good substrings of length three in s.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "xyzzaz"
+Output: 1
+Explanation: There are 4 substrings of size 3: "xyz", "yzz", "zza", and "zaz".
+The only good substring of length 3 is "xyz".</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 100</li>
+                                <li>s consists of lowercase English letters</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/substrings-of-size-three-with-distinct-characters/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem4')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2269. Find the K-Beauty of a Number</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem4" class="problem-details">
+                            <p><strong>Description:</strong> The k-beauty of an integer num is defined as the number of substrings of num when it is read as a string that meet the following conditions: It has a length of k, it is a divisor of num. Given integers num and k, return the k-beauty of num.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: num = 240, k = 2
+Output: 2
+Explanation: The following are the substrings of num of length k:
+- "24" from "240": 24 is a divisor of 240.
+- "40" from "240": 40 is a divisor of 240.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= num <= 10^9</li>
+                                <li>1 <= k <= num.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/find-the-k-beauty-of-a-number/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem5')">
+                            <span class="problem-difficulty easy">Easy</span>
+                            <span class="problem-title">2379. Minimum Recolors to Get K Consecutive Black Blocks</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem5" class="problem-details">
+                            <p><strong>Description:</strong> You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the ith block. You are also given an integer k, which is the desired number of consecutive black blocks. Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: blocks = "WBBWWBBWBW", k = 7
+Output: 3</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>n == blocks.length</li>
+                                <li>1 <= n <= 100</li>
+                                <li>1 <= k <= n</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-recolors-to-get-k-consecutive-black-blocks/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header medium">Medium Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#6</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 6</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#7</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 7</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#8</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 8</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#9</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 9</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#10</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 10</a>
-                        </li>
-                    </ul>
+                    <h3>Medium Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem6')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">3. Longest Substring Without Repeating Characters</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem6" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s, find the length of the longest substring without repeating characters.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.</pre>
+                            <p><strong>Example 2:</strong></p>
+                            <pre>Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>0 <= s.length <= 5 * 10^4</li>
+                                <li>s consists of English letters, digits, symbols and spaces</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem7')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">340. Longest Substring with At Most K Distinct Characters</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem7" class="problem-details">
+                            <p><strong>Description:</strong> Given a string s and an integer k, return the length of the longest substring of s that contains at most k distinct characters.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "eceba", k = 2
+Output: 3
+Explanation: The substring is "ece" with length 3.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 5 * 10^4</li>
+                                <li>0 <= k <= 50</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem8')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">424. Longest Repeating Character Replacement</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem8" class="problem-details">
+                            <p><strong>Description:</strong> You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= s.length <= 10^5</li>
+                                <li>0 <= k <= s.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem9')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">904. Fruit Into Baskets</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem9" class="problem-details">
+                            <p><strong>Description:</strong> You are visiting a farm that has a single row of fruit trees. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces. You want to collect as much fruit as possible, but you are limited to 2 baskets, and each basket can only hold a single type of fruit.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: fruits = [1,2,1]
+Output: 3
+Explanation: We can pick from all 3 trees.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= fruits.length <= 10^5</li>
+                                <li>0 <= fruits[i] < fruits.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/fruit-into-baskets/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem10')">
+                            <span class="problem-difficulty medium">Medium</span>
+                            <span class="problem-title">1004. Max Consecutive Ones III</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem10" class="problem-details">
+                            <p><strong>Description:</strong> Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+Output: 6
+Explanation: [1,1,1,0,0,1,1,1,1,1,1]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>nums[i] is either 0 or 1</li>
+                                <li>0 <= k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="difficulty-section">
-                    <div class="difficulty-header hard">Hard Problems</div>
-                    <ul class="problem-list">
-                        <li class="problem-item">
-                            <span class="problem-number">#11</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 11</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#12</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 12</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#13</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 13</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#14</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 14</a>
-                        </li>
-                        <li class="problem-item">
-                            <span class="problem-number">#15</span>
-                            <a href="https://leetcode.com/problemset/all/" target="_blank">Practice Problem 15</a>
-                        </li>
-                    </ul>
+                    <h3>Hard Problems (5)</h3>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem11')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">76. Minimum Window Substring</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem11" class="problem-details">
+                            <p><strong>Description:</strong> Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>m == s.length</li>
+                                <li>n == t.length</li>
+                                <li>1 <= m, n <= 10^5</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem12')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">239. Sliding Window Maximum</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem12" class="problem-details">
+                            <p><strong>Description:</strong> You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>-10^4 <= nums[i] <= 10^4</li>
+                                <li>1 <= k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem13')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">992. Subarrays with K Different Integers</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem13" class="problem-details">
+                            <p><strong>Description:</strong> Given an integer array nums and an integer k, return the number of good subarrays of nums. A good array is an array where the number of different integers in that array is exactly k.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [1,2,1,2,3], k = 2
+Output: 7
+Explanation: Subarrays formed with exactly 2 different integers: [1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2]</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 2 * 10^4</li>
+                                <li>1 <= nums[i], k <= nums.length</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem14')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem14" class="problem-details">
+                            <p><strong>Description:</strong> Given an array of integers nums and an integer limit, return the size of the longest non-empty subarray such that the absolute difference between any two elements of this subarray is less than or equal to limit.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: nums = [8,2,4,7], limit = 4
+Output: 2
+Explanation: All subarrays are: [8], [8,2], [8,2,4], [8,2,4,7], [2], [2,4], [2,4,7], [4], [4,7], [7]. The longest subarray with elements within the limit is [2,4] with length 2.</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>1 <= nums.length <= 10^5</li>
+                                <li>1 <= nums[i] <= 10^9</li>
+                                <li>0 <= limit <= 10^9</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item">
+                        <div class="problem-header" onclick="toggleProblem('problem15')">
+                            <span class="problem-difficulty hard">Hard</span>
+                            <span class="problem-title">1547. Minimum Cost to Cut a Stick</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div id="problem15" class="problem-details">
+                            <p><strong>Description:</strong> Given a wooden stick of length n units. The stick is labelled from 0 to n. Given an integer array cuts where cuts[i] denotes a position you should perform a cut at. The cost of one cut is the length of the stick to be cut. Return the minimum total cost of the cuts.</p>
+                            <p><strong>Example 1:</strong></p>
+                            <pre>Input: n = 7, cuts = [1,3,4,5]
+Output: 16</pre>
+                            <p><strong>Constraints:</strong></p>
+                            <ul>
+                                <li>2 <= n <= 10^6</li>
+                                <li>1 <= cuts.length <= min(n - 1, 100)</li>
+                                <li>1 <= cuts[i] <= n - 1</li>
+                            </ul>
+                            <p><a href="https://leetcode.com/problems/minimum-cost-to-cut-a-stick/" target="_blank">Solve on LeetCode →</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Master this pattern through consistent practice. Good luck with your interviews!</p>
+            <p>Master this pattern through consistent practice. Good luck!</p>
             <p style="margin-top: 10px; opacity: 0.8;">© 2025 DSA Coding Patterns Guide</p>
         </footer>
     </div>
+
+    <script>
+        function toggleProblem(id) {
+            var element = document.getElementById(id);
+            var problemItem = element.parentElement;
+
+            if (element.style.display === "none" || element.style.display === "") {
+                element.style.display = "block";
+                problemItem.classList.add('expanded');
+            } else {
+                element.style.display = "none";
+                problemItem.classList.remove('expanded');
+            }
+        }
+    </script>
 </body>
 </html>
